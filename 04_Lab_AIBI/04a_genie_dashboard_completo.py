@@ -129,7 +129,7 @@ spark.sql(f"""
 
 spark.sql(f"""
     COMMENT ON TABLE {catalog_name}.gold.gold_top_produtos IS
-    'Ranking dos produtos mais vendidos nas farmácias Panvel com quantidade, faturamento e desconto médio'
+    'Ranking dos produtos mais vendidos no Grupo Panvel com quantidade, faturamento e desconto médio'
 """)
 
 print("Comentários adicionados às tabelas!")
@@ -157,7 +157,7 @@ print("Comentários adicionados às tabelas!")
 # Instruções customizadas para o Genie
 instrucoes_genie = f"""
 ## Contexto
-Você é um assistente de análise de dados para as Farmácias Panvel, uma das maiores redes de farmácias do Rio Grande do Sul.
+Você é um assistente de análise de dados para o Grupo Panvel, uma das maiores redes de farmácias do Rio Grande do Sul.
 Os dados são de vendas das lojas Panvel em diversas cidades do RS.
 
 ## Regras

@@ -1,8 +1,8 @@
 <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/header_workshop_panvel.png">
 
-# Workshop Hands-On Databricks | Farmácias Panvel
+# Workshop Hands-On Databricks | Grupo Panvel
 
-Workshop prático de Databricks personalizado para o time de **Farmácias Panvel**, com foco em Data Engineering, Machine Learning e Analytics.
+Workshop prático de Databricks personalizado para o time de **Grupo Panvel**, com foco em Data Engineering, Machine Learning e Analytics.
 
 </br>
 
@@ -284,6 +284,6 @@ DROP CATALOG IF EXISTS workshop_panvel_<seu_nome> CASCADE;
 </p>
 
 <p align="center">
-  <strong>Workshop Hands-On Databricks — Farmácias Panvel</strong><br>
+  <strong>Workshop Hands-On Databricks — Grupo Panvel</strong><br>
   <em>Data & AI na prática</em>
 </p>

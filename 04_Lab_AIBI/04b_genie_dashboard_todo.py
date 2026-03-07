@@ -132,7 +132,7 @@ for t in tabelas_genie:
 # ──────────────────────────────────────────────────────────
 # Dica: As instruções ajudam o Genie a entender o contexto dos dados.
 # Inclua:
-#   - Contexto: "Dados de vendas das Farmácias Panvel no RS"
+#   - Contexto: "Dados de vendas das Grupo Panvel no RS"
 #   - Regras: "Valores em R$", "Nome da loja = Panvel - Bairro"
 #   - Exemplos de perguntas que os usuários podem fazer
 #

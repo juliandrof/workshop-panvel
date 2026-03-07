@@ -234,7 +234,7 @@ def main():
         0.8, 1.0, 8.4, 1.4, font_size=36, bold=True, color=WHITE)
     # Subtitle
     reqs += create_textbox(default_slide, "t_sub",
-        "Farmácias Panvel",
+        "Grupo Panvel",
         0.8, 2.6, 8.4, 0.6, font_size=24, color=ORANGE)
     # Bottom text
     reqs += create_textbox(default_slide, "t_bottom",

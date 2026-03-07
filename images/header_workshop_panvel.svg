@@ -23,7 +23,7 @@
   <!-- Accent line -->
   <rect x="60" y="182" width="120" height="4" rx="2" fill="#FF3621"/>
   <!-- Subtitle -->
-  <text x="60" y="218" font-family="Inter, Helvetica, Arial, sans-serif" font-size="28" font-weight="400" fill="#FF7033">Farmácias Panvel</text>
+  <text x="60" y="218" font-family="Inter, Helvetica, Arial, sans-serif" font-size="28" font-weight="400" fill="#FF7033">Grupo Panvel</text>
   <!-- Tags -->
   <text x="60" y="265" font-family="Inter, Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#8899AA">SDP  ·  Jobs  ·  Machine Learning  ·  AI/BI Genie + Dashboard</text>
 </svg>
