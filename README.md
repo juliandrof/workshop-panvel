@@ -289,7 +289,7 @@ DROP CATALOG IF EXISTS workshop_panvel_<seu_nome> CASCADE;
     <td align="center" width="50%">
       <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/jean.png" width="120" style="border-radius:50%"/><br>
       <strong>Jean Ertzogue</strong><br>
-      <em>Named Hunter Account Executive — Databricks</em>
+      <em>Account Executive — Databricks</em>
     </td>
   </tr>
 </table>
