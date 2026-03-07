@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="200" viewBox="0 0 1200 200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1B3A4B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#122A45;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="200" fill="url(#bg)"/>
+  <rect width="1200" height="5" fill="#FF3621"/>
+  <rect x="0" y="195" width="1200" height="5" fill="#FF7033"/>
+  <g transform="translate(1060,25) scale(2.8)" opacity="0.10">
+    <path fill="white" d="M.95 14.184L12 20.403l9.919-5.55v2.21L12 22.662l-10.484-5.96-.565.308v.77L12 24l11.05-6.218v-4.317l-.515-.309L12 19.118l-9.867-5.653v-2.21L12 16.805l11.05-6.218V6.32l-.515-.308L12 11.974 2.647 6.681 12 1.388l7.76 4.368.668-.411v-.566L12 0 .95 6.27v.72L12 13.207l9.919-5.55v2.26L12 15.52 1.516 9.56l-.565.308Z"/>
+  </g>
+  <text x="50" y="55" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#FF7033">Lab 3</text>
+  <text x="50" y="95" font-family="Inter, Helvetica, Arial, sans-serif" font-size="36" font-weight="700" fill="white">Machine Learning</text>
+  <rect x="50" y="108" width="80" height="3" rx="1.5" fill="#FF3621"/>
+  <text x="50" y="140" font-family="Inter, Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#FF7033">Workshop Hands-On Databricks | Grupo Panvel</text>
+  <text x="50" y="170" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#8899AA">RFM · K-Means · MLflow · Unity Catalog · Model Registry</text>
+</svg>

@@ -277,6 +277,27 @@ DROP CATALOG IF EXISTS workshop_panvel_<seu_nome> CASCADE;
 
 ---
 
+## Apresentadores
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/juliandro.png" width="120" style="border-radius:50%"/><br>
+      <strong>Juliandro Figueiro</strong><br>
+      <em>Sr. Solutions Architect — Databricks</em>
+    </td>
+    <td align="center" width="50%">
+      <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/jean.png" width="120" style="border-radius:50%"/><br>
+      <strong>Jean Ertzogue</strong><br>
+      <em>Sr. Solutions Architect — Databricks</em>
+    </td>
+  </tr>
+</table>
+
+</br>
+
+---
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/panvel_logo.png" height="50" alt="Panvel">
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

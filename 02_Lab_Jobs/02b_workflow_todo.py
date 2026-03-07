@@ -1,8 +1,8 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # Workshop Panvel - Lab 2: Workflows / Jobs (Versão Exercício)
+# MAGIC <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/header_lab2.png" width="100%"/>
 # MAGIC
-# MAGIC Complete os TO-DOs para construir seu Workflow Databricks!
+# MAGIC **Versão Exercício** — Complete os TO-DOs para construir seu Workflow Databricks!
 # MAGIC
 # MAGIC ## Arquitetura do Workflow
 # MAGIC ```

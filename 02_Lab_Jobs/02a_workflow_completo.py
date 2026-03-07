@@ -1,8 +1,8 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # Workshop Panvel - Lab 2: Workflows / Jobs (Versão Completa)
+# MAGIC <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/header_lab2.png" width="100%"/>
 # MAGIC
-# MAGIC Este notebook contém o código para criar e configurar um Workflow Databricks
+# MAGIC **Versão Completa** — Este notebook contém o código para criar e configurar um Workflow Databricks
 # MAGIC que orquestra o pipeline de dados da Panvel.
 # MAGIC
 # MAGIC ## Arquitetura do Workflow

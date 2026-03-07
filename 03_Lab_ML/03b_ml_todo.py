@@ -1,8 +1,8 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # Workshop Panvel - Lab 3: Machine Learning (Versão Exercício)
+# MAGIC <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/header_lab3.png" width="100%"/>
 # MAGIC
-# MAGIC ## Segmentação de Clientes com RFM + K-Means
+# MAGIC ## Segmentação de Clientes com RFM + K-Means (Versão Exercício)
 # MAGIC
 # MAGIC Complete os TO-DOs para criar seu modelo de segmentação!
 # MAGIC

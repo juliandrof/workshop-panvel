@@ -1,8 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # Workshop Panvel - Configuração do Catálogo
-# MAGIC
-# MAGIC <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Panvel_Farm%C3%A1cias_logo.svg/1200px-Panvel_Farm%C3%A1cias_logo.svg.png" width="200"/>
+# MAGIC <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/header_setup.png" width="100%"/>
 # MAGIC
 # MAGIC Este notebook cria o catálogo personalizado para cada participante do workshop.
 # MAGIC

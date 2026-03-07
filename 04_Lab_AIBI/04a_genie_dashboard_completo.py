@@ -1,8 +1,8 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # Workshop Panvel - Lab 4: AI/BI - Genie + Dashboard (Versão Completa)
+# MAGIC <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/header_lab4.png" width="100%"/>
 # MAGIC
-# MAGIC Neste lab, vamos:
+# MAGIC **Versão Completa** — Neste lab, vamos:
 # MAGIC 1. Preparar dados para o AI/BI Genie
 # MAGIC 2. Criar um Genie Room com instruções customizadas
 # MAGIC 3. Construir um Dashboard Lakeview

@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # Workshop Panvel - Gerador de Vendas em Streaming
+# MAGIC <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/header_lab1.png" width="100%"/>
 # MAGIC
 # MAGIC Este notebook gera arquivos JSON de vendas continuamente:
 # MAGIC - **1 arquivo por loja** a cada 20 segundos

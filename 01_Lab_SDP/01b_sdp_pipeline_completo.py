@@ -1,8 +1,8 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # Workshop Panvel - Pipeline DLT (Versão Completa)
+# MAGIC <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/header_lab1.png" width="100%"/>
 # MAGIC
-# MAGIC Pipeline Delta Live Tables com arquitetura Medallion:
+# MAGIC **Versão Completa** — Pipeline Delta Live Tables com arquitetura Medallion:
 # MAGIC - **Bronze**: Ingestão de JSONs de vendas via Auto Loader
 # MAGIC - **Silver**: Limpeza, transformação e enriquecimento dos dados
 # MAGIC - **Gold**: Tabelas agregadas para análise

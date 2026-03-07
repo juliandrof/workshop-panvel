@@ -1,8 +1,8 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # Workshop Panvel - Lab 3: Machine Learning (Versão Completa)
+# MAGIC <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/header_lab3.png" width="100%"/>
 # MAGIC
-# MAGIC ## Segmentação de Clientes com RFM + K-Means
+# MAGIC ## Segmentação de Clientes com RFM + K-Means (Versão Completa)
 # MAGIC
 # MAGIC Neste lab, vamos:
 # MAGIC 1. Criar features RFM (Recency, Frequency, Monetary) a partir dos dados de vendas
