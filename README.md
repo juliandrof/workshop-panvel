@@ -43,15 +43,35 @@ Workshop prático de Databricks personalizado para o time de **Grupo Panvel**, c
 ## Arquitetura
 
 ```
-  JSON Vendas (Streaming)
-         │
-         ▼
-  ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────────┐
-  │   BRONZE    │────▶│   SILVER    │────▶│    GOLD     │────▶│   AI/BI + ML    │
-  │  Auto Loader│     │  Limpeza    │     │  Agregações │     │  Genie          │
-  │  Dados Brutos│     │  Enriquec.  │     │  KPIs       │     │  Dashboard      │
-  │             │     │  Bairro     │     │  Rankings   │     │  Segmentação    │
-  └─────────────┘     └─────────────┘     └─────────────┘     └─────────────────┘
+                        ╔══════════════════════════════════════════════════════════════════════════════════════╗
+                        ║              A R Q U I T E T U R A    M E D A L L I O N                            ║
+                        ║          Delta Lake  ·  Auto Loader  ·  Unity Catalog  ·  MLflow                   ║
+                        ╚══════════════════════════════════════════════════════════════════════════════════════╝
+
+    ┌─────────────┐       ╔═══════════════╗       ╔═══════════════╗       ╔═══════════════╗       ╔═══════════════════╗
+    │  📡 FONTE   │       ║  🥉 BRONZE    ║       ║  🥈 SILVER    ║       ║  🥇 GOLD      ║       ║  🤖 AI/BI + ML    ║
+    │─────────────│       ╠═══════════════╣       ╠═══════════════╣       ╠═══════════════╣       ╠═══════════════════╣
+    │             │       ║               ║       ║               ║       ║               ║       ║                   ║
+    │ JSON Vendas │ ────▶ ║  Auto Loader  ║ ────▶ ║  Limpeza &    ║ ────▶ ║  Agregações   ║ ────▶ ║  Genie (NL)       ║
+    │ Streaming   │       ║  Ingestão     ║       ║  Validação    ║       ║  por Categoria ║       ║  AI/BI Dashboard  ║
+    │ Tempo Real  │       ║  Contínua     ║       ║               ║       ║               ║       ║                   ║
+    │             │       ║               ║       ║  Enriqueci-   ║       ║  KPIs &       ║       ║  Segmentação      ║
+    │ ~120 lojas  │       ║  Raw Data     ║       ║  mento com    ║       ║  Métricas de  ║       ║  de Clientes      ║
+    │ 1 JSON/20s  │       ║  Sem Trans-   ║       ║  Dados Ca-    ║       ║  Vendas       ║       ║  RFM + K-Means    ║
+    │             │       ║  formação     ║       ║  dastrais     ║       ║               ║       ║                   ║
+    │             │       ║               ║       ║  Extração     ║       ║  Rankings     ║       ║  MLflow Track-    ║
+    │             │       ║  CloudFiles   ║       ║  de Bairro    ║       ║  Top Produtos ║       ║  ing & Registry   ║
+    └─────────────┘       ╚═══════════════╝       ╚═══════════════╝       ╚═══════════════╝       ╚═══════════════════╝
+          │                      │                       │                       │                        │
+          ▼                      ▼                       ▼                       ▼                        ▼
+    ┌─────────────┐       ┌───────────────┐       ┌───────────────┐       ┌───────────────┐       ┌───────────────────┐
+    │ Volume UC   │       │ Streaming     │       │ Materialized  │       │ Materialized  │       │ Unity Catalog     │
+    │ /raw/vendas │       │ Tables        │       │ Views         │       │ Views         │       │ Model Registry    │
+    └─────────────┘       └───────────────┘       └───────────────┘       └───────────────┘       └───────────────────┘
+
+    ════════════════════════════════════════════════════════════════════════════════════════════════════════════
+     Lab 00: Setup          Lab 01: SDP / DLT Pipeline          Lab 02: Jobs       Lab 03: ML    Lab 04: AI/BI
+    ════════════════════════════════════════════════════════════════════════════════════════════════════════════
 ```
 
 </br>
