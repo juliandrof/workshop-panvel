@@ -35,7 +35,7 @@ Workshop prático de Databricks personalizado para o time de **Grupo Panvel**, c
 | 01 | **SDP - Pipeline DLT** | Auto Loader, Delta Live Tables, Medallion Architecture (Bronze/Silver/Gold) | 40 min |
 | 02 | **Workflows / Jobs** | Orquestração multi-tarefa, dependências, agendamento | 25 min |
 | 03 | **Machine Learning** | Segmentação de clientes (RFM + K-Means), MLflow, Unity Catalog | 35 min |
-| 04 | **AI/BI** | Genie Room (linguagem natural) + Dashboard Lakeview | 30 min |
+| 04 | **AI/BI** | Genie (linguagem natural) + AI/BI Dashboard | 30 min |
 |    | **Encerramento** | Considerações finais e perguntas | 15 min |
 
 </br>
@@ -48,7 +48,7 @@ Workshop prático de Databricks personalizado para o time de **Grupo Panvel**, c
          ▼
   ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────────┐
   │   BRONZE    │────▶│   SILVER    │────▶│    GOLD     │────▶│   AI/BI + ML    │
-  │  Auto Loader│     │  Limpeza    │     │  Agregações │     │  Genie Room     │
+  │  Auto Loader│     │  Limpeza    │     │  Agregações │     │  Genie     │
   │  Dados Brutos│     │  Enriquec.  │     │  KPIs       │     │  Dashboard      │
   │             │     │  Bairro     │     │  Rankings   │     │  Segmentação    │
   └─────────────┘     └─────────────┘     └─────────────┘     └─────────────────┘
@@ -242,14 +242,14 @@ workshop-panvel/
 
 | Item | Detalhes |
 | -- | -- |
-| **Objetivo** | Criar Genie Room e Dashboard Lakeview para análise de vendas |
+| **Objetivo** | Criar Genie e AI/BI Dashboard para análise de vendas |
 | **Notebook (exercício)** | `04_Lab_AIBI/04b_genie_dashboard_todo.py` |
 | **Notebook (referência)** | `04_Lab_AIBI/04a_genie_dashboard_completo.py` |
 
 ### Instruções
 
 1. **Complete os TO-DOs** no notebook `04b_genie_dashboard_todo.py`
-2. **Crie o Genie Room**: AI/BI > Genie Rooms > New Genie Room
+2. **Crie o Genie**: AI/BI > Genie > New Genie
 3. **Crie o Dashboard**: AI/BI > Dashboards > Create Dashboard
 4. **Teste o Genie** com perguntas como:
    - *"Qual loja tem o maior faturamento?"*
@@ -258,7 +258,7 @@ workshop-panvel/
 
 ### Conceitos abordados
 - AI/BI Genie (linguagem natural)
-- Dashboard Lakeview
+- AI/BI Dashboard
 - Visualizações: Counter, Bar, Pie, Table
 - Instruções customizadas para contexto
 

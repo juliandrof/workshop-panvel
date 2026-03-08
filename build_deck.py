@@ -262,7 +262,7 @@ def main():
         "Lab 3 — Machine Learning\n"
         "Segmentação de clientes com RFM + K-Means + MLflow\n\n"
         "Lab 4 — AI/BI Genie + Dashboard\n"
-        "Genie Room com linguagem natural e Dashboard Lakeview interativo"
+        "Genie com linguagem natural e AI/BI Dashboard interativo"
     )
     reqs += create_textbox("sl_agenda", "a_body", agenda_text,
         0.5, 1.1, 9, 4.0, font_size=13, color=DARK_TEXT)
@@ -573,7 +573,7 @@ def main():
     reqs += create_rect("sl_lab4", "l4_line", 0.5, 0.85, 1.5, 0.04, RED)
 
     reqs += create_textbox("sl_lab4", "l4_left_t",
-        "Genie Room",
+        "Genie",
         0.5, 1.1, 4.2, 0.35, font_size=14, bold=True, color=NAVY)
     reqs += create_textbox("sl_lab4", "l4_left",
         "• Perguntas em linguagem natural\n"
@@ -585,7 +585,7 @@ def main():
         0.5, 1.5, 4.2, 2.5, font_size=12, color=DARK_TEXT)
 
     reqs += create_textbox("sl_lab4", "l4_right_t",
-        "Dashboard Lakeview",
+        "AI/BI Dashboard",
         5.3, 1.1, 4.2, 0.35, font_size=14, bold=True, color=NAVY)
     reqs += create_textbox("sl_lab4", "l4_right",
         "• KPIs: vendas, faturamento, ticket médio\n"
@@ -617,12 +617,12 @@ def main():
         "  TODO 1: Criar view de vendas com produtos\n"
         "  TODO 2: Adicionar comentários às tabelas\n"
         "  TODO 4: Escrever instruções do Genie\n\n"
-        "Passo 2 — Crie o Genie Room\n"
-        "AI/BI > Genie Rooms > New Genie Room\n"
+        "Passo 2 — Crie o Genie\n"
+        "AI/BI > Genie > New Genie\n"
         "Nome: Análise Panvel - <seu_nome>\n"
         "Adicione as tabelas gold e views listadas no notebook\n"
         "Cole as instruções customizadas\n\n"
-        "Passo 3 — Crie o Dashboard Lakeview\n"
+        "Passo 3 — Crie o AI/BI Dashboard\n"
         "AI/BI > Dashboards > Create Dashboard\n"
         "Use as queries SQL prontas no notebook\n\n"
         "Passo 4 — Teste o Genie com perguntas!"

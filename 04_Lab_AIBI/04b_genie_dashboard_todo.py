@@ -2,7 +2,7 @@
 # MAGIC %md
 # MAGIC <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/header_lab4.png" width="100%"/>
 # MAGIC
-# MAGIC **Versão Exercício** — Complete os TO-DOs para criar seu Genie Room e Dashboard!
+# MAGIC **Versão Exercício** — Complete os TO-DOs para criar seu Genie e Dashboard!
 
 # COMMAND ----------
 
@@ -96,18 +96,18 @@ print("Comentários adicionados!")
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## 3. Criar Genie Room (no UI)
+# MAGIC ## 3. Criar Genie (no UI)
 # MAGIC
-# MAGIC ### TODO 3: Crie o Genie Room no Databricks
+# MAGIC ### TODO 3: Crie o Genie no Databricks
 # MAGIC
-# MAGIC 1. Vá em **AI/BI** > **Genie Rooms** > **New Genie Room**
+# MAGIC 1. Vá em **AI/BI** > **Genie** > **New Genie**
 # MAGIC 2. Nome: `Análise Panvel - <seu_nome>`
 # MAGIC 3. **Adicione as seguintes tabelas:**
 
 # COMMAND ----------
 
 # Listar tabelas disponíveis para o Genie
-print(f"Tabelas para adicionar ao Genie Room:")
+print(f"Tabelas para adicionar ao Genie:")
 print(f"{'='*60}")
 
 tabelas_genie = [
@@ -128,7 +128,7 @@ for t in tabelas_genie:
 
 # COMMAND ----------
 
-# TODO 4: Escreva instruções customizadas para o Genie Room
+# TODO 4: Escreva instruções customizadas para o Genie
 # ──────────────────────────────────────────────────────────
 # Dica: As instruções ajudam o Genie a entender o contexto dos dados.
 # Inclua:
@@ -136,7 +136,7 @@ for t in tabelas_genie:
 #   - Regras: "Valores em R$", "Nome da loja = Panvel - Bairro"
 #   - Exemplos de perguntas que os usuários podem fazer
 #
-# Cole as instruções no campo "Instructions" do Genie Room
+# Cole as instruções no campo "Instructions" do Genie
 
 # ▼▼▼ Escreva suas instruções aqui ▼▼▼
 instrucoes = """
@@ -156,7 +156,7 @@ print(instrucoes)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## 4. Criar Dashboard Lakeview (no UI)
+# MAGIC ## 4. Criar AI/BI Dashboard (no UI)
 # MAGIC
 # MAGIC ### TODO 5: Crie o Dashboard
 # MAGIC
@@ -211,11 +211,11 @@ LIMIT 15
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## 5. Testar o Genie Room
+# MAGIC ## 5. Testar o Genie
 # MAGIC
 # MAGIC ### TODO 6: Teste o Genie com estas perguntas
 # MAGIC
-# MAGIC Abra seu Genie Room e faça as seguintes perguntas:
+# MAGIC Abra seu Genie e faça as seguintes perguntas:
 # MAGIC
 # MAGIC 1. "Qual é o faturamento total?"
 # MAGIC 2. "Quais são os 5 produtos mais vendidos?"

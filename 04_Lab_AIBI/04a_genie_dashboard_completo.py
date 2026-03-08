@@ -4,8 +4,8 @@
 # MAGIC
 # MAGIC **Versão Completa** — Neste lab, vamos:
 # MAGIC 1. Preparar dados para o AI/BI Genie
-# MAGIC 2. Criar um Genie Room com instruções customizadas
-# MAGIC 3. Construir um Dashboard Lakeview
+# MAGIC 2. Criar um Genie com instruções customizadas
+# MAGIC 3. Construir um AI/BI Dashboard
 
 # COMMAND ----------
 
@@ -137,11 +137,11 @@ print("Comentários adicionados às tabelas!")
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## 3. Criar Genie Room
+# MAGIC ## 3. Criar Genie
 # MAGIC
 # MAGIC ### Passo a passo no Databricks UI:
 # MAGIC
-# MAGIC 1. Vá em **AI/BI** > **Genie Rooms** > **New Genie Room**
+# MAGIC 1. Vá em **AI/BI** > **Genie** > **New Genie**
 # MAGIC 2. Nome: `Análise Panvel - <seu_nome>`
 # MAGIC 3. **Adicione as tabelas:**
 # MAGIC    - `workshop_panvel_<nome>.gold.gold_vendas_por_loja`
@@ -184,12 +184,12 @@ print("INSTRUÇÕES PARA O GENIE ROOM")
 print("=" * 60)
 print(instrucoes_genie)
 print("=" * 60)
-print("\nCopie as instruções acima e cole no campo 'Instructions' do Genie Room")
+print("\nCopie as instruções acima e cole no campo 'Instructions' do Genie")
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## 4. Criar Dashboard Lakeview
+# MAGIC ## 4. Criar AI/BI Dashboard
 # MAGIC
 # MAGIC ### Passo a passo no Databricks UI:
 # MAGIC
@@ -326,9 +326,9 @@ for nome_query, sql in queries.items():
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## 6. Testar o Genie Room
+# MAGIC ## 6. Testar o Genie
 # MAGIC
-# MAGIC Após criar o Genie Room, teste com as seguintes perguntas:
+# MAGIC Após criar o Genie, teste com as seguintes perguntas:
 # MAGIC
 # MAGIC 1. **"Qual é o faturamento total?"**
 # MAGIC 2. **"Quais são os 5 produtos mais vendidos?"**
@@ -348,4 +348,4 @@ for nome_query, sql in queries.items():
 # MAGIC - **Lab 1** - SDP: Pipeline DLT com Auto Loader (Bronze/Silver/Gold)
 # MAGIC - **Lab 2** - Jobs: Workflow orquestrando múltiplas tarefas
 # MAGIC - **Lab 3** - ML: Segmentação de clientes com RFM + K-Means
-# MAGIC - **Lab 4** - AI/BI: Genie Room + Dashboard Lakeview
+# MAGIC - **Lab 4** - AI/BI: Genie + AI/BI Dashboard
