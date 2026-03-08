@@ -42,9 +42,17 @@ Workshop prático de Databricks personalizado para o time de **Grupo Panvel**, c
 
 ## Arquitetura
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/arquitetura_medallion.png" alt="Arquitetura Medallion — Workshop Panvel" width="100%">
-</p>
+```
+  JSON Vendas (Streaming)
+         │
+         ▼
+  ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────────┐
+  │   BRONZE    │────▶│   SILVER    │────▶│    GOLD     │────▶│   AI/BI + ML    │
+  │  Auto Loader│     │  Limpeza    │     │  Agregações │     │  Genie          │
+  │  Dados Brutos│     │  Enriquec.  │     │  KPIs       │     │  Dashboard      │
+  │             │     │  Bairro     │     │  Rankings   │     │  Segmentação    │
+  └─────────────┘     └─────────────┘     └─────────────┘     └─────────────────┘
+```
 
 </br>
 
