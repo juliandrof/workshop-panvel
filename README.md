@@ -6,6 +6,25 @@ Workshop prático de Databricks personalizado para o time de **Grupo Panvel**, c
 
 </br>
 
+## Apresentadores
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/juliandro_circle.png" width="120"/><br>
+      <strong>Juliandro Figueiró</strong><br>
+      <em>Solutions Architect · Databricks</em>
+    </td>
+    <td align="center" width="50%">
+      <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/jean_circle.png" width="120"/><br>
+      <strong>Jean Ertzogue</strong><br>
+      <em>Account Executive · Databricks</em>
+    </td>
+  </tr>
+</table>
+
+</br>
+
 ## Ementa do Workshop
 
 | # | Lab | Tópicos | Duração |
@@ -272,29 +291,6 @@ DROP CATALOG IF EXISTS workshop_panvel_<seu_nome> CASCADE;
 * [AI/BI Genie](https://docs.databricks.com/genie/index.html)
 * [AI/BI Dashboards](https://docs.databricks.com/dashboards/index.html)
 * [Unity Catalog](https://docs.databricks.com/data-governance/unity-catalog/index.html)
-
-</br>
-
----
-
-## Apresentadores
-
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/juliandro_circle.png" width="120"/><br>
-      <strong>Juliandro Figueiró</strong><br>
-      <em>Solutions Architect</em><br>
-      <em>Databricks</em>
-    </td>
-    <td align="center" width="50%">
-      <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/jean_circle.png" width="120"/><br>
-      <strong>Jean Ertzogue</strong><br>
-      <em>Account Executive</em><br>
-      <em>Databricks</em>
-    </td>
-  </tr>
-</table>
 
 </br>
 
