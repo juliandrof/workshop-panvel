@@ -8,7 +8,7 @@ Workshop prático de Databricks personalizado para o time de **Grupo Panvel**, c
 
 ## Apresentadores
 
-<table width="60%">
+<table>
   <tr>
     <td align="center" width="50%">
       <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/juliandro_circle.png" width="120"/><br>
