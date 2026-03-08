@@ -287,30 +287,7 @@ for nome_query, sql in queries.items():
 # MAGIC %md
 # MAGIC ## 5. Layout sugerido para o Dashboard
 # MAGIC
-# MAGIC ```
-# MAGIC ┌─────────────────────────────────────────────────────────────┐
-# MAGIC │                   DASHBOARD PANVEL                          │
-# MAGIC ├──────────┬──────────┬──────────┬──────────┬────────────────┤
-# MAGIC │ Total    │ Fatura-  │ Ticket   │ Clientes │ Lojas          │
-# MAGIC │ Vendas   │ mento    │ Médio    │ Únicos   │ Ativas         │
-# MAGIC │ [KPI]    │ [KPI]    │ [KPI]    │ [KPI]    │ [KPI]          │
-# MAGIC ├──────────┴──────────┴──────────┴──────────┴────────────────┤
-# MAGIC │                                                             │
-# MAGIC │  ┌──────────────────────┐  ┌──────────────────────────┐    │
-# MAGIC │  │  Faturamento por     │  │  Vendas por Categoria    │    │
-# MAGIC │  │  Cidade (Bar Chart)  │  │  (Pie Chart)             │    │
-# MAGIC │  └──────────────────────┘  └──────────────────────────┘    │
-# MAGIC │                                                             │
-# MAGIC │  ┌──────────────────────┐  ┌──────────────────────────┐    │
-# MAGIC │  │  Top 15 Produtos     │  │  Lojas Top 20            │    │
-# MAGIC │  │  (Horizontal Bar)    │  │  (Table)                 │    │
-# MAGIC │  └──────────────────────┘  └──────────────────────────┘    │
-# MAGIC │                                                             │
-# MAGIC │  ┌─────────────────────────────────────────────────────┐   │
-# MAGIC │  │  Distribuição de Descontos por Categoria (Bar)      │   │
-# MAGIC │  └─────────────────────────────────────────────────────┘   │
-# MAGIC └─────────────────────────────────────────────────────────────┘
-# MAGIC ```
+# MAGIC <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/dashboard_layout.png" width="100%"/>
 # MAGIC
 # MAGIC ### Tipos de visualização recomendados:
 # MAGIC
