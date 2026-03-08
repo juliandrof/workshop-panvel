@@ -61,9 +61,27 @@ Workshop prático de Databricks personalizado para o time de **Grupo Panvel**, c
 | Requisito | Detalhes |
 | -- | -- |
 | Workspace | Databricks com **Unity Catalog** habilitado |
-| Permissões | Criar catálogos e schemas |
 | Compute | Cluster DBR 14.0+ ou **Serverless** |
-| SQL Warehouse | Necessário para Lab 4 (AI/BI) |
+| SQL Warehouse | Necessário para Lab 04 (AI/BI) |
+
+### Permissões necessárias por Lab
+
+| Permissão | Recurso | Labs |
+| -- | -- | -- |
+| `CREATE CATALOG` | `workshop_panvel_<nome>` | 00 |
+| `CREATE SCHEMA` | `raw`, `bronze`, `silver`, `gold`, `ml` | 00 |
+| `USE CATALOG` / `USE SCHEMA` | Catálogo e schemas do participante | Todos |
+| `CREATE TABLE` / `SELECT` / `MODIFY` | Tabelas em todos os schemas | Todos |
+| `CREATE VOLUME` / `READ` / `WRITE` | Volume `raw.vendas_json` | 01 |
+| `CREATE PIPELINE` / `MANAGE` / `RUN` | Pipeline DLT `pipeline_panvel_<nome>` | 01, 02 |
+| `CREATE JOB` / `RUN` / `MODIFY` | Workflow `workflow_panvel_<nome>` | 02 |
+| `CREATE EXPERIMENT` / `LOG` | Experimento MLflow `workshop_panvel_<nome>_rfm` | 03 |
+| `REGISTER MODEL` | Modelo em Unity Catalog (`ml.modelo_segmentacao_clientes`) | 03 |
+| `CREATE GENIE` / `USE GENIE` | Genie Room com tabelas Gold | 04 |
+| `CREATE DASHBOARD` | AI/BI Dashboard | 04 |
+| `USE CLUSTER` / `ATTACH` | Cluster ou Serverless | Todos |
+
+> **Dica:** O perfil de permissões mais simples é conceder **`USE CATALOG`** + **`ALL PRIVILEGES`** no catálogo pessoal do participante, além de acesso a compute e às funcionalidades de Workflows, Genie e Dashboards.
 
 </br>
 
