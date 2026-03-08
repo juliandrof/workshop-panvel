@@ -11,13 +11,13 @@ Workshop prático de Databricks personalizado para o time de **Grupo Panvel**, c
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/juliandro_circle.png" width="120"/><br>
+      <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/juliandro_circle.png" width="150"/><br>
       <strong>Juliandro Figueiró</strong><br>
       <em>Solutions Architect</em><br>
       <em>Databricks</em>
     </td>
     <td align="center" width="50%">
-      <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/jean_circle.png" width="120"/><br>
+      <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/jean_circle.png" width="150"/><br>
       <strong>Jean Ertzogue</strong><br>
       <em>Account Executive</em><br>
       <em>Databricks</em>
