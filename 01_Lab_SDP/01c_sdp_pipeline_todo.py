@@ -21,7 +21,7 @@ from pyspark.sql.types import *
 # MAGIC ## Configuração
 # MAGIC
 # MAGIC > **Como criar o pipeline SDP:**
-# MAGIC > 1. Vá em **Jobs & Pipelines** > **Create Pipeline** > **ETL pipeline**
+# MAGIC > 1. Vá em **Jobs & Pipelines** > **ETL pipeline**
 # MAGIC > 2. **Pipeline name**: `pipeline_panvel_<seu_nome>`
 # MAGIC > 3. **Source code**: selecione este notebook
 # MAGIC > 4. **Target catalog**: `workshop_panvel_<seu_nome>`

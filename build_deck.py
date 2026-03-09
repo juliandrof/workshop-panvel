@@ -422,7 +422,7 @@ def main():
         "  TODO 5: Completar agregações por categoria\n"
         "  TODO 6: Criar tabela gold_vendas_por_cidade\n\n"
         "Passo 3 — Configure o pipeline SDP\n"
-        "Jobs & Pipelines > Create Pipeline > ETL pipeline\n"
+        "Jobs & Pipelines > ETL pipeline\n"
         "Target catalog: workshop_panvel_<seu_nome>"
     )
     reqs += create_textbox("sl_lab1h", "l1h_body", handson1,
