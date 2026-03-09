@@ -170,7 +170,16 @@ workshop-panvel/
 | 5 | Agregações por categoria | `groupBy` + `agg` com `sum`, `count`, `avg` |
 | 6 | Criar `gold_vendas_por_cidade` | Siga o padrão de `gold_vendas_por_loja` |
 
-3. **Configure o pipeline**: Workflows > Spark Declarative Pipelines > Create Pipeline
+3. **Crie o pipeline SDP**:
+   1. Vá em **Workflows** > **Spark Declarative Pipelines** > **Create Pipeline**
+   2. **Pipeline name**: `pipeline_panvel_<seu_nome>`
+   3. **Source code**: selecione o notebook `01_Lab_SDP/01b_sdp_pipeline_completo.py` (ou `01c_sdp_pipeline_todo.py`)
+   4. **Target catalog**: `workshop_panvel_<seu_nome>`
+   5. **Target schema**: deixe em branco (cada tabela define seu schema via `name`)
+   6. Em **Configuration**, adicione:
+      - Key: `pipeline.nome_participante` → Value: `<seu_nome>`
+   7. **Compute**: Serverless (recomendado) ou cluster existente
+   8. Clique em **Create** e depois em **Start** para executar
 
 ### Conceitos abordados
 - Auto Loader / CloudFiles

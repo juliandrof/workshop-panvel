@@ -18,10 +18,15 @@ from pyspark.sql.types import *
 # MAGIC %md
 # MAGIC ## Configuração
 # MAGIC
-# MAGIC > **Importante:** O target catalog e schema são configurados nas **Settings do Pipeline**, não no código.
-# MAGIC > Ao criar o pipeline, defina:
-# MAGIC > - **Target catalog**: `workshop_panvel_<seu_nome>`
-# MAGIC > - **Target schema**: deixe em branco (cada tabela especifica seu schema via `name`)
+# MAGIC > **Como criar o pipeline SDP:**
+# MAGIC > 1. Vá em **Workflows** > **Spark Declarative Pipelines** > **Create Pipeline**
+# MAGIC > 2. **Pipeline name**: `pipeline_panvel_<seu_nome>`
+# MAGIC > 3. **Source code**: selecione este notebook
+# MAGIC > 4. **Target catalog**: `workshop_panvel_<seu_nome>`
+# MAGIC > 5. **Target schema**: deixe em branco
+# MAGIC > 6. **Configuration** → adicione: `pipeline.nome_participante` = `<seu_nome>`
+# MAGIC > 7. **Compute**: Serverless (recomendado)
+# MAGIC > 8. Clique em **Create** e depois **Start**
 
 # COMMAND ----------
 
