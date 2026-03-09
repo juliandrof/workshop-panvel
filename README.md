@@ -97,19 +97,19 @@ workshop-panvel/
 ├── 01_Lab_SDP/
 │   ├── 01a_gerador_vendas_streaming.py   # Gerador de JSONs (1 por loja a cada 20s)
 │   ├── 01b_sdp_pipeline_completo.py      # Pipeline SDP completo (referência)
-│   └── 01c_sdp_pipeline_todo.py          # Pipeline SDP com TO-DOs (exercício)
+│   └── 01c_sdp_pipeline_to_do.py          # Pipeline SDP com TO-DOs (exercício)
 │
 ├── 02_Lab_Jobs/
 │   ├── 02a_workflow_completo.py          # Workflow completo (referência)
-│   └── 02b_workflow_todo.py              # Workflow com TO-DOs (exercício)
+│   └── 02b_workflow_to_do.py              # Workflow com TO-DOs (exercício)
 │
 ├── 03_Lab_ML/
 │   ├── 03a_ml_completo.py               # ML completo (referência)
-│   └── 03b_ml_todo.py                   # ML com TO-DOs (exercício)
+│   └── 03b_ml_to_do.py                   # ML com TO-DOs (exercício)
 │
 ├── 04_Lab_AIBI/
 │   ├── 04a_genie_dashboard_completo.py   # AI/BI completo (referência)
-│   └── 04b_genie_dashboard_todo.py       # AI/BI com TO-DOs (exercício)
+│   └── 04b_genie_dashboard_to_do.py       # AI/BI com TO-DOs (exercício)
 ```
 
 </br>
@@ -152,14 +152,14 @@ workshop-panvel/
 | Item | Detalhes |
 | -- | -- |
 | **Objetivo** | Criar pipeline SDP com ingestão streaming e arquitetura Medallion |
-| **Notebook (exercício)** | `01_Lab_SDP/01c_sdp_pipeline_todo.py` |
+| **Notebook (exercício)** | `01_Lab_SDP/01c_sdp_pipeline_to_do.py` |
 | **Notebook (referência)** | `01_Lab_SDP/01b_sdp_pipeline_completo.py` |
 | **Gerador de dados** | `01_Lab_SDP/01a_gerador_vendas_streaming.py` |
 
 ### Instruções
 
 1. **Inicie o gerador de dados** — execute `01a_gerador_vendas_streaming.py` e **deixe rodando**
-2. **Complete os TO-DOs** no notebook `01c_sdp_pipeline_todo.py`:
+2. **Complete os TO-DOs** no notebook `01c_sdp_pipeline_to_do.py`:
 
 | TO-DO | Descrição | Dica |
 | -- | -- | -- |
@@ -173,7 +173,7 @@ workshop-panvel/
 3. **Crie o pipeline SDP**:
    1. Vá em **Jobs & Pipelines** > **ETL pipeline**
    2. **Pipeline name**: `pipeline_panvel_<seu_nome>`
-   3. **Source code**: selecione o notebook `01_Lab_SDP/01b_sdp_pipeline_completo.py` (ou `01c_sdp_pipeline_todo.py`)
+   3. **Source code**: selecione o notebook `01_Lab_SDP/01b_sdp_pipeline_completo.py` (ou `01c_sdp_pipeline_to_do.py`)
    4. **Target catalog**: `workshop_panvel_<seu_nome>`
    5. **Target schema**: `default` (obrigatório na UI)
    6. Em **Configuration**, adicione:
@@ -197,12 +197,12 @@ workshop-panvel/
 | Item | Detalhes |
 | -- | -- |
 | **Objetivo** | Criar workflow multi-tarefa com dependências e agendamento |
-| **Notebook (exercício)** | `02_Lab_Jobs/02b_workflow_todo.py` |
+| **Notebook (exercício)** | `02_Lab_Jobs/02b_workflow_to_do.py` |
 | **Notebook (referência)** | `02_Lab_Jobs/02a_workflow_completo.py` |
 
 ### Instruções
 
-1. **Complete os TO-DOs** no notebook `02b_workflow_todo.py`
+1. **Complete os TO-DOs** no notebook `02b_workflow_to_do.py`
 2. **Crie o Workflow** no Databricks UI:
 
 | Tarefa | Tipo | Dependência |
@@ -229,7 +229,7 @@ workshop-panvel/
 | Item | Detalhes |
 | -- | -- |
 | **Objetivo** | Segmentação de clientes usando RFM + K-Means |
-| **Notebook (exercício)** | `03_Lab_ML/03b_ml_todo.py` |
+| **Notebook (exercício)** | `03_Lab_ML/03b_ml_to_do.py` |
 | **Notebook (referência)** | `03_Lab_ML/03a_ml_completo.py` |
 
 ### O que é RFM?
@@ -242,7 +242,7 @@ workshop-panvel/
 
 ### Instruções
 
-1. **Complete os TO-DOs** no notebook `03b_ml_todo.py`:
+1. **Complete os TO-DOs** no notebook `03b_ml_to_do.py`:
 
 | TO-DO | Descrição |
 | -- | -- |
@@ -270,12 +270,12 @@ workshop-panvel/
 | Item | Detalhes |
 | -- | -- |
 | **Objetivo** | Criar Genie e AI/BI Dashboard para análise de vendas |
-| **Notebook (exercício)** | `04_Lab_AIBI/04b_genie_dashboard_todo.py` |
+| **Notebook (exercício)** | `04_Lab_AIBI/04b_genie_dashboard_to_do.py` |
 | **Notebook (referência)** | `04_Lab_AIBI/04a_genie_dashboard_completo.py` |
 
 ### Instruções
 
-1. **Complete os TO-DOs** no notebook `04b_genie_dashboard_todo.py`
+1. **Complete os TO-DOs** no notebook `04b_genie_dashboard_to_do.py`
 2. **Crie o Genie**: AI/BI > Genie > New Genie
 3. **Crie o Dashboard**: AI/BI > Dashboards > Create Dashboard
 4. **Teste o Genie** com perguntas como:

@@ -1,0 +1,72 @@
+flowchart LR
+    %% JSON Source
+    subgraph SRC ["  📄 Fonte de Dados  "]
+        direction TB
+        J1["🗂️ JSON Vendas\n──────────────\nStreaming\nEventos em\nTempo Real"]
+    end
+
+    %% BRONZE Layer
+    subgraph BRZ ["  🥉 BRONZE  "]
+        direction TB
+        B1["⚡ Auto Loader\n──────────────\nIngestion\nStreaming"]
+        B2["🗄️ Raw Data\n──────────────\nDados Brutos\nSem Transformação"]
+        B1 --> B2
+    end
+
+    %% SILVER Layer
+    subgraph SLV ["  🥈 SILVER  "]
+        direction TB
+        S1["🧹 Limpeza\n──────────────\nDeduplicação\nValidação"]
+        S2["🔗 Enriquecimento\n──────────────\nJoins &\nLookups"]
+        S3["📍 Bairro\n──────────────\nExtração de\nLocalização"]
+        S1 --> S2 --> S3
+    end
+
+    %% GOLD Layer
+    subgraph GLD ["  🥇 GOLD  "]
+        direction TB
+        G1["📊 Agregações\n──────────────\nVendas por\nCategoria"]
+        G2["🎯 KPIs\n──────────────\nMetrics &\nIndicadores"]
+        G3["🏆 Rankings\n──────────────\nTop Produtos\nTop Bairros"]
+        G1 --> G2 --> G3
+    end
+
+    %% AI/BI + ML Layer
+    subgraph AIB ["  🤖 AI/BI + ML  "]
+        direction TB
+        A1["🧞 Genie\n──────────────\nNatural Language\nAI Queries"]
+        A2["📈 Dashboard\n──────────────\nVisualizações\nInterativas"]
+        A3["🧩 Segmentação\n──────────────\nML Clusters\nClientes"]
+        A1 --> A2 --> A3
+    end
+
+    %% Main Flow Connections
+    SRC -->|"Streaming\nIngest"| BRZ
+    BRZ -->|"Delta\nLake"| SLV
+    SLV -->|"Delta\nLake"| GLD
+    GLD -->|"Serving\nLayer"| AIB
+
+    %% Styles for Nodes
+    style J1 fill:#2E7D32,stroke:#1B5E20,color:#FFFFFF,rx:8,ry:8
+
+    style B1 fill:#8B4513,stroke:#5D2E0C,color:#FFFFFF,rx:8,ry:8
+    style B2 fill:#A0522D,stroke:#6B3515,color:#FFFFFF,rx:8,ry:8
+
+    style S1 fill:#757575,stroke:#424242,color:#FFFFFF,rx:8,ry:8
+    style S2 fill:#616161,stroke:#373737,color:#FFFFFF,rx:8,ry:8
+    style S3 fill:#9E9E9E,stroke:#616161,color:#FFFFFF,rx:8,ry:8
+
+    style G1 fill:#F57F17,stroke:#E65100,color:#FFFFFF,rx:8,ry:8
+    style G2 fill:#F9A825,stroke:#F57F17,color:#FFFFFF,rx:8,ry:8
+    style G3 fill:#FDD835,stroke:#F9A825,color:#212121,rx:8,ry:8
+
+    style A1 fill:#1565C0,stroke:#0D47A1,color:#FFFFFF,rx:8,ry:8
+    style A2 fill:#1976D2,stroke:#1565C0,color:#FFFFFF,rx:8,ry:8
+    style A3 fill:#7B1FA2,stroke:#4A148C,color:#FFFFFF,rx:8,ry:8
+
+    %% Subgraph styles
+    style SRC fill:#E8F5E9,stroke:#4CAF50,stroke-width:3px,color:#1B5E20
+    style BRZ fill:#FBE9E7,stroke:#CD7F32,stroke-width:3px,color:#4E2200
+    style SLV fill:#FAFAFA,stroke:#9E9E9E,stroke-width:3px,color:#212121
+    style GLD fill:#FFFDE7,stroke:#FFD700,stroke-width:3px,color:#4E3600
+    style AIB fill:#E3F2FD,stroke:#4A90D9,stroke-width:3px,color:#0D2A5A

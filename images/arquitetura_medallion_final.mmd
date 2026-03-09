@@ -1,0 +1,79 @@
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "primaryColor": "#4A90D9",
+    "primaryTextColor": "#FFFFFF",
+    "primaryBorderColor": "#1565C0",
+    "lineColor": "#455A64",
+    "edgeLabelBackground": "#ECEFF1",
+    "fontFamily": "Arial, Helvetica, sans-serif",
+    "fontSize": "15px",
+    "clusterBkg": "#F8F9FA"
+  },
+  "flowchart": {
+    "curve": "basis",
+    "padding": 20,
+    "nodeSpacing": 40,
+    "rankSpacing": 80
+  }
+}}%%
+flowchart LR
+
+    subgraph SRC ["📄  Fonte de Dados"]
+        J1["JSON Vendas<br/>Streaming<br/>Tempo Real"]
+    end
+
+    subgraph BRZ ["🥉  BRONZE — Dados Brutos"]
+        B1["Auto Loader<br/>Ingestion Contínua"]
+        B2["Raw Data<br/>Sem Transformação"]
+        B1 --> B2
+    end
+
+    subgraph SLV ["🥈  SILVER — Dados Refinados"]
+        S1["Limpeza<br/>Dedup & Validação"]
+        S2["Enriquecimento<br/>Joins & Lookups"]
+        S3["Bairro<br/>Extração de Localização"]
+        S1 --> S2 --> S3
+    end
+
+    subgraph GLD ["🥇  GOLD — Dados Agregados"]
+        G1["Agregações<br/>Vendas por Categoria"]
+        G2["KPIs<br/>Métricas & Indicadores"]
+        G3["Rankings<br/>Top Produtos & Bairros"]
+        G1 --> G2 --> G3
+    end
+
+    subgraph AIB ["🤖  AI/BI + ML — Insights & Predições"]
+        A1["Genie<br/>Natural Language AI"]
+        A2["Dashboard<br/>Visualizações Interativas"]
+        A3["Segmentação<br/>ML Clusters de Clientes"]
+        A1 --> A2 --> A3
+    end
+
+    SRC  -->|"Streaming Ingest"| BRZ
+    BRZ  -->|"Delta Lake Write"| SLV
+    SLV  -->|"Delta Lake Write"| GLD
+    GLD  -->|"Serving Layer"| AIB
+
+    style J1 fill:#2E7D32,stroke:#1B5E20,color:#FFFFFF
+
+    style B1 fill:#6D3B1A,stroke:#4E2200,color:#FFFFFF
+    style B2 fill:#8B4513,stroke:#6D3B1A,color:#FFFFFF
+
+    style S1 fill:#546E7A,stroke:#37474F,color:#FFFFFF
+    style S2 fill:#607D8B,stroke:#455A64,color:#FFFFFF
+    style S3 fill:#78909C,stroke:#546E7A,color:#FFFFFF
+
+    style G1 fill:#E65100,stroke:#BF360C,color:#FFFFFF
+    style G2 fill:#EF6C00,stroke:#E65100,color:#FFFFFF
+    style G3 fill:#F57F17,stroke:#EF6C00,color:#FFFFFF
+
+    style A1 fill:#1565C0,stroke:#0D47A1,color:#FFFFFF
+    style A2 fill:#1976D2,stroke:#1565C0,color:#FFFFFF
+    style A3 fill:#6A1B9A,stroke:#4A148C,color:#FFFFFF
+
+    style SRC fill:#E8F5E9,stroke:#4CAF50,stroke-width:2.5px,color:#1B5E20
+    style BRZ fill:#FFF3E0,stroke:#CD7F32,stroke-width:2.5px,color:#3E2000
+    style SLV fill:#ECEFF1,stroke:#90A4AE,stroke-width:2.5px,color:#263238
+    style GLD fill:#FFFDE7,stroke:#F9A825,stroke-width:2.5px,color:#3E2723
+    style AIB fill:#E3F2FD,stroke:#4A90D9,stroke-width:2.5px,color:#0D2A5A
