@@ -53,14 +53,14 @@ def validar_dados_cadastrais():
         count = df.count()
         colunas = df.columns
 
-        # TODO 1: Verifique se a tabela possui a quantidade mínima de registros
+        # TO-DO 1: Verifique se a tabela possui a quantidade mínima de registros
         # ─────────────────────────────────────────────────────────────────────
         # Dica: Compare a variável 'count' com regras["min_registros"]
         #       Use assert para lançar erro se não atender o mínimo
         #       Exemplo: assert count >= regras["min_registros"], "mensagem de erro"
         # ▼▼▼ Seu código aqui ▼▼▼
 
-        # ▲▲▲ Fim do TODO 1 ▲▲▲
+        # ▲▲▲ Fim do TO-DO 1 ▲▲▲
 
         # Verificar colunas obrigatórias
         for col_name in regras["colunas_obrigatorias"]:
@@ -122,7 +122,7 @@ def verificar_qualidade_dados():
     except Exception as e:
         verificacoes.append(("silver_vendas", False, str(e)))
 
-    # TODO 2: Verifique se a tabela silver_lojas possui a coluna "bairro"
+    # TO-DO 2: Verifique se a tabela silver_lojas possui a coluna "bairro"
     # ────────────────────────────────────────────────────────────────────
     # Dica:
     #   1. Leia a tabela: df_lojas = spark.table(f"{catalog_name}.silver.silver_lojas")
@@ -135,7 +135,7 @@ def verificar_qualidade_dados():
         pass  # Substitua este 'pass' pelo seu código
     except Exception as e:
         verificacoes.append(("silver_lojas - bairro", False, str(e)))
-    # ▲▲▲ Fim do TODO 2 ▲▲▲
+    # ▲▲▲ Fim do TO-DO 2 ▲▲▲
 
     # Verificar gold tables
     for gold_table in ["gold_vendas_por_loja", "gold_vendas_por_categoria", "gold_vendas_por_cidade"]:
@@ -173,7 +173,7 @@ def gerar_resumo():
     try:
         vendas_loja = spark.table(f"{catalog_name}.gold.gold_vendas_por_loja")
 
-        # TODO 3: Calcule o total de vendas e o faturamento total
+        # TO-DO 3: Calcule o total de vendas e o faturamento total
         # ────────────────────────────────────────────────────────
         # Dica: Use .agg() para calcular as métricas agregadas
         #   total_vendas = vendas_loja.agg({"total_vendas": "sum"}).collect()[0][0]
@@ -181,7 +181,7 @@ def gerar_resumo():
         #   Depois imprima os resultados com print()
         # ▼▼▼ Seu código aqui ▼▼▼
 
-        # ▲▲▲ Fim do TODO 3 ▲▲▲
+        # ▲▲▲ Fim do TO-DO 3 ▲▲▲
 
         # Top 5 Produtos
         print(f"\nTop 5 Produtos por Faturamento:")
@@ -202,7 +202,7 @@ gerar_resumo()
 # MAGIC %md
 # MAGIC ## Instruções para criar o Workflow
 # MAGIC
-# MAGIC ### TODO 4: Crie o Workflow no Databricks UI
+# MAGIC ### TO-DO 4: Crie o Workflow no Databricks UI
 # MAGIC
 # MAGIC 1. Vá em **Jobs & Pipelines** > **Create Job**
 # MAGIC 2. Nome: `workflow_panvel_<seu_nome>`
@@ -216,7 +216,7 @@ gerar_resumo()
 # MAGIC | qualidade | Notebook | pipeline_sdp | Verifica qualidade |
 # MAGIC | resumo | Notebook | qualidade | Gera relatório |
 # MAGIC
-# MAGIC ### TODO 5: Configure o agendamento
+# MAGIC ### TO-DO 5: Configure o agendamento
 # MAGIC - Clique em **Schedule** no canto superior direito
 # MAGIC - Configure para rodar a cada **30 minutos**
 # MAGIC - Timezone: **America/Sao_Paulo**

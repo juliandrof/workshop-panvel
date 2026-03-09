@@ -54,7 +54,7 @@ from pyspark.sql.window import Window
 data_ref = df_vendas.agg(max("data_venda")).collect()[0][0]
 print(f"Data de referência: {data_ref}")
 
-# TODO 1: Calcule as métricas RFM por cliente
+# TO-DO 1: Calcule as métricas RFM por cliente
 # ────────────────────────────────────────────
 # Dica: Agrupe por id_cliente, nome_cliente, cidade_cliente e calcule:
 #   - recency: datediff(lit(data_ref), max("data_venda"))
@@ -72,7 +72,7 @@ df_rfm = (
     .agg(
         # ▼▼▼ Seu código aqui ▼▼▼
 
-        # ▲▲▲ Fim do TODO 1 ▲▲▲
+        # ▲▲▲ Fim do TO-DO 1 ▲▲▲
     )
 )
 
@@ -90,14 +90,14 @@ from pyspark.ml.feature import VectorAssembler, StandardScaler
 
 feature_cols = ["recency", "frequency", "monetary"]
 
-# TODO 2: Monte o vetor de features usando VectorAssembler
+# TO-DO 2: Monte o vetor de features usando VectorAssembler
 # ────────────────────────────────────────────────────────
 # Dica:
 #   assembler = VectorAssembler(inputCols=feature_cols, outputCol="features_raw")
 #   df_features = assembler.transform(df_rfm)
 # ▼▼▼ Seu código aqui ▼▼▼
 
-# ▲▲▲ Fim do TODO 2 ▲▲▲
+# ▲▲▲ Fim do TO-DO 2 ▲▲▲
 
 # Normalizar features (já pronto)
 scaler = StandardScaler(inputCol="features_raw", outputCol="features", withMean=True, withStd=True)
@@ -122,7 +122,7 @@ mlflow.set_experiment(experiment_name)
 
 resultados = []
 
-# TODO 3: Treine modelos K-Means para K = 3, 4, 5, 6
+# TO-DO 3: Treine modelos K-Means para K = 3, 4, 5, 6
 # ────────────────────────────────────────────────────
 # Dica: Para cada valor de K:
 #   1. Abra um run MLflow: with mlflow.start_run(run_name=f"kmeans_k{k}"):
@@ -141,7 +141,7 @@ resultados = []
 for k in [3, 4, 5, 6]:
     # ▼▼▼ Seu código aqui ▼▼▼
     pass  # Substitua este pass pelo código
-    # ▲▲▲ Fim do TODO 3 ▲▲▲
+    # ▲▲▲ Fim do TO-DO 3 ▲▲▲
 
 # COMMAND ----------
 
@@ -181,7 +181,7 @@ print(f"Modelo final treinado! Run ID: {run_id}")
 
 # COMMAND ----------
 
-# TODO 4: Analise o perfil de cada segmento
+# TO-DO 4: Analise o perfil de cada segmento
 # ──────────────────────────────────────────
 # Dica: Agrupe predictions_final por "segmento" e calcule:
 #   - count("*").alias("num_clientes")
@@ -196,7 +196,7 @@ df_segmentos = (
     predictions_final
     # Complete a agregação
 )
-# ▲▲▲ Fim do TODO 4 ▲▲▲
+# ▲▲▲ Fim do TO-DO 4 ▲▲▲
 
 print("Perfil dos Segmentos:")
 df_segmentos.show(truncate=False)
@@ -215,12 +215,12 @@ df_resultado = (
             "recency", "frequency", "monetary", "ticket_medio", "segmento")
 )
 
-# TODO 5: Salve a tabela de segmentação no catálogo
+# TO-DO 5: Salve a tabela de segmentação no catálogo
 # ──────────────────────────────────────────────────
 # Dica: Use .write.mode("overwrite").saveAsTable(f"{catalog_name}.ml.segmentacao_clientes")
 # ▼▼▼ Seu código aqui ▼▼▼
 
-# ▲▲▲ Fim do TODO 5 ▲▲▲
+# ▲▲▲ Fim do TO-DO 5 ▲▲▲
 
 print(f"Segmentação salva!")
 print(f"Total de clientes segmentados: {df_resultado.count()}")

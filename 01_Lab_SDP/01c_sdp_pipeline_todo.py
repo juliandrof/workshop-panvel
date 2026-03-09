@@ -101,7 +101,7 @@ def bronze_clientes():
 def bronze_lojas():
     return spark.table(f"{catalog_name}.raw.lojas")
 
-# TODO 1: Crie a tabela bronze_produtos
+# TO-DO 1: Crie a tabela bronze_produtos
 # ─────────────────────────────────────
 # Dica: Siga o mesmo padrão das tabelas bronze_clientes e bronze_lojas acima.
 #       A tabela de origem é: {catalog_name}.raw.produtos
@@ -112,7 +112,7 @@ def bronze_lojas():
 
 
 
-# ▲▲▲ Fim do TODO 1 ▲▲▲
+# ▲▲▲ Fim do TO-DO 1 ▲▲▲
 
 # COMMAND ----------
 
@@ -139,13 +139,13 @@ def silver_vendas():
         vendas
         .withColumn("data_venda", to_timestamp("data_venda"))
 
-        # TODO 2: Extraia o ANO, MÊS e DIA da coluna data_venda
+        # TO-DO 2: Extraia o ANO, MÊS e DIA da coluna data_venda
         # ─────────────────────────────────────────────────────
         # Dica: Use as funções year(), month() e dayofmonth() do PySpark
         #       Exemplo: .withColumn("ano", year("data_venda"))
         # ▼▼▼ Seu código aqui ▼▼▼
 
-        # ▲▲▲ Fim do TODO 2 ▲▲▲
+        # ▲▲▲ Fim do TO-DO 2 ▲▲▲
 
         .join(clientes, "id_cliente", "left")
         .withColumnRenamed("nome", "nome_cliente")
@@ -181,7 +181,7 @@ def silver_lojas():
     return (
         lojas
 
-        # TODO 3: Extraia o bairro do nome da loja
+        # TO-DO 3: Extraia o bairro do nome da loja
         # ────────────────────────────────────────
         # O nome da loja tem o formato: "Panvel - Centro" ou "Panvel - Moinhos de Vento 2"
         # Você precisa:
@@ -195,7 +195,7 @@ def silver_lojas():
         #   - Crie a coluna com .withColumn("bairro", ...)
         # ▼▼▼ Seu código aqui ▼▼▼
 
-        # ▲▲▲ Fim do TODO 3 ▲▲▲
+        # ▲▲▲ Fim do TO-DO 3 ▲▲▲
     )
 
 # COMMAND ----------
@@ -222,13 +222,13 @@ def silver_itens_venda():
         .select("id_venda", "id_loja", "id_cliente",
                 to_timestamp("data_venda").alias("data_venda"),
 
-                # TODO 4: Use a função explode() para "explodir" a coluna "itens"
+                # TO-DO 4: Use a função explode() para "explodir" a coluna "itens"
                 # ────────────────────────────────────────────────────────────────
                 # Dica: explode("itens").alias("item")
                 #       Isso transforma cada elemento do array em uma linha separada
                 # ▼▼▼ Seu código aqui ▼▼▼
 
-                # ▲▲▲ Fim do TODO 4 ▲▲▲
+                # ▲▲▲ Fim do TO-DO 4 ▲▲▲
         )
         .select(
             "id_venda", "id_loja", "id_cliente", "data_venda",
@@ -283,7 +283,7 @@ def gold_vendas_por_loja():
 def gold_vendas_por_categoria():
     itens = dlt.read("silver.silver_itens_venda")
 
-    # TODO 5: Complete as agregações por categoria
+    # TO-DO 5: Complete as agregações por categoria
     # ─────────────────────────────────────────────
     # Dica: Use groupBy("categoria") e depois .agg() com:
     #   - count("*").alias("total_itens_vendidos")
@@ -299,7 +299,7 @@ def gold_vendas_por_categoria():
             # Complete as agregações aqui
         )
     )
-    # ▲▲▲ Fim do TODO 5 ▲▲▲
+    # ▲▲▲ Fim do TO-DO 5 ▲▲▲
 
 # COMMAND ----------
 
@@ -308,7 +308,7 @@ def gold_vendas_por_categoria():
 
 # COMMAND ----------
 
-# TODO 6: Crie a tabela gold_vendas_por_cidade
+# TO-DO 6: Crie a tabela gold_vendas_por_cidade
 # ──────────────────────────────────────────────
 # Dica: Siga o padrão da tabela gold_vendas_por_loja
 #       mas agrupando por "cidade_loja" em vez de "id_loja"
@@ -326,7 +326,7 @@ def gold_vendas_por_categoria():
 
 
 
-# ▲▲▲ Fim do TODO 6 ▲▲▲
+# ▲▲▲ Fim do TO-DO 6 ▲▲▲
 
 # COMMAND ----------
 

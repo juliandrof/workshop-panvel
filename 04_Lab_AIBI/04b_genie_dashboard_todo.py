@@ -44,7 +44,7 @@ print("View vw_vendas_resumo criada!")
 
 # COMMAND ----------
 
-# TODO 1: Crie uma view de vendas detalhadas com produtos
+# TO-DO 1: Crie uma view de vendas detalhadas com produtos
 # ─────────────────────────────────────────────────────────
 # Dica: Crie a view {catalog_name}.gold.vw_vendas_produtos com:
 #   - Campos de silver_itens_venda: id_venda, data_venda, id_loja, id_cliente,
@@ -64,7 +64,7 @@ print("View vw_vendas_resumo criada!")
 
 # ▼▼▼ Seu código aqui ▼▼▼
 
-# ▲▲▲ Fim do TODO 1 ▲▲▲
+# ▲▲▲ Fim do TO-DO 1 ▲▲▲
 
 # COMMAND ----------
 
@@ -73,7 +73,7 @@ print("View vw_vendas_resumo criada!")
 
 # COMMAND ----------
 
-# TODO 2: Adicione comentários descritivos às tabelas Gold
+# TO-DO 2: Adicione comentários descritivos às tabelas Gold
 # ─────────────────────────────────────────────────────────
 # Dica: Use COMMENT ON TABLE para adicionar descrições.
 #       Isso ajuda o Genie a entender melhor os dados!
@@ -89,7 +89,7 @@ print("View vw_vendas_resumo criada!")
 
 # ▼▼▼ Seu código aqui ▼▼▼
 
-# ▲▲▲ Fim do TODO 2 ▲▲▲
+# ▲▲▲ Fim do TO-DO 2 ▲▲▲
 
 print("Comentários adicionados!")
 
@@ -98,7 +98,7 @@ print("Comentários adicionados!")
 # MAGIC %md
 # MAGIC ## 3. Criar Genie (no UI)
 # MAGIC
-# MAGIC ### TODO 3: Crie o Genie no Databricks
+# MAGIC ### TO-DO 3: Crie o Genie no Databricks
 # MAGIC
 # MAGIC 1. Vá em **AI/BI** > **Genie** > **New Genie**
 # MAGIC 2. Nome: `Análise Panvel - <seu_nome>`
@@ -128,7 +128,7 @@ for t in tabelas_genie:
 
 # COMMAND ----------
 
-# TODO 4: Escreva instruções customizadas para o Genie
+# TO-DO 4: Escreva instruções customizadas para o Genie
 # ──────────────────────────────────────────────────────────
 # Dica: As instruções ajudam o Genie a entender o contexto dos dados.
 # Inclua:
@@ -149,7 +149,7 @@ instrucoes = """
 ## Exemplos de perguntas
 (Liste exemplos de perguntas)
 """
-# ▲▲▲ Fim do TODO 4 ▲▲▲
+# ▲▲▲ Fim do TO-DO 4 ▲▲▲
 
 print(instrucoes)
 
@@ -158,7 +158,7 @@ print(instrucoes)
 # MAGIC %md
 # MAGIC ## 4. Criar AI/BI Dashboard (no UI)
 # MAGIC
-# MAGIC ### TODO 5: Crie o Dashboard
+# MAGIC ### TO-DO 5: Crie o Dashboard
 # MAGIC
 # MAGIC 1. Vá em **AI/BI** > **Dashboards** > **Create Dashboard**
 # MAGIC 2. Nome: `Dashboard Panvel - <seu_nome>`
@@ -213,7 +213,7 @@ LIMIT 15
 # MAGIC %md
 # MAGIC ## 5. Testar o Genie
 # MAGIC
-# MAGIC ### TODO 6: Teste o Genie com estas perguntas
+# MAGIC ### TO-DO 6: Teste o Genie com estas perguntas
 # MAGIC
 # MAGIC Abra seu Genie e faça as seguintes perguntas:
 # MAGIC
