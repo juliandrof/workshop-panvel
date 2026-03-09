@@ -395,7 +395,7 @@ def main():
     # Notebooks reference
     reqs += create_rect("sl_lab1", "l1_nbg", 0.5, 4.1, 9, 1.0, rgb(0.93, 0.93, 0.93))
     reqs += create_textbox("sl_lab1", "l1_nb",
-        "Notebooks:  01a_gerador_vendas_streaming.py  |  01c_sdp_pipeline_todo.py  (ref: 01b_...completo.py)",
+        "Notebooks:  01a_gerador_vendas_streaming.py  |  01b_sdp_pipeline_to_do.py  (ref: 01c_...completo.py)",
         0.7, 4.25, 8.6, 0.6, font_size=11, color=GRAY_TEXT)
 
     batch_update(pres_id, reqs, token)
@@ -414,7 +414,7 @@ def main():
         "Execute 01a_gerador_vendas_streaming.py e deixe rodando!\n"
         "Ele gera 1 JSON por loja a cada 20 segundos\n\n"
         "Passo 2 — Complete os TO-DOs no pipeline\n"
-        "Abra 01c_sdp_pipeline_todo.py e complete:\n"
+        "Abra 01b_sdp_pipeline_to_do.py e complete:\n"
         "  TODO 1: Criar tabela bronze_produtos\n"
         "  TODO 2: Extrair ano, mês e dia da data_venda\n"
         "  TODO 3: Extrair bairro do nome da loja (regexp)\n"
@@ -459,7 +459,7 @@ def main():
 
     reqs += create_rect("sl_lab2", "l2_nbg", 0.5, 4.1, 9, 1.0, rgb(0.93, 0.93, 0.93))
     reqs += create_textbox("sl_lab2", "l2_nb",
-        "Notebooks:  02b_workflow_todo.py  (ref: 02a_workflow_completo.py)",
+        "Notebooks:  02a-d (exercício)  (ref: 02e-h completo)",
         0.7, 4.25, 8.6, 0.6, font_size=11, color=GRAY_TEXT)
 
     batch_update(pres_id, reqs, token)
@@ -475,7 +475,7 @@ def main():
 
     handson2 = (
         "Passo 1 — Complete os TO-DOs\n"
-        "Abra 02b_workflow_todo.py e complete:\n"
+        "Abra os notebooks 02a a 02d (to_do) e complete:\n"
         "  TODO 1: Validar quantidade mínima de registros\n"
         "  TODO 2: Verificar coluna bairro em silver_lojas\n"
         "  TODO 3: Calcular total de vendas e faturamento\n\n"
@@ -529,7 +529,7 @@ def main():
 
     reqs += create_rect("sl_lab3", "l3_nbg", 0.5, 4.1, 9, 1.0, rgb(0.93, 0.93, 0.93))
     reqs += create_textbox("sl_lab3", "l3_nb",
-        "Notebooks:  03b_ml_todo.py  (ref: 03a_ml_completo.py)",
+        "Notebooks:  03a_ml_to_do.py  (ref: 03b_ml_completo.py)",
         0.7, 4.25, 8.6, 0.6, font_size=11, color=GRAY_TEXT)
 
     batch_update(pres_id, reqs, token)
@@ -545,7 +545,7 @@ def main():
 
     handson3 = (
         "Passo 1 — Complete os TO-DOs\n"
-        "Abra 03b_ml_todo.py e complete:\n"
+        "Abra 03a_ml_to_do.py e complete:\n"
         "  TODO 1: Calcular métricas RFM por cliente\n"
         "  TODO 2: Montar VectorAssembler\n"
         "  TODO 3: Treinar K-Means (K=3,4,5,6) com MLflow\n"
@@ -597,7 +597,7 @@ def main():
 
     reqs += create_rect("sl_lab4", "l4_nbg", 0.5, 4.1, 9, 1.0, rgb(0.93, 0.93, 0.93))
     reqs += create_textbox("sl_lab4", "l4_nb",
-        "Notebooks:  04b_genie_dashboard_todo.py  (ref: 04a_...completo.py)",
+        "Notebooks:  04a_genie_dashboard_to_do.py  (ref: 04b_...completo.py)",
         0.7, 4.25, 8.6, 0.6, font_size=11, color=GRAY_TEXT)
 
     batch_update(pres_id, reqs, token)
@@ -613,7 +613,7 @@ def main():
 
     handson4 = (
         "Passo 1 — Complete os TO-DOs\n"
-        "Abra 04b_genie_dashboard_todo.py e complete:\n"
+        "Abra 04a_genie_dashboard_to_do.py e complete:\n"
         "  TODO 1: Criar view de vendas com produtos\n"
         "  TODO 2: Adicionar comentários às tabelas\n"
         "  TODO 4: Escrever instruções do Genie\n\n"

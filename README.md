@@ -96,26 +96,26 @@ workshop-panvel/
 │
 ├── 01_Lab_SDP/
 │   ├── 01a_gerador_vendas_streaming.py   # Gerador de JSONs (1 por loja a cada 20s)
-│   ├── 01b_sdp_pipeline_completo.py      # Pipeline SDP completo (referência)
-│   └── 01c_sdp_pipeline_to_do.py          # Pipeline SDP com TO-DOs (exercício)
+│   ├── 01b_sdp_pipeline_to_do.py         # Pipeline SDP com TO-DOs (exercício)
+│   └── 01c_sdp_pipeline_completo.py      # Pipeline SDP completo (referência)
 │
 ├── 02_Lab_Jobs/
-│   ├── 02a_validacao_completo.py         # Tarefa 1: Validação dos dados (referência)
-│   ├── 02b_trigger_pipeline_completo.py  # Tarefa 2: Trigger pipeline SDP via API (referência)
-│   ├── 02c_qualidade_completo.py         # Tarefa 3: Verificação de qualidade (referência)
-│   ├── 02d_resumo_completo.py            # Tarefa 4: Resumo do processamento (referência)
-│   ├── 02e_validacao_to_do.py            # Tarefa 1: Validação (exercício)
-│   ├── 02f_trigger_pipeline_to_do.py     # Tarefa 2: Trigger pipeline (exercício)
-│   ├── 02g_qualidade_to_do.py            # Tarefa 3: Qualidade (exercício)
-│   └── 02h_resumo_to_do.py              # Tarefa 4: Resumo (exercício)
+│   ├── 02a_validacao_to_do.py            # Tarefa 1: Validação (exercício)
+│   ├── 02b_trigger_pipeline_to_do.py     # Tarefa 2: Trigger pipeline (exercício)
+│   ├── 02c_qualidade_to_do.py            # Tarefa 3: Qualidade (exercício)
+│   ├── 02d_resumo_to_do.py              # Tarefa 4: Resumo (exercício)
+│   ├── 02e_validacao_completo.py         # Tarefa 1: Validação dos dados (referência)
+│   ├── 02f_trigger_pipeline_completo.py  # Tarefa 2: Trigger pipeline SDP via API (referência)
+│   ├── 02g_qualidade_completo.py         # Tarefa 3: Verificação de qualidade (referência)
+│   └── 02h_resumo_completo.py            # Tarefa 4: Resumo do processamento (referência)
 │
 ├── 03_Lab_ML/
-│   ├── 03a_ml_completo.py               # ML completo (referência)
-│   └── 03b_ml_to_do.py                   # ML com TO-DOs (exercício)
+│   ├── 03a_ml_to_do.py                   # ML com TO-DOs (exercício)
+│   └── 03b_ml_completo.py               # ML completo (referência)
 │
 ├── 04_Lab_AIBI/
-│   ├── 04a_genie_dashboard_completo.py   # AI/BI completo (referência)
-│   └── 04b_genie_dashboard_to_do.py       # AI/BI com TO-DOs (exercício)
+│   ├── 04a_genie_dashboard_to_do.py       # AI/BI com TO-DOs (exercício)
+│   └── 04b_genie_dashboard_completo.py   # AI/BI completo (referência)
 ```
 
 </br>
@@ -158,14 +158,14 @@ workshop-panvel/
 | Item | Detalhes |
 | -- | -- |
 | **Objetivo** | Criar pipeline SDP com ingestão streaming e arquitetura Medallion |
-| **Notebook (exercício)** | `01_Lab_SDP/01c_sdp_pipeline_to_do.py` |
-| **Notebook (referência)** | `01_Lab_SDP/01b_sdp_pipeline_completo.py` |
+| **Notebook (exercício)** | `01_Lab_SDP/01b_sdp_pipeline_to_do.py` |
+| **Notebook (referência)** | `01_Lab_SDP/01c_sdp_pipeline_completo.py` |
 | **Gerador de dados** | `01_Lab_SDP/01a_gerador_vendas_streaming.py` |
 
 ### Instruções
 
 1. **Inicie o gerador de dados** — execute `01a_gerador_vendas_streaming.py` e **deixe rodando**
-2. **Complete os TO-DOs** no notebook `01c_sdp_pipeline_to_do.py`:
+2. **Complete os TO-DOs** no notebook `01b_sdp_pipeline_to_do.py`:
 
 | TO-DO | Descrição | Dica |
 | -- | -- | -- |
@@ -179,7 +179,7 @@ workshop-panvel/
 3. **Crie o pipeline SDP**:
    1. Vá em **Jobs & Pipelines** > **ETL pipeline**
    2. **Pipeline name**: `pipeline_panvel_<seu_nome>`
-   3. **Source code**: selecione o notebook `01_Lab_SDP/01b_sdp_pipeline_completo.py` (ou `01c_sdp_pipeline_to_do.py`)
+   3. **Source code**: selecione o notebook `01_Lab_SDP/01c_sdp_pipeline_completo.py` (ou `01b_sdp_pipeline_to_do.py`)
    4. **Target catalog**: `workshop_panvel_<seu_nome>`
    5. **Target schema**: `default` (obrigatório na UI)
    6. Em **Configuration**, adicione:
@@ -203,29 +203,29 @@ workshop-panvel/
 | Item | Detalhes |
 | -- | -- |
 | **Objetivo** | Criar workflow multi-tarefa com dependências e agendamento |
-| **Notebooks (exercício)** | `02_Lab_Jobs/02e_validacao_to_do.py` a `02h_resumo_to_do.py` |
-| **Notebooks (referência)** | `02_Lab_Jobs/02a_validacao_completo.py` a `02d_resumo_completo.py` |
+| **Notebooks (exercício)** | `02_Lab_Jobs/02a_validacao_to_do.py` a `02d_resumo_to_do.py` |
+| **Notebooks (referência)** | `02_Lab_Jobs/02e_validacao_completo.py` a `02h_resumo_completo.py` |
 
 ### Notebooks por Tarefa
 
 | Tarefa | Notebook (exercício) | Notebook (referência) |
 | -- | -- | -- |
-| 1 - Validação | `02e_validacao_to_do.py` | `02a_validacao_completo.py` |
-| 2 - Trigger Pipeline SDP | `02f_trigger_pipeline_to_do.py` | `02b_trigger_pipeline_completo.py` |
-| 3 - Qualidade dos Dados | `02g_qualidade_to_do.py` | `02c_qualidade_completo.py` |
-| 4 - Resumo | `02h_resumo_to_do.py` | `02d_resumo_completo.py` |
+| 1 - Validação | `02a_validacao_to_do.py` | `02e_validacao_completo.py` |
+| 2 - Trigger Pipeline SDP | `02b_trigger_pipeline_to_do.py` | `02f_trigger_pipeline_completo.py` |
+| 3 - Qualidade dos Dados | `02c_qualidade_to_do.py` | `02g_qualidade_completo.py` |
+| 4 - Resumo | `02d_resumo_to_do.py` | `02h_resumo_completo.py` |
 
 ### Instruções
 
-1. **Complete os TO-DOs** nos notebooks de exercício (`02e` a `02h`)
+1. **Complete os TO-DOs** nos notebooks de exercício (`02a` a `02d`)
 2. **Crie o Workflow** no Databricks UI:
 
 | Tarefa | Tipo | Notebook | Dependência |
 | -- | -- | -- | -- |
-| validacao | Notebook | `02e_validacao_to_do` | Nenhuma |
-| trigger_pipeline | Notebook | `02f_trigger_pipeline_to_do` | validacao |
-| qualidade | Notebook | `02g_qualidade_to_do` | trigger_pipeline |
-| resumo | Notebook | `02h_resumo_to_do` | qualidade |
+| validacao | Notebook | `02a_validacao_to_do` | Nenhuma |
+| trigger_pipeline | Notebook | `02b_trigger_pipeline_to_do` | validacao |
+| qualidade | Notebook | `02c_qualidade_to_do` | trigger_pipeline |
+| resumo | Notebook | `02d_resumo_to_do` | qualidade |
 
 3. **Parâmetros**: Em cada tarefa, adicione `nome_participante` = `<seu_nome>`
 4. **Configure o agendamento** (a cada 30 minutos, timezone America/Sao_Paulo)
@@ -246,8 +246,8 @@ workshop-panvel/
 | Item | Detalhes |
 | -- | -- |
 | **Objetivo** | Segmentação de clientes usando RFM + K-Means |
-| **Notebook (exercício)** | `03_Lab_ML/03b_ml_to_do.py` |
-| **Notebook (referência)** | `03_Lab_ML/03a_ml_completo.py` |
+| **Notebook (exercício)** | `03_Lab_ML/03a_ml_to_do.py` |
+| **Notebook (referência)** | `03_Lab_ML/03b_ml_completo.py` |
 
 ### O que é RFM?
 
@@ -259,7 +259,7 @@ workshop-panvel/
 
 ### Instruções
 
-1. **Complete os TO-DOs** no notebook `03b_ml_to_do.py`:
+1. **Complete os TO-DOs** no notebook `03a_ml_to_do.py`:
 
 | TO-DO | Descrição |
 | -- | -- |
@@ -287,12 +287,12 @@ workshop-panvel/
 | Item | Detalhes |
 | -- | -- |
 | **Objetivo** | Criar Genie e AI/BI Dashboard para análise de vendas |
-| **Notebook (exercício)** | `04_Lab_AIBI/04b_genie_dashboard_to_do.py` |
-| **Notebook (referência)** | `04_Lab_AIBI/04a_genie_dashboard_completo.py` |
+| **Notebook (exercício)** | `04_Lab_AIBI/04a_genie_dashboard_to_do.py` |
+| **Notebook (referência)** | `04_Lab_AIBI/04b_genie_dashboard_completo.py` |
 
 ### Instruções
 
-1. **Complete os TO-DOs** no notebook `04b_genie_dashboard_to_do.py`
+1. **Complete os TO-DOs** no notebook `04a_genie_dashboard_to_do.py`
 2. **Crie o Genie**: AI/BI > Genie > New Genie
 3. **Crie o Dashboard**: AI/BI > Dashboards > Create Dashboard
 4. **Teste o Genie** com perguntas como:
