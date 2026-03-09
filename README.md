@@ -100,8 +100,14 @@ workshop-panvel/
 │   └── 01c_sdp_pipeline_to_do.py          # Pipeline SDP com TO-DOs (exercício)
 │
 ├── 02_Lab_Jobs/
-│   ├── 02a_workflow_completo.py          # Workflow completo (referência)
-│   └── 02b_workflow_to_do.py              # Workflow com TO-DOs (exercício)
+│   ├── 02a_validacao_completo.py         # Tarefa 1: Validação dos dados (referência)
+│   ├── 02b_trigger_pipeline_completo.py  # Tarefa 2: Trigger pipeline SDP via API (referência)
+│   ├── 02c_qualidade_completo.py         # Tarefa 3: Verificação de qualidade (referência)
+│   ├── 02d_resumo_completo.py            # Tarefa 4: Resumo do processamento (referência)
+│   ├── 02e_validacao_to_do.py            # Tarefa 1: Validação (exercício)
+│   ├── 02f_trigger_pipeline_to_do.py     # Tarefa 2: Trigger pipeline (exercício)
+│   ├── 02g_qualidade_to_do.py            # Tarefa 3: Qualidade (exercício)
+│   └── 02h_resumo_to_do.py              # Tarefa 4: Resumo (exercício)
 │
 ├── 03_Lab_ML/
 │   ├── 03a_ml_completo.py               # ML completo (referência)
@@ -197,26 +203,37 @@ workshop-panvel/
 | Item | Detalhes |
 | -- | -- |
 | **Objetivo** | Criar workflow multi-tarefa com dependências e agendamento |
-| **Notebook (exercício)** | `02_Lab_Jobs/02b_workflow_to_do.py` |
-| **Notebook (referência)** | `02_Lab_Jobs/02a_workflow_completo.py` |
+| **Notebooks (exercício)** | `02_Lab_Jobs/02e_validacao_to_do.py` a `02h_resumo_to_do.py` |
+| **Notebooks (referência)** | `02_Lab_Jobs/02a_validacao_completo.py` a `02d_resumo_completo.py` |
+
+### Notebooks por Tarefa
+
+| Tarefa | Notebook (exercício) | Notebook (referência) |
+| -- | -- | -- |
+| 1 - Validação | `02e_validacao_to_do.py` | `02a_validacao_completo.py` |
+| 2 - Trigger Pipeline SDP | `02f_trigger_pipeline_to_do.py` | `02b_trigger_pipeline_completo.py` |
+| 3 - Qualidade dos Dados | `02g_qualidade_to_do.py` | `02c_qualidade_completo.py` |
+| 4 - Resumo | `02h_resumo_to_do.py` | `02d_resumo_completo.py` |
 
 ### Instruções
 
-1. **Complete os TO-DOs** no notebook `02b_workflow_to_do.py`
+1. **Complete os TO-DOs** nos notebooks de exercício (`02e` a `02h`)
 2. **Crie o Workflow** no Databricks UI:
 
-| Tarefa | Tipo | Dependência |
-| -- | -- | -- |
-| Validação | Notebook | Nenhuma |
-| Pipeline SDP | Pipeline | Validação |
-| Qualidade | Notebook | Pipeline SDP |
-| Resumo | Notebook | Qualidade |
+| Tarefa | Tipo | Notebook | Dependência |
+| -- | -- | -- | -- |
+| validacao | Notebook | `02e_validacao_to_do` | Nenhuma |
+| trigger_pipeline | Notebook | `02f_trigger_pipeline_to_do` | validacao |
+| qualidade | Notebook | `02g_qualidade_to_do` | trigger_pipeline |
+| resumo | Notebook | `02h_resumo_to_do` | qualidade |
 
-3. **Configure o agendamento** (a cada 30 minutos)
+3. **Parâmetros**: Em cada tarefa, adicione `nome_participante` = `<seu_nome>`
+4. **Configure o agendamento** (a cada 30 minutos, timezone America/Sao_Paulo)
 
 ### Conceitos abordados
 - Databricks Workflows
 - Task Dependencies (DAG)
+- Databricks REST API (trigger de pipelines)
 - Parametrização de notebooks
 - Scheduling e monitoramento
 
