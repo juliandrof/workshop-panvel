@@ -57,6 +57,11 @@ def validar_dados_cadastrais():
         count = df.count()
         colunas = df.columns
 
+        # TO-DO 1: Verifique se a tabela possui a quantidade mínima de registros
+        # ─────────────────────────────────────────────────────────────────────
+        # Dica: Compare a variável 'count' com regras["min_registros"]
+        #       Use assert para lançar erro se não atender o mínimo
+        #       Exemplo: assert count >= regras["min_registros"], "mensagem de erro"
         # Verificar quantidade mínima
         assert count >= regras["min_registros"], \
             f"Tabela {tabela}: esperado mínimo {regras['min_registros']}, encontrado {count}"
@@ -124,6 +129,14 @@ def verificar_qualidade_dados():
     except Exception as e:
         verificacoes.append(("silver_vendas - registros", False, str(e)))
 
+    # TO-DO 2: Verifique se a tabela silver_lojas possui a coluna "bairro"
+    # ────────────────────────────────────────────────────────────────────
+    # Dica:
+    #   1. Leia a tabela: df_lojas = spark.table(f"{catalog_name}.silver.silver_lojas")
+    #   2. Verifique se "bairro" está em df_lojas.columns
+    #   3. Conte quantos bairros nulos existem
+    #   4. Adicione o resultado na lista verificacoes
+    #      verificacoes.append(("silver_lojas - bairro", True/False, detalhe))
     # 2. Verificar se silver_lojas tem bairro
     try:
         df_lojas = spark.table(f"{catalog_name}.silver.silver_lojas")
@@ -187,6 +200,12 @@ def gerar_resumo():
         vendas_cidade = spark.table(f"{catalog_name}.gold.gold_vendas_por_cidade")
         top_produtos = spark.table(f"{catalog_name}.gold.gold_top_produtos")
 
+        # TO-DO 3: Calcule o total de vendas e o faturamento total
+        # ────────────────────────────────────────────────────────
+        # Dica: Use .agg() para calcular as métricas agregadas
+        #   total_vendas = vendas_loja.agg({"total_vendas": "sum"}).collect()[0][0]
+        #   total_faturamento = vendas_loja.agg({"faturamento_total": "sum"}).collect()[0][0]
+        #   Depois imprima os resultados com print()
         total_vendas = vendas_loja.agg({"total_vendas": "sum"}).collect()[0][0]
         total_faturamento = vendas_loja.agg({"faturamento_total": "sum"}).collect()[0][0]
         num_lojas = vendas_loja.count()

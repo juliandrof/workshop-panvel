@@ -99,6 +99,12 @@ def bronze_clientes():
 def bronze_lojas():
     return spark.table(f"{catalog_name}.raw.lojas")
 
+# TO-DO 1: Crie a tabela bronze_produtos
+# ─────────────────────────────────────
+# Dica: Siga o mesmo padrão das tabelas bronze_clientes e bronze_lojas acima.
+#       A tabela de origem é: {catalog_name}.raw.produtos
+#       Use o decorator @dlt.table com name="bronze.bronze_produtos"
+#       O prefixo "bronze." indica o schema de destino no catálogo
 @dlt.table(
     name="bronze.bronze_produtos",
     comment="Cadastro de produtos - tabela de referência",
@@ -129,6 +135,10 @@ def silver_vendas():
     return (
         vendas
         .withColumn("data_venda", to_timestamp("data_venda"))
+        # TO-DO 2: Extraia o ANO, MÊS e DIA da coluna data_venda
+        # ─────────────────────────────────────────────────────
+        # Dica: Use as funções year(), month() e dayofmonth() do PySpark
+        #       Exemplo: .withColumn("ano", year("data_venda"))
         .withColumn("ano", year("data_venda"))
         .withColumn("mes", month("data_venda"))
         .withColumn("dia", dayofmonth("data_venda"))
@@ -162,6 +172,18 @@ def silver_lojas():
 
     return (
         lojas
+        # TO-DO 3: Extraia o bairro do nome da loja
+        # ────────────────────────────────────────
+        # O nome da loja tem o formato: "Panvel - Centro" ou "Panvel - Moinhos de Vento 2"
+        # Você precisa:
+        #   1. Remover "Panvel - " do início
+        #   2. Remover números do final (lojas com número sequencial)
+        #
+        # Dica: Use a função regexp_replace() do PySpark
+        #   - Para remover "Panvel - ": regexp_replace(col("nome_loja"), "^Panvel - ", "")
+        #   - Para remover números do final: regexp_replace(..., "\\s+\\d+$", "")
+        #   - Combine os dois em uma única expressão aninhada
+        #   - Crie a coluna com .withColumn("bairro", ...)
         .withColumn(
             "bairro",
             # Extrair bairro: "Panvel - Bairro" => "Bairro"
@@ -194,6 +216,10 @@ def silver_itens_venda():
         vendas
         .select("id_venda", "id_loja", "id_cliente",
                 to_timestamp("data_venda").alias("data_venda"),
+                # TO-DO 4: Use a função explode() para "explodir" a coluna "itens"
+                # ────────────────────────────────────────────────────────────────
+                # Dica: explode("itens").alias("item")
+                #       Isso transforma cada elemento do array em uma linha separada
                 explode("itens").alias("item"))
         .select(
             "id_venda", "id_loja", "id_cliente", "data_venda",
@@ -250,6 +276,14 @@ def gold_vendas_por_categoria():
 
     return (
         itens
+    # TO-DO 5: Complete as agregações por categoria
+    # ─────────────────────────────────────────────
+    # Dica: Use groupBy("categoria") e depois .agg() com:
+    #   - count("*").alias("total_itens_vendidos")
+    #   - sum("quantidade").alias("quantidade_total")
+    #   - sum("valor_total").alias("faturamento_total")
+    #   - sum("desconto").alias("desconto_total")
+    #   - avg("valor_unitario").alias("preco_medio")
         .groupBy("categoria")
         .agg(
             count("*").alias("total_itens_vendidos"),
@@ -267,6 +301,19 @@ def gold_vendas_por_categoria():
 
 # COMMAND ----------
 
+# TO-DO 6: Crie a tabela gold_vendas_por_cidade
+# ──────────────────────────────────────────────
+# Dica: Siga o padrão da tabela gold_vendas_por_loja
+#       mas agrupando por "cidade_loja" em vez de "id_loja"
+#
+#       Agregações sugeridas:
+#       - count("id_venda").alias("total_vendas")
+#       - sum("valor_total").alias("faturamento_total")
+#       - avg("valor_total").alias("ticket_medio")
+#       - countDistinct("id_loja").alias("num_lojas")
+#       - countDistinct("id_cliente").alias("clientes_unicos")
+#
+#       Renomeie a coluna "cidade_loja" para "cidade" no final
 @dlt.table(
     name="gold.gold_vendas_por_cidade",
     comment="Agregação de vendas por cidade",

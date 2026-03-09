@@ -48,6 +48,13 @@ print("View vw_vendas_resumo criada!")
 
 # COMMAND ----------
 
+# TO-DO 1: Crie uma view de vendas detalhadas com produtos
+# ─────────────────────────────────────────────────────────
+# Dica: Crie a view {catalog_name}.gold.vw_vendas_produtos com:
+#   - Campos de silver_itens_venda: id_venda, data_venda, id_loja, id_cliente,
+#     id_produto, nome_produto, categoria, quantidade, valor_unitario, valor_total, desconto
+#   - JOIN com raw.lojas para trazer: nome_loja, cidade (as cidade_loja)
+#   - JOIN com raw.clientes para trazer: nome (as nome_cliente), cidade (as cidade_cliente)
 # View de vendas detalhadas com produtos
 spark.sql(f"""
     CREATE OR REPLACE VIEW {catalog_name}.gold.vw_vendas_produtos AS
@@ -111,6 +118,13 @@ except:
 
 # COMMAND ----------
 
+# TO-DO 2: Adicione comentários descritivos às tabelas Gold
+# ─────────────────────────────────────────────────────────
+# Dica: Use COMMENT ON TABLE para adicionar descrições.
+#       Isso ajuda o Genie a entender melhor os dados!
+#
+# Exemplo:
+#   spark.sql(f"COMMENT ON TABLE {catalog_name}.gold.gold_vendas_por_loja IS 'Descrição aqui'")
 # Comentários nas tabelas Gold
 spark.sql(f"""
     COMMENT ON TABLE {catalog_name}.gold.gold_vendas_por_loja IS
@@ -154,6 +168,13 @@ print("Comentários adicionados às tabelas!")
 
 # COMMAND ----------
 
+# TO-DO 4: Escreva instruções customizadas para o Genie
+# ──────────────────────────────────────────────────────────
+# Dica: As instruções ajudam o Genie a entender o contexto dos dados.
+# Inclua:
+#   - Contexto: "Dados de vendas do Grupo Panvel no RS"
+#   - Regras: "Valores em R$", "Nome da loja = Panvel - Bairro"
+#   - Exemplos de perguntas que os usuários podem fazer
 # Instruções customizadas para o Genie
 instrucoes_genie = f"""
 ## Contexto
