@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 
 # Compact figure - 16:9 ratio, content fills the space
-FIG_W, FIG_H = 32, 18
+FIG_W, FIG_H = 40, 18
 DPI = 200
 
 FONT_STAGE = 32
