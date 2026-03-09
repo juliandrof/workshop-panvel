@@ -1,0 +1,171 @@
+---
+title: "Modelo de Dados — Workshop Panvel"
+---
+erDiagram
+
+    %% ─── RAW ───────────────────────────────────────────────────────────
+    RAW_clientes {
+        int    id_cliente        PK
+        string nome
+        string cidade
+        string estado
+    }
+
+    RAW_lojas {
+        int    id_loja           PK
+        string nome_loja
+        string cidade
+        string estado
+    }
+
+    RAW_produtos {
+        int     id_produto       PK
+        string  nome
+        string  categoria
+        decimal preco_referencia
+    }
+
+    %% ─── BRONZE ─────────────────────────────────────────────────────────
+    BRONZE_vendas {
+        int      id_venda        PK
+        int      id_cliente      FK
+        int      id_loja         FK
+        date     data_venda
+        decimal  valor_total
+        array    itens
+        string   arquivo_origem
+        datetime data_ingestao
+    }
+
+    BRONZE_clientes {
+        int    id_cliente        PK
+        string nome
+        string cidade
+        string estado
+    }
+
+    BRONZE_lojas {
+        int    id_loja           PK
+        string nome_loja
+        string cidade
+        string estado
+    }
+
+    BRONZE_produtos {
+        int     id_produto       PK
+        string  nome
+        string  categoria
+        decimal preco_referencia
+    }
+
+    %% ─── SILVER ─────────────────────────────────────────────────────────
+    SILVER_vendas {
+        int      id_venda        PK
+        date     data_venda
+        int      ano
+        int      mes
+        int      dia
+        int      id_cliente      FK
+        string   nome_cliente
+        string   cidade_cliente
+        int      id_loja         FK
+        string   nome_loja
+        string   cidade_loja
+        decimal  valor_total
+        datetime data_ingestao
+    }
+
+    SILVER_lojas {
+        int    id_loja           PK
+        string nome_loja
+        string cidade
+        string bairro
+    }
+
+    SILVER_itens_venda {
+        int     id_venda         FK
+        int     id_produto       FK
+        int     id_loja          FK
+        int     id_cliente       FK
+        date    data_venda
+        int     quantidade
+        decimal valor_unitario
+        decimal valor_total
+        decimal desconto
+        string  nome_produto
+        string  categoria
+    }
+
+    %% ─── GOLD ───────────────────────────────────────────────────────────
+    GOLD_vendas_por_loja {
+        int     id_loja
+        string  nome_loja
+        string  cidade_loja
+        int     total_vendas
+        decimal faturamento_total
+        decimal ticket_medio
+        int     clientes_unicos
+    }
+
+    GOLD_vendas_por_categoria {
+        string  categoria
+        int     total_itens_vendidos
+        int     quantidade_total
+        decimal faturamento_total
+        decimal desconto_total
+        decimal preco_medio
+    }
+
+    GOLD_vendas_por_cidade {
+        string  cidade
+        int     total_vendas
+        decimal faturamento_total
+        decimal ticket_medio
+        int     num_lojas
+        int     clientes_unicos
+    }
+
+    GOLD_top_produtos {
+        int     id_produto
+        string  nome_produto
+        string  categoria
+        int     quantidade_total
+        decimal faturamento_total
+        int     num_vendas
+        decimal desconto_medio
+    }
+
+    %% ─── ML ─────────────────────────────────────────────────────────────
+    ML_segmentacao_clientes {
+        int    id_cliente
+        float  recency
+        int    frequency
+        float  monetary
+        string segmento
+    }
+
+    %% ─── RELATIONSHIPS ───────────────────────────────────────────────────
+
+    %% RAW -> BRONZE (source ingestion)
+    RAW_clientes  ||--o{ BRONZE_clientes  : "ingested to"
+    RAW_lojas     ||--o{ BRONZE_lojas     : "ingested to"
+    RAW_produtos  ||--o{ BRONZE_produtos  : "ingested to"
+
+    %% RAW -> BRONZE_vendas (FK references)
+    RAW_clientes  ||--o{ BRONZE_vendas    : "id_cliente"
+    RAW_lojas     ||--o{ BRONZE_vendas    : "id_loja"
+
+    %% BRONZE -> SILVER (cleaning / enrichment)
+    BRONZE_vendas ||--o{ SILVER_itens_venda : "exploded itens"
+    RAW_produtos  ||--o{ SILVER_itens_venda : "id_produto"
+
+    BRONZE_vendas ||--o{ SILVER_vendas    : "cleaned to"
+
+    %% SILVER -> GOLD (aggregation)
+    SILVER_vendas      ||--o{ GOLD_vendas_por_loja       : "aggregated"
+    SILVER_vendas      ||--o{ GOLD_vendas_por_cidade     : "aggregated"
+    SILVER_itens_venda ||--o{ GOLD_vendas_por_categoria  : "aggregated"
+    SILVER_itens_venda ||--o{ GOLD_top_produtos          : "aggregated"
+
+    %% RAW -> ML
+    RAW_clientes ||--o{ ML_segmentacao_clientes : "id_cliente"
