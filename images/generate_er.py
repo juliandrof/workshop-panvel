@@ -12,17 +12,17 @@ from matplotlib.patches import FancyBboxPatch
 FIG_W, FIG_H = 52, 22
 DPI = 150
 TITLE = "Modelo de Dados — Workshop Panvel"
-TEXT_COLOR = "#1A1A1A"
-BG_COLOR = "#FAFAFA"
+TEXT_COLOR = "#000000"
+BG_COLOR = "#FFFFFF"
 
-FONT_LAYER = 22
-FONT_TABLE = 16
-FONT_COL = 13
-FONT_TAG = 11
+FONT_LAYER = 24
+FONT_TABLE = 18
+FONT_COL = 14
+FONT_TAG = 12
 
 # Layer definitions
 LAYERS = [
-    ("RAW", "#DCEEFB", "#1565C0", [
+    ("RAW", "#EAF2FB", "#2979FF", [
         ("clientes", [
             ("id_cliente", "PK"), ("nome", ""), ("cidade", ""), ("estado", ""),
         ]),
@@ -33,7 +33,7 @@ LAYERS = [
             ("id_produto", "PK"), ("nome", ""), ("categoria", ""), ("preco_referencia", ""),
         ]),
     ]),
-    ("BRONZE", "#FFE8CC", "#D84315", [
+    ("BRONZE", "#FFF0E0", "#EF6C00", [
         ("bronze_vendas", [
             ("id_venda", "PK"), ("id_cliente", "FK"), ("id_loja", "FK"),
             ("data_venda", ""), ("valor_total", ""), ("itens[]", ""),
@@ -49,7 +49,7 @@ LAYERS = [
             ("id_produto", "PK"), ("nome", ""), ("categoria", ""), ("preco_referencia", ""),
         ]),
     ]),
-    ("SILVER", "#D5ECD7", "#1B5E20", [
+    ("SILVER", "#E8F5E9", "#388E3C", [
         ("silver_vendas", [
             ("id_venda", "PK"), ("data_venda", ""), ("ano", ""), ("mes", ""), ("dia", ""),
             ("id_cliente", "FK"), ("nome_cliente", ""), ("cidade_cliente", ""),
@@ -65,7 +65,7 @@ LAYERS = [
             ("valor_total", ""), ("desconto", ""), ("nome_produto", ""), ("categoria", ""),
         ]),
     ]),
-    ("GOLD", "#FFF9C4", "#F57F17", [
+    ("GOLD", "#FFFDE7", "#F9A825", [
         ("gold_vendas_por_loja", [
             ("id_loja", ""), ("nome_loja", ""), ("cidade_loja", ""),
             ("total_vendas", ""), ("faturamento_total", ""), ("ticket_medio", ""), ("clientes_unicos", ""),
@@ -83,7 +83,7 @@ LAYERS = [
             ("quantidade_total", ""), ("faturamento_total", ""), ("num_vendas", ""), ("desconto_medio", ""),
         ]),
     ]),
-    ("ML", "#E8D5F5", "#6A1B9A", [
+    ("ML", "#F3E5F5", "#8E24AA", [
         ("ml_segmentacao_clientes", [
             ("id_cliente", ""), ("recency", ""), ("frequency", ""), ("monetary", ""), ("segmento", ""),
         ]),
@@ -146,52 +146,51 @@ def draw_table(ax, tbl, border_color):
     # White box with colored border
     box = FancyBboxPatch(
         (x, y), w, h, boxstyle="round,pad=0.08",
-        facecolor="white", edgecolor=border_color, linewidth=2.5, zorder=3,
+        facecolor="white", edgecolor=border_color, linewidth=2.0, zorder=3,
     )
     ax.add_patch(box)
 
-    # Header band
+    # Header band - very light tint
     hdr = FancyBboxPatch(
-        (x + 0.05, y + h - HEADER_HEIGHT - 0.04), w - 0.10, HEADER_HEIGHT,
+        (x + 0.04, y + h - HEADER_HEIGHT - 0.03), w - 0.08, HEADER_HEIGHT,
         boxstyle="round,pad=0.04",
-        facecolor=border_color, edgecolor="none", alpha=0.18, zorder=4,
+        facecolor=border_color, edgecolor="none", alpha=0.10, zorder=4,
     )
     ax.add_patch(hdr)
 
-    # Table name
+    # Table name - black bold text
     ax.text(
         x + w / 2, y + h - HEADER_HEIGHT / 2 - 0.02,
         tbl["name"], ha="center", va="center",
-        fontsize=FONT_TABLE, fontweight="bold", color=TEXT_COLOR,
+        fontsize=FONT_TABLE, fontweight="bold", color="#000000",
         fontfamily="monospace", zorder=5,
     )
 
     # Separator
-    sep_y = y + h - HEADER_HEIGHT - 0.08
+    sep_y = y + h - HEADER_HEIGHT - 0.06
     ax.plot([x + 0.12, x + w - 0.12], [sep_y, sep_y],
-            color=border_color, linewidth=1.2, alpha=0.5, zorder=4)
+            color="#BDBDBD", linewidth=1.0, zorder=4)
 
     # Columns
     cy = sep_y - ROW_HEIGHT * 0.65
     for col_name, tag in tbl["cols"]:
         if tag == "PK":
-            marker = "●"
-            ax.text(x + 0.2, cy, marker, ha="left", va="center",
-                    fontsize=FONT_TAG, color=border_color, fontweight="bold", zorder=5)
+            ax.text(x + 0.2, cy, "●", ha="left", va="center",
+                    fontsize=FONT_TAG, color="#E65100", fontweight="bold", zorder=5)
             ax.text(x + 0.55, cy, col_name, ha="left", va="center",
-                    fontsize=FONT_COL, color=TEXT_COLOR, fontweight="bold",
+                    fontsize=FONT_COL, color="#000000", fontweight="bold",
                     fontfamily="monospace", zorder=5)
             ax.text(x + w - 0.2, cy, "PK", ha="right", va="center",
-                    fontsize=FONT_TAG, color=border_color, fontweight="bold", zorder=5)
+                    fontsize=FONT_TAG, color="#E65100", fontweight="bold", zorder=5)
         elif tag == "FK":
             ax.text(x + 0.55, cy, col_name, ha="left", va="center",
-                    fontsize=FONT_COL, color="#455A64",
+                    fontsize=FONT_COL, color="#000000",
                     fontfamily="monospace", fontstyle="italic", zorder=5)
             ax.text(x + w - 0.2, cy, "FK", ha="right", va="center",
-                    fontsize=FONT_TAG, color="#78909C", zorder=5)
+                    fontsize=FONT_TAG, color="#757575", zorder=5)
         else:
             ax.text(x + 0.55, cy, col_name, ha="left", va="center",
-                    fontsize=FONT_COL, color=TEXT_COLOR,
+                    fontsize=FONT_COL, color="#000000",
                     fontfamily="monospace", zorder=5)
         cy -= ROW_HEIGHT
 
@@ -233,8 +232,8 @@ def draw_arrows(ax, layout):
 
 def main():
     fig, ax = plt.subplots(1, 1, figsize=(FIG_W, FIG_H), dpi=DPI)
-    fig.patch.set_facecolor(BG_COLOR)
-    ax.set_facecolor(BG_COLOR)
+    fig.patch.set_facecolor("white")
+    ax.set_facecolor("white")
     ax.set_xlim(0, FIG_W)
     ax.set_ylim(0, FIG_H)
     ax.set_aspect("equal")
@@ -257,7 +256,7 @@ def main():
     draw_arrows(ax, layout)
 
     out = "/Users/juliandro.figueiro/workshop-panvel/images/modelo_er.png"
-    fig.savefig(out, dpi=DPI, bbox_inches="tight", facecolor=BG_COLOR, pad_inches=0.3)
+    fig.savefig(out, dpi=DPI, bbox_inches="tight", facecolor="white", pad_inches=0.3)
     plt.close(fig)
     print(f"Saved: {out}")
 
