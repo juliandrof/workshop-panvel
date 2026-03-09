@@ -8,15 +8,15 @@ from matplotlib.patches import FancyBboxPatch
 
 # ─── Configuration (25% larger) ─────────────────────────────────────────────
 
-FIG_W, FIG_H = 52, 28
+FIG_W, FIG_H = 80, 42
 DPI = 150
 TITLE = "Modelo de Dados — Workshop Panvel"
 TEXT_COLOR = "#000000"
 
-FONT_LAYER = 30
-FONT_TABLE = 22
-FONT_COL = 17
-FONT_TAG = 15
+FONT_LAYER = 44
+FONT_TABLE = 32
+FONT_COL = 24
+FONT_TAG = 20
 
 # Layer definitions
 LAYERS = [
@@ -107,18 +107,18 @@ LAYERS = [
 
 # ─── Layout ──────────────────────────────────────────────────────────────────
 
-TABLE_WIDTH = 5.0
-ROW_HEIGHT = 0.53
-HEADER_HEIGHT = 0.75
-TABLE_GAP = 0.44
-LAYER_PAD_X = 0.6
-LAYER_PAD_Y = 0.75
-LAYER_HEADER_H = 1.05
-LAYER_GAP = 1.25
+TABLE_WIDTH = 7.5
+ROW_HEIGHT = 0.78
+HEADER_HEIGHT = 1.1
+TABLE_GAP = 0.65
+LAYER_PAD_X = 0.9
+LAYER_PAD_Y = 1.1
+LAYER_HEADER_H = 1.55
+LAYER_GAP = 1.8
 
 
 def table_height(cols):
-    return HEADER_HEIGHT + len(cols) * ROW_HEIGHT + 0.25
+    return HEADER_HEIGHT + len(cols) * ROW_HEIGHT + 0.4
 
 
 STACKED_LAYERS = {"AI/BI", "ML"}  # these stack vertically after GOLD
@@ -126,7 +126,7 @@ STACKED_LAYERS = {"AI/BI", "ML"}  # these stack vertically after GOLD
 
 def layout_layers():
     result = {}
-    x = 1.2
+    x = 1.8
 
     # First pass: layout the main flow layers (RAW→BRONZE→SILVER→GOLD)
     main_layers = [(n, b, bd, t) for n, b, bd, t in LAYERS if n not in STACKED_LAYERS]
@@ -203,47 +203,47 @@ def draw_table(ax, tbl, border_color):
     x, y, w, h = tbl["x"], tbl["y"], tbl["w"], tbl["h"]
 
     box = FancyBboxPatch(
-        (x, y), w, h, boxstyle="round,pad=0.10",
-        facecolor="white", edgecolor=border_color, linewidth=2.5, zorder=3,
+        (x, y), w, h, boxstyle="round,pad=0.15",
+        facecolor="white", edgecolor=border_color, linewidth=3.5, zorder=3,
     )
     ax.add_patch(box)
 
     hdr = FancyBboxPatch(
-        (x + 0.05, y + h - HEADER_HEIGHT - 0.04), w - 0.10, HEADER_HEIGHT,
-        boxstyle="round,pad=0.05",
+        (x + 0.08, y + h - HEADER_HEIGHT - 0.06), w - 0.16, HEADER_HEIGHT,
+        boxstyle="round,pad=0.07",
         facecolor=border_color, edgecolor="none", alpha=0.10, zorder=4,
     )
     ax.add_patch(hdr)
 
     ax.text(
-        x + w / 2, y + h - HEADER_HEIGHT / 2 - 0.02,
+        x + w / 2, y + h - HEADER_HEIGHT / 2 - 0.03,
         tbl["name"], ha="center", va="center",
         fontsize=FONT_TABLE, fontweight="bold", color="#000000",
         fontfamily="monospace", zorder=5,
     )
 
-    sep_y = y + h - HEADER_HEIGHT - 0.07
-    ax.plot([x + 0.15, x + w - 0.15], [sep_y, sep_y],
-            color="#BDBDBD", linewidth=1.2, zorder=4)
+    sep_y = y + h - HEADER_HEIGHT - 0.10
+    ax.plot([x + 0.22, x + w - 0.22], [sep_y, sep_y],
+            color="#BDBDBD", linewidth=1.8, zorder=4)
 
     cy = sep_y - ROW_HEIGHT * 0.65
     for col_name, tag in tbl["cols"]:
         if tag == "PK":
-            ax.text(x + 0.25, cy, "●", ha="left", va="center",
+            ax.text(x + 0.35, cy, "●", ha="left", va="center",
                     fontsize=FONT_TAG, color="#E65100", fontweight="bold", zorder=5)
-            ax.text(x + 0.7, cy, col_name, ha="left", va="center",
+            ax.text(x + 1.0, cy, col_name, ha="left", va="center",
                     fontsize=FONT_COL, color="#000000", fontweight="bold",
                     fontfamily="monospace", zorder=5)
-            ax.text(x + w - 0.25, cy, "PK", ha="right", va="center",
+            ax.text(x + w - 0.35, cy, "PK", ha="right", va="center",
                     fontsize=FONT_TAG, color="#E65100", fontweight="bold", zorder=5)
         elif tag == "FK":
-            ax.text(x + 0.7, cy, col_name, ha="left", va="center",
+            ax.text(x + 1.0, cy, col_name, ha="left", va="center",
                     fontsize=FONT_COL, color="#000000",
                     fontfamily="monospace", fontstyle="italic", zorder=5)
-            ax.text(x + w - 0.25, cy, "FK", ha="right", va="center",
+            ax.text(x + w - 0.35, cy, "FK", ha="right", va="center",
                     fontsize=FONT_TAG, color="#757575", zorder=5)
         else:
-            ax.text(x + 0.7, cy, col_name, ha="left", va="center",
+            ax.text(x + 1.0, cy, col_name, ha="left", va="center",
                     fontsize=FONT_COL, color="#000000",
                     fontfamily="monospace", zorder=5)
         cy -= ROW_HEIGHT
@@ -254,18 +254,18 @@ def draw_layer(ax, layer):
     bg, border = layer["bg"], layer["border"]
 
     bg_patch = FancyBboxPatch(
-        (x, y), w, h, boxstyle="round,pad=0.18",
-        facecolor=bg, edgecolor=border, linewidth=3.0, linestyle="--",
+        (x, y), w, h, boxstyle="round,pad=0.25",
+        facecolor=bg, edgecolor=border, linewidth=4.0, linestyle="--",
         alpha=0.7, zorder=1,
     )
     ax.add_patch(bg_patch)
 
     ax.text(
-        x + w / 2, y + h - LAYER_HEADER_H / 2 + 0.10,
+        x + w / 2, y + h - LAYER_HEADER_H / 2 + 0.15,
         layer["name"], ha="center", va="center",
         fontsize=FONT_LAYER, fontweight="bold", color=border, zorder=5,
-        bbox=dict(boxstyle="round,pad=0.4", facecolor="white",
-                  edgecolor=border, linewidth=2.5, alpha=0.95),
+        bbox=dict(boxstyle="round,pad=0.5", facecolor="white",
+                  edgecolor=border, linewidth=3.5, alpha=0.95),
     )
 
 
@@ -278,9 +278,9 @@ def draw_arrows(ax, layout):
         dx = dst["x"]
         my = (src["y"] + src["h"] / 2 + dst["y"] + dst["h"] / 2) / 2
         ax.annotate(
-            "", xy=(dx - 0.06, my), xytext=(sx + 0.06, my),
-            arrowprops=dict(arrowstyle="-|>", color="#424242", lw=3.5,
-                            mutation_scale=30),
+            "", xy=(dx - 0.08, my), xytext=(sx + 0.08, my),
+            arrowprops=dict(arrowstyle="-|>", color="#424242", lw=5.0,
+                            mutation_scale=45),
             zorder=2,
         )
 
@@ -294,9 +294,9 @@ def draw_arrows(ax, layout):
         dx = dst["x"]
         dy = dst["y"] + dst["h"] / 2
         ax.annotate(
-            "", xy=(dx - 0.06, dy), xytext=(gx + 0.06, g_mid_y),
-            arrowprops=dict(arrowstyle="-|>", color="#424242", lw=3.5,
-                            mutation_scale=30, connectionstyle="arc3,rad=0.0"),
+            "", xy=(dx - 0.08, dy), xytext=(gx + 0.08, g_mid_y),
+            arrowprops=dict(arrowstyle="-|>", color="#424242", lw=5.0,
+                            mutation_scale=45, connectionstyle="arc3,rad=0.0"),
             zorder=2,
         )
 
@@ -311,9 +311,9 @@ def main():
     ax.axis("off")
 
     ax.text(
-        FIG_W / 2, FIG_H - 1.2, TITLE,
+        FIG_W / 2, FIG_H - 1.8, TITLE,
         ha="center", va="center",
-        fontsize=38, fontweight="bold", color=TEXT_COLOR, zorder=10,
+        fontsize=56, fontweight="bold", color=TEXT_COLOR, zorder=10,
     )
 
     layout = layout_layers()
