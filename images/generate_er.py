@@ -21,6 +21,10 @@ FONT_TAG = 15
 # Layer definitions
 LAYERS = [
     ("RAW", "#EAF2FB", "#2979FF", [
+        ("vendas_json", [
+            ("id_venda", "PK"), ("id_cliente", "FK"), ("id_loja", "FK"),
+            ("data_venda", ""), ("valor_total", ""), ("itens[]", ""),
+        ]),
         ("clientes", [
             ("id_cliente", "PK"), ("nome", ""), ("cidade", ""), ("estado", ""),
         ]),
