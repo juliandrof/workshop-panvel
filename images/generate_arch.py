@@ -99,17 +99,17 @@ def main():
 
     # Fan-out: AI/BI and ML stacked
     fx = pos["GOLD"][0] + pos["GOLD"][2] + 1.0
-    fw = 6.5
+    fw = 7.5
 
     # AI/BI
-    fh1 = 3.5
+    fh1 = 4.5
     fy1 = by + bh - fh1
     draw_stage(ax, fx, fy1, fw, fh1, "AI/BI", None, "#E0F7FA", "#00838F",
                ["Genie (Linguagem Natural)", "AI/BI Dashboard",
                 "Visualizações Interativas"])
 
     # ML
-    fh2 = 4.0
+    fh2 = 5.2
     fy2 = fy1 - 0.5 - fh2
     draw_stage(ax, fx, fy2, fw, fh2, "ML", None, "#F3E5F5", "#8E24AA",
                ["RFM + K-Means", "MLflow Tracking",
