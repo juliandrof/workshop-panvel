@@ -52,12 +52,18 @@ headers = {"Authorization": f"Bearer {db_token}", "Content-Type": "application/j
 #      pipelines = response.json().get("statuses", [])
 #      Encontre o pipeline_id no resultado
 #
-#   2. Triggar execução:
+#   2. Verificar se já está rodando (evitar erro 409 Conflict):
+#      response = requests.get(f"{db_host}/api/2.0/pipelines/{pipeline_id}", headers=headers)
+#      Se state == "RUNNING", pare com:
+#        requests.post(f"{db_host}/api/2.0/pipelines/{pipeline_id}/stop", headers=headers)
+#      Aguarde até o estado mudar de "RUNNING"
+#
+#   3. Triggar execução:
 #      response = requests.post(f"{db_host}/api/2.0/pipelines/{pipeline_id}/updates",
 #                               headers=headers, json={"full_refresh": False})
 #      update_id = response.json().get("update_id")
 #
-#   3. Monitorar (loop while):
+#   4. Monitorar (loop while):
 #      response = requests.get(f"{db_host}/api/2.0/pipelines/{pipeline_id}/updates/{update_id}", headers=headers)
 #      state = response.json().get("update", {}).get("state")
 #      Estados finais: "COMPLETED", "FAILED", "CANCELED"

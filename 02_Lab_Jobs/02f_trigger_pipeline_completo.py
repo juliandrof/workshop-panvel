@@ -83,8 +83,33 @@ for p in pipelines:
 assert pipeline_id is not None, f"Pipeline '{pipeline_name}' não encontrado! Crie-o primeiro no Lab 01."
 print(f"Pipeline encontrado! ID: {pipeline_id}")
 
-# 2. Triggar a execução do pipeline
-print(f"Iniciando pipeline...")
+# 2. Verificar se o pipeline já está rodando e parar se necessário
+print("Verificando estado do pipeline...")
+response = requests.get(f"{db_host}/api/2.0/pipelines/{pipeline_id}", headers=headers)
+response.raise_for_status()
+pipeline_state = response.json().get("state", "UNKNOWN")
+print(f"  Estado atual: {pipeline_state}")
+
+if pipeline_state == "RUNNING":
+    print("  Pipeline já está rodando. Parando execução atual...")
+    response = requests.post(
+        f"{db_host}/api/2.0/pipelines/{pipeline_id}/stop",
+        headers=headers,
+    )
+    response.raise_for_status()
+    # Aguardar pipeline parar
+    while True:
+        time.sleep(10)
+        response = requests.get(f"{db_host}/api/2.0/pipelines/{pipeline_id}", headers=headers)
+        response.raise_for_status()
+        state = response.json().get("state", "UNKNOWN")
+        if state != "RUNNING":
+            print(f"  Pipeline parado. Estado: {state}")
+            break
+        print(f"  Aguardando pipeline parar... Estado: {state}")
+
+# 3. Triggar a execução do pipeline
+print("Iniciando pipeline...")
 response = requests.post(
     f"{db_host}/api/2.0/pipelines/{pipeline_id}/updates",
     headers=headers,
@@ -94,7 +119,7 @@ response.raise_for_status()
 update_id = response.json().get("update_id")
 print(f"Update iniciado! ID: {update_id}")
 
-# 3. Monitorar a execução
+# 4. Monitorar a execução
 print("Aguardando conclusão do pipeline...")
 while True:
     response = requests.get(
