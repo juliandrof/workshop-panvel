@@ -62,10 +62,9 @@ schema_vendas = StructType([
 ])
 
 @dlt.table(
-    name="bronze_vendas",
+    name="bronze.bronze_vendas",
     comment="Dados brutos de vendas ingeridos via Auto Loader",
     table_properties={"quality": "bronze"},
-    schema="bronze",
 )
 def bronze_vendas():
     return (
@@ -87,19 +86,17 @@ def bronze_vendas():
 # COMMAND ----------
 
 @dlt.table(
-    name="bronze_clientes",
+    name="bronze.bronze_clientes",
     comment="Cadastro de clientes - tabela de referência",
     table_properties={"quality": "bronze"},
-    schema="bronze",
 )
 def bronze_clientes():
     return spark.table(f"{catalog_name}.raw.clientes")
 
 @dlt.table(
-    name="bronze_lojas",
+    name="bronze.bronze_lojas",
     comment="Cadastro de lojas - tabela de referência",
     table_properties={"quality": "bronze"},
-    schema="bronze",
 )
 def bronze_lojas():
     return spark.table(f"{catalog_name}.raw.lojas")
@@ -108,8 +105,8 @@ def bronze_lojas():
 # ─────────────────────────────────────
 # Dica: Siga o mesmo padrão das tabelas bronze_clientes e bronze_lojas acima.
 #       A tabela de origem é: {catalog_name}.raw.produtos
-#       Use o decorator @dlt.table com name="bronze_produtos"
-#       Adicione schema="bronze" no decorator
+#       Use o decorator @dlt.table com name="bronze.bronze_produtos"
+#       O prefixo "bronze." indica o schema de destino no catálogo
 
 # ▼▼▼ Seu código aqui ▼▼▼
 
@@ -127,17 +124,16 @@ def bronze_lojas():
 # COMMAND ----------
 
 @dlt.table(
-    name="silver_vendas",
+    name="silver.silver_vendas",
     comment="Vendas limpas e enriquecidas",
     table_properties={"quality": "silver"},
-    schema="silver",
 )
 @dlt.expect_or_drop("id_venda_valido", "id_venda IS NOT NULL AND id_venda > 0")
 @dlt.expect_or_drop("valor_positivo", "valor_total > 0")
 def silver_vendas():
-    vendas = dlt.read_stream("bronze_vendas")
-    clientes = dlt.read("bronze_clientes")
-    lojas = dlt.read("bronze_lojas")
+    vendas = dlt.read_stream("bronze.bronze_vendas")
+    clientes = dlt.read("bronze.bronze_clientes")
+    lojas = dlt.read("bronze.bronze_lojas")
 
     return (
         vendas
@@ -175,13 +171,12 @@ def silver_vendas():
 # COMMAND ----------
 
 @dlt.table(
-    name="silver_lojas",
+    name="silver.silver_lojas",
     comment="Lojas com coluna bairro extraída do nome da loja",
     table_properties={"quality": "silver"},
-    schema="silver",
 )
 def silver_lojas():
-    lojas = dlt.read("bronze_lojas")
+    lojas = dlt.read("bronze.bronze_lojas")
 
     return (
         lojas
@@ -213,15 +208,14 @@ def silver_lojas():
 # COMMAND ----------
 
 @dlt.table(
-    name="silver_itens_venda",
+    name="silver.silver_itens_venda",
     comment="Itens de venda explodidos com dados de produto",
     table_properties={"quality": "silver"},
-    schema="silver",
 )
 @dlt.expect_or_drop("quantidade_valida", "quantidade > 0")
 def silver_itens_venda():
-    vendas = dlt.read_stream("bronze_vendas")
-    produtos = dlt.read("bronze_produtos")
+    vendas = dlt.read_stream("bronze.bronze_vendas")
+    produtos = dlt.read("bronze.bronze_produtos")
 
     return (
         vendas
@@ -256,13 +250,12 @@ def silver_itens_venda():
 # COMMAND ----------
 
 @dlt.table(
-    name="gold_vendas_por_loja",
+    name="gold.gold_vendas_por_loja",
     comment="Agregação de vendas por loja",
     table_properties={"quality": "gold"},
-    schema="gold",
 )
 def gold_vendas_por_loja():
-    vendas = dlt.read("silver_vendas")
+    vendas = dlt.read("silver.silver_vendas")
 
     return (
         vendas
@@ -283,13 +276,12 @@ def gold_vendas_por_loja():
 # COMMAND ----------
 
 @dlt.table(
-    name="gold_vendas_por_categoria",
+    name="gold.gold_vendas_por_categoria",
     comment="Agregação de vendas por categoria de produto",
     table_properties={"quality": "gold"},
-    schema="gold",
 )
 def gold_vendas_por_categoria():
-    itens = dlt.read("silver_itens_venda")
+    itens = dlt.read("silver.silver_itens_venda")
 
     # TODO 5: Complete as agregações por categoria
     # ─────────────────────────────────────────────
@@ -344,13 +336,12 @@ def gold_vendas_por_categoria():
 # COMMAND ----------
 
 @dlt.table(
-    name="gold_top_produtos",
+    name="gold.gold_top_produtos",
     comment="Ranking dos produtos mais vendidos",
     table_properties={"quality": "gold"},
-    schema="gold",
 )
 def gold_top_produtos():
-    itens = dlt.read("silver_itens_venda")
+    itens = dlt.read("silver.silver_itens_venda")
 
     return (
         itens
