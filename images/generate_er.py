@@ -117,11 +117,16 @@ def table_height(cols):
     return HEADER_HEIGHT + len(cols) * ROW_HEIGHT + 0.25
 
 
+STACKED_LAYERS = {"AI/BI", "ML"}  # these stack vertically after GOLD
+
+
 def layout_layers():
     result = {}
     x = 1.2
 
-    for layer_name, bg, border, tables in LAYERS:
+    # First pass: layout the main flow layers (RAW→BRONZE→SILVER→GOLD)
+    main_layers = [(n, b, bd, t) for n, b, bd, t in LAYERS if n not in STACKED_LAYERS]
+    for layer_name, bg, border, tables in main_layers:
         heights = [table_height(cols) for _, cols in tables]
         total_h = sum(heights) + TABLE_GAP * (len(tables) - 1)
         lw = TABLE_WIDTH + 2 * LAYER_PAD_X
@@ -147,6 +152,45 @@ def layout_layers():
 
         result[layer_name] = layer
         x += lw + LAYER_GAP
+
+    # Second pass: stack AI/BI and ML vertically in one column after GOLD
+    stacked = [(n, b, bd, t) for n, b, bd, t in LAYERS if n in STACKED_LAYERS]
+    stacked_x = x
+    lw = TABLE_WIDTH + 2 * LAYER_PAD_X
+
+    # Compute heights for each stacked layer
+    stacked_info = []
+    for layer_name, bg, border, tables in stacked:
+        heights = [table_height(cols) for _, cols in tables]
+        total_h = sum(heights) + TABLE_GAP * (len(tables) - 1)
+        lh = total_h + 2 * LAYER_PAD_Y + LAYER_HEADER_H
+        stacked_info.append((layer_name, bg, border, tables, heights, lh))
+
+    total_stacked_h = sum(s[5] for s in stacked_info) + LAYER_GAP
+    start_y = (FIG_H - total_stacked_h) / 2 - 0.4
+
+    # Place top to bottom: AI/BI on top, ML on bottom
+    cy = start_y + total_stacked_h
+    for layer_name, bg, border, tables, heights, lh in stacked_info:
+        ly = cy - lh
+        layer = {
+            "x": stacked_x, "y": ly, "w": lw, "h": lh,
+            "bg": bg, "border": border, "name": layer_name, "tables": [],
+        }
+
+        ty = ly + lh - LAYER_HEADER_H - LAYER_PAD_Y
+        tx = stacked_x + LAYER_PAD_X
+
+        for (tname, cols), th in zip(tables, heights):
+            ty_top = ty - th
+            layer["tables"].append({
+                "name": tname, "cols": cols,
+                "x": tx, "y": ty_top, "w": TABLE_WIDTH, "h": th,
+            })
+            ty = ty_top - TABLE_GAP
+
+        result[layer_name] = layer
+        cy = ly - LAYER_GAP
 
     return result
 
