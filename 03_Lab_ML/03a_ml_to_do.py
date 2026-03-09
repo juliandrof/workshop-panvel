@@ -47,22 +47,22 @@ df_vendas.show(5)
 
 # COMMAND ----------
 
-from pyspark.sql.functions import *
+from pyspark.sql import functions as F
 
 # Data de referência (mais recente no dataset)
-data_ref = df_vendas.agg(max("data_venda")).collect()[0][0]
+data_ref = df_vendas.agg(F.max("data_venda")).collect()[0][0]
 print(f"Data de referência: {data_ref}")
 
 # TO-DO 1: Calcule as métricas RFM por cliente
 # ────────────────────────────────────────────
 # Dica: Agrupe por id_cliente, nome_cliente, cidade_cliente e calcule:
-#   - recency: datediff(lit(data_ref), max("data_venda"))
+#   - recency: F.datediff(F.lit(data_ref), F.max("data_venda"))
 #     → Dias desde a última compra
-#   - frequency: countDistinct("id_venda")
+#   - frequency: F.countDistinct("id_venda")
 #     → Número de compras únicas
-#   - monetary: sum("valor_total")
+#   - monetary: F.sum("valor_total")
 #     → Valor total gasto
-#   - ticket_medio: avg("valor_total")
+#   - ticket_medio: F.avg("valor_total")
 #     → Ticket médio por compra
 
 df_rfm = (
