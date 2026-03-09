@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 import matplotlib.patheffects as pe
 
-FIG_W, FIG_H = 32, 16
+FIG_W, FIG_H = 48, 18
 DPI = 150
 
 # ─── Stage definitions ───────────────────────────────────────────────────────
@@ -59,10 +59,10 @@ PIPELINE_COLOR = "#FF6F00"
 
 # ─── Drawing ─────────────────────────────────────────────────────────────────
 
-FONT_TITLE = 14
-FONT_STAGE = 16
-FONT_SUB = 11
-FONT_FEAT = 10
+FONT_TITLE = 22
+FONT_STAGE = 26
+FONT_SUB = 18
+FONT_FEAT = 16
 
 
 def draw_stage_box(ax, x, y, w, h, name, subtitle, bg, border, features):
@@ -74,27 +74,27 @@ def draw_stage_box(ax, x, y, w, h, name, subtitle, bg, border, features):
     ax.add_patch(box)
 
     # Name at top
-    name_y = y + h - 0.55
+    name_y = y + h - 0.85
     ax.text(x + w / 2, name_y, name, ha="center", va="center",
             fontsize=FONT_STAGE, fontweight="bold", color=border,
             zorder=5)
 
     if subtitle:
-        ax.text(x + w / 2, name_y - 0.42, subtitle, ha="center", va="center",
+        ax.text(x + w / 2, name_y - 0.65, subtitle, ha="center", va="center",
                 fontsize=FONT_SUB, color="#616161", fontstyle="italic", zorder=5)
 
     # Separator
     if features:
-        sep_y = name_y - 0.72
-        ax.plot([x + 0.2, x + w - 0.2], [sep_y, sep_y],
-                color=border, linewidth=1.0, alpha=0.4, zorder=4)
+        sep_y = name_y - 1.1
+        ax.plot([x + 0.3, x + w - 0.3], [sep_y, sep_y],
+                color=border, linewidth=1.5, alpha=0.4, zorder=4)
 
         # Features
-        fy = sep_y - 0.38
+        fy = sep_y - 0.6
         for feat in features:
-            ax.text(x + 0.35, fy, f"• {feat}", ha="left", va="center",
+            ax.text(x + 0.5, fy, f"• {feat}", ha="left", va="center",
                     fontsize=FONT_FEAT, color="#000000", zorder=5)
-            fy -= 0.38
+            fy -= 0.6
 
 
 def draw_arrow(ax, x1, y1, x2, y2, curved=False):
@@ -118,15 +118,15 @@ def main():
     ax.axis("off")
 
     # Title
-    ax.text(FIG_W / 2, FIG_H - 0.6,
+    ax.text(FIG_W / 2, FIG_H - 1.0,
             "Arquitetura — Workshop Panvel",
             ha="center", va="center",
-            fontsize=22, fontweight="bold", color="#000000", zorder=10)
+            fontsize=34, fontweight="bold", color="#000000", zorder=10)
 
     # ─── Source box (JSON) ───────────────────────────────────────────────
-    src_w, src_h = 3.0, 1.8
-    src_x = 0.8
-    src_y = 7.5
+    src_w, src_h = 4.5, 2.8
+    src_x = 1.0
+    src_y = 8.0
     src = STAGES[0]
     box = FancyBboxPatch(
         (src_x, src_y), src_w, src_h, boxstyle="round,pad=0.12",
@@ -136,14 +136,14 @@ def main():
     ax.add_patch(box)
     ax.text(src_x + src_w / 2, src_y + src_h / 2, src[0],
             ha="center", va="center",
-            fontsize=FONT_STAGE - 1, fontweight="bold", color=src[3], zorder=5)
+            fontsize=FONT_STAGE - 2, fontweight="bold", color=src[3], zorder=5)
 
     # ─── Main pipeline stages (BRONZE, SILVER, GOLD) ────────────────────
-    stage_w = 5.0
-    stage_h = 4.8
-    gap = 0.9
-    start_x = src_x + src_w + 1.2
-    stage_y = 6.0
+    stage_w = 7.5
+    stage_h = 7.2
+    gap = 1.3
+    start_x = src_x + src_w + 1.8
+    stage_y = 5.5
 
     positions = {}
     x = start_x
@@ -153,12 +153,12 @@ def main():
         x += stage_w + gap
 
     # ─── Fan-out boxes (AI/BI and ML) ────────────────────────────────────
-    fan_w = 4.6
-    fan_h_aibi = 2.8
-    fan_h_ml = 3.2
-    fan_gap = 0.5
+    fan_w = 6.8
+    fan_h_aibi = 4.2
+    fan_h_ml = 4.8
+    fan_gap = 0.7
     gold_x, gold_y, gold_w, gold_h = positions["GOLD"]
-    fan_x = gold_x + gold_w + 1.2
+    fan_x = gold_x + gold_w + 1.8
 
     fan_positions = {}
     # AI/BI on top
@@ -195,38 +195,38 @@ def main():
     draw_arrow(ax, gx + gw, gy + gh / 2, mx, my + mh / 2, curved=True)
 
     # ─── Pipeline bar at bottom ──────────────────────────────────────────
-    bar_y = stage_y - 1.8
+    bar_y = stage_y - 2.8
     bar_x1 = bx
     bar_x2 = gx + gw
     bar_w = bar_x2 - bar_x1
 
     bar = FancyBboxPatch(
-        (bar_x1, bar_y), bar_w, 0.8, boxstyle="round,pad=0.1",
-        facecolor="#FFF3E0", edgecolor=PIPELINE_COLOR, linewidth=2.5, zorder=3,
+        (bar_x1, bar_y), bar_w, 1.2, boxstyle="round,pad=0.12",
+        facecolor="#FFF3E0", edgecolor=PIPELINE_COLOR, linewidth=3.0, zorder=3,
     )
     ax.add_patch(bar)
-    ax.text(bar_x1 + bar_w / 2, bar_y + 0.4, PIPELINE_LABEL,
+    ax.text(bar_x1 + bar_w / 2, bar_y + 0.6, PIPELINE_LABEL,
             ha="center", va="center",
-            fontsize=FONT_STAGE - 2, fontweight="bold", color=PIPELINE_COLOR, zorder=5)
+            fontsize=FONT_STAGE - 4, fontweight="bold", color=PIPELINE_COLOR, zorder=5)
 
     # Dashed lines from pipeline bar up to stages
     for name in ["BRONZE", "SILVER", "GOLD"]:
         px, py, pw, ph = positions[name]
         cx = px + pw / 2
-        ax.plot([cx, cx], [bar_y + 0.8, py],
-                color=PIPELINE_COLOR, linewidth=1.5, linestyle=":", alpha=0.6, zorder=2)
+        ax.plot([cx, cx], [bar_y + 1.2, py],
+                color=PIPELINE_COLOR, linewidth=2.0, linestyle=":", alpha=0.6, zorder=2)
 
     # ─── Databricks Workflows label ──────────────────────────────────────
-    wf_y = bar_y - 1.0
+    wf_y = bar_y - 1.6
     wf_x = bar_x1
     wf_w = fan_x + fan_w - bar_x1
 
     wf = FancyBboxPatch(
-        (wf_x, wf_y), wf_w, 0.7, boxstyle="round,pad=0.1",
-        facecolor="#E8EAF6", edgecolor="#3949AB", linewidth=2.0, zorder=3,
+        (wf_x, wf_y), wf_w, 1.1, boxstyle="round,pad=0.12",
+        facecolor="#E8EAF6", edgecolor="#3949AB", linewidth=2.5, zorder=3,
     )
     ax.add_patch(wf)
-    ax.text(wf_x + wf_w / 2, wf_y + 0.35,
+    ax.text(wf_x + wf_w / 2, wf_y + 0.55,
             "Databricks Workflows  •  Unity Catalog  •  Serverless Compute",
             ha="center", va="center",
             fontsize=FONT_SUB, fontweight="bold", color="#3949AB", zorder=5)
