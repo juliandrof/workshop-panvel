@@ -4,21 +4,19 @@
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
 from matplotlib.patches import FancyBboxPatch
 
-# ─── Configuration ───────────────────────────────────────────────────────────
+# ─── Configuration (25% larger) ─────────────────────────────────────────────
 
-FIG_W, FIG_H = 52, 22
+FIG_W, FIG_H = 72, 28
 DPI = 150
 TITLE = "Modelo de Dados — Workshop Panvel"
 TEXT_COLOR = "#000000"
-BG_COLOR = "#FFFFFF"
 
-FONT_LAYER = 24
-FONT_TABLE = 18
-FONT_COL = 14
-FONT_TAG = 12
+FONT_LAYER = 30
+FONT_TABLE = 22
+FONT_COL = 17
+FONT_TAG = 15
 
 # Layer definitions
 LAYERS = [
@@ -83,6 +81,19 @@ LAYERS = [
             ("quantidade_total", ""), ("faturamento_total", ""), ("num_vendas", ""), ("desconto_medio", ""),
         ]),
     ]),
+    ("AI/BI", "#E0F7FA", "#00838F", [
+        ("Genie", [
+            ("Linguagem natural", ""),
+            ("Tabelas Gold", ""),
+            ("Instruções customizadas", ""),
+        ]),
+        ("Dashboard", [
+            ("Vendas por loja", ""),
+            ("Vendas por categoria", ""),
+            ("Vendas por cidade", ""),
+            ("Top produtos", ""),
+        ]),
+    ]),
     ("ML", "#F3E5F5", "#8E24AA", [
         ("ml_segmentacao_clientes", [
             ("id_cliente", ""), ("recency", ""), ("frequency", ""), ("monetary", ""), ("segmento", ""),
@@ -92,23 +103,23 @@ LAYERS = [
 
 # ─── Layout ──────────────────────────────────────────────────────────────────
 
-TABLE_WIDTH = 4.0
-ROW_HEIGHT = 0.42
-HEADER_HEIGHT = 0.6
-TABLE_GAP = 0.35
-LAYER_PAD_X = 0.5
-LAYER_PAD_Y = 0.6
-LAYER_HEADER_H = 0.85
-LAYER_GAP = 1.0
+TABLE_WIDTH = 5.0
+ROW_HEIGHT = 0.53
+HEADER_HEIGHT = 0.75
+TABLE_GAP = 0.44
+LAYER_PAD_X = 0.6
+LAYER_PAD_Y = 0.75
+LAYER_HEADER_H = 1.05
+LAYER_GAP = 1.25
 
 
 def table_height(cols):
-    return HEADER_HEIGHT + len(cols) * ROW_HEIGHT + 0.2
+    return HEADER_HEIGHT + len(cols) * ROW_HEIGHT + 0.25
 
 
 def layout_layers():
     result = {}
-    x = 1.0
+    x = 1.2
 
     for layer_name, bg, border, tables in LAYERS:
         heights = [table_height(cols) for _, cols in tables]
@@ -116,7 +127,7 @@ def layout_layers():
         lw = TABLE_WIDTH + 2 * LAYER_PAD_X
         lh = total_h + 2 * LAYER_PAD_Y + LAYER_HEADER_H
 
-        ly = (FIG_H - lh) / 2 - 0.3
+        ly = (FIG_H - lh) / 2 - 0.4
 
         layer = {
             "x": x, "y": ly, "w": lw, "h": lh,
@@ -143,22 +154,19 @@ def layout_layers():
 def draw_table(ax, tbl, border_color):
     x, y, w, h = tbl["x"], tbl["y"], tbl["w"], tbl["h"]
 
-    # White box with colored border
     box = FancyBboxPatch(
-        (x, y), w, h, boxstyle="round,pad=0.08",
-        facecolor="white", edgecolor=border_color, linewidth=2.0, zorder=3,
+        (x, y), w, h, boxstyle="round,pad=0.10",
+        facecolor="white", edgecolor=border_color, linewidth=2.5, zorder=3,
     )
     ax.add_patch(box)
 
-    # Header band - very light tint
     hdr = FancyBboxPatch(
-        (x + 0.04, y + h - HEADER_HEIGHT - 0.03), w - 0.08, HEADER_HEIGHT,
-        boxstyle="round,pad=0.04",
+        (x + 0.05, y + h - HEADER_HEIGHT - 0.04), w - 0.10, HEADER_HEIGHT,
+        boxstyle="round,pad=0.05",
         facecolor=border_color, edgecolor="none", alpha=0.10, zorder=4,
     )
     ax.add_patch(hdr)
 
-    # Table name - black bold text
     ax.text(
         x + w / 2, y + h - HEADER_HEIGHT / 2 - 0.02,
         tbl["name"], ha="center", va="center",
@@ -166,30 +174,28 @@ def draw_table(ax, tbl, border_color):
         fontfamily="monospace", zorder=5,
     )
 
-    # Separator
-    sep_y = y + h - HEADER_HEIGHT - 0.06
-    ax.plot([x + 0.12, x + w - 0.12], [sep_y, sep_y],
-            color="#BDBDBD", linewidth=1.0, zorder=4)
+    sep_y = y + h - HEADER_HEIGHT - 0.07
+    ax.plot([x + 0.15, x + w - 0.15], [sep_y, sep_y],
+            color="#BDBDBD", linewidth=1.2, zorder=4)
 
-    # Columns
     cy = sep_y - ROW_HEIGHT * 0.65
     for col_name, tag in tbl["cols"]:
         if tag == "PK":
-            ax.text(x + 0.2, cy, "●", ha="left", va="center",
+            ax.text(x + 0.25, cy, "●", ha="left", va="center",
                     fontsize=FONT_TAG, color="#E65100", fontweight="bold", zorder=5)
-            ax.text(x + 0.55, cy, col_name, ha="left", va="center",
+            ax.text(x + 0.7, cy, col_name, ha="left", va="center",
                     fontsize=FONT_COL, color="#000000", fontweight="bold",
                     fontfamily="monospace", zorder=5)
-            ax.text(x + w - 0.2, cy, "PK", ha="right", va="center",
+            ax.text(x + w - 0.25, cy, "PK", ha="right", va="center",
                     fontsize=FONT_TAG, color="#E65100", fontweight="bold", zorder=5)
         elif tag == "FK":
-            ax.text(x + 0.55, cy, col_name, ha="left", va="center",
+            ax.text(x + 0.7, cy, col_name, ha="left", va="center",
                     fontsize=FONT_COL, color="#000000",
                     fontfamily="monospace", fontstyle="italic", zorder=5)
-            ax.text(x + w - 0.2, cy, "FK", ha="right", va="center",
+            ax.text(x + w - 0.25, cy, "FK", ha="right", va="center",
                     fontsize=FONT_TAG, color="#757575", zorder=5)
         else:
-            ax.text(x + 0.55, cy, col_name, ha="left", va="center",
+            ax.text(x + 0.7, cy, col_name, ha="left", va="center",
                     fontsize=FONT_COL, color="#000000",
                     fontfamily="monospace", zorder=5)
         cy -= ROW_HEIGHT
@@ -200,32 +206,35 @@ def draw_layer(ax, layer):
     bg, border = layer["bg"], layer["border"]
 
     bg_patch = FancyBboxPatch(
-        (x, y), w, h, boxstyle="round,pad=0.15",
-        facecolor=bg, edgecolor=border, linewidth=2.5, linestyle="--",
+        (x, y), w, h, boxstyle="round,pad=0.18",
+        facecolor=bg, edgecolor=border, linewidth=3.0, linestyle="--",
         alpha=0.7, zorder=1,
     )
     ax.add_patch(bg_patch)
 
     ax.text(
-        x + w / 2, y + h - LAYER_HEADER_H / 2 + 0.08,
+        x + w / 2, y + h - LAYER_HEADER_H / 2 + 0.10,
         layer["name"], ha="center", va="center",
         fontsize=FONT_LAYER, fontweight="bold", color=border, zorder=5,
-        bbox=dict(boxstyle="round,pad=0.35", facecolor="white",
-                  edgecolor=border, linewidth=2, alpha=0.95),
+        bbox=dict(boxstyle="round,pad=0.4", facecolor="white",
+                  edgecolor=border, linewidth=2.5, alpha=0.95),
     )
 
 
 def draw_arrows(ax, layout):
-    flows = [("RAW", "BRONZE"), ("BRONZE", "SILVER"), ("SILVER", "GOLD"), ("GOLD", "ML")]
+    flows = [
+        ("RAW", "BRONZE"), ("BRONZE", "SILVER"), ("SILVER", "GOLD"),
+        ("GOLD", "AI/BI"), ("GOLD", "ML"),
+    ]
     for src_name, dst_name in flows:
         src, dst = layout[src_name], layout[dst_name]
         sx = src["x"] + src["w"]
         dx = dst["x"]
         my = (src["y"] + src["h"] / 2 + dst["y"] + dst["h"] / 2) / 2
         ax.annotate(
-            "", xy=(dx - 0.05, my), xytext=(sx + 0.05, my),
-            arrowprops=dict(arrowstyle="-|>", color="#424242", lw=3,
-                            mutation_scale=25),
+            "", xy=(dx - 0.06, my), xytext=(sx + 0.06, my),
+            arrowprops=dict(arrowstyle="-|>", color="#424242", lw=3.5,
+                            mutation_scale=30),
             zorder=2,
         )
 
@@ -240,9 +249,9 @@ def main():
     ax.axis("off")
 
     ax.text(
-        FIG_W / 2, FIG_H - 1.0, TITLE,
+        FIG_W / 2, FIG_H - 1.2, TITLE,
         ha="center", va="center",
-        fontsize=30, fontweight="bold", color=TEXT_COLOR, zorder=10,
+        fontsize=38, fontweight="bold", color=TEXT_COLOR, zorder=10,
     )
 
     layout = layout_layers()
@@ -256,7 +265,7 @@ def main():
     draw_arrows(ax, layout)
 
     out = "/Users/juliandro.figueiro/workshop-panvel/images/modelo_er.png"
-    fig.savefig(out, dpi=DPI, bbox_inches="tight", facecolor="white", pad_inches=0.3)
+    fig.savefig(out, dpi=DPI, bbox_inches="tight", facecolor="white", pad_inches=0.4)
     plt.close(fig)
     print(f"Saved: {out}")
 
