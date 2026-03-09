@@ -8,7 +8,7 @@
 # MAGIC
 # MAGIC Etapas:
 # MAGIC 1. Criar features RFM (Recency, Frequency, Monetary)
-# MAGIC 2. Treinar modelo K-Means
+# MAGIC 2. Treinar modelo K-Means com scikit-learn
 # MAGIC 3. Registrar no MLflow
 # MAGIC 4. Analisar segmentos
 
@@ -48,7 +48,6 @@ df_vendas.show(5)
 # COMMAND ----------
 
 from pyspark.sql.functions import *
-from pyspark.sql.window import Window
 
 # Data de referência (mais recente no dataset)
 data_ref = df_vendas.agg(max("data_venda")).collect()[0][0]
@@ -83,27 +82,29 @@ df_rfm.describe().show()
 
 # MAGIC %md
 # MAGIC ## 3. Preparar dados para clustering
+# MAGIC
+# MAGIC Convertemos para Pandas e usamos **scikit-learn** para normalização e clustering.
+# MAGIC Isso garante compatibilidade com clusters Serverless e Shared Access Mode.
 
 # COMMAND ----------
 
-from pyspark.ml.feature import VectorAssembler, StandardScaler
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
 
 feature_cols = ["recency", "frequency", "monetary"]
 
-# TO-DO 2: Monte o vetor de features usando VectorAssembler
-# ────────────────────────────────────────────────────────
+# TO-DO 2: Converta para Pandas e normalize as features com StandardScaler
+# ────────────────────────────────────────────────────────────────────────
 # Dica:
-#   assembler = VectorAssembler(inputCols=feature_cols, outputCol="features_raw")
-#   df_features = assembler.transform(df_rfm)
+#   pdf_rfm = df_rfm.toPandas()
+#   scaler = StandardScaler()
+#   scaled_cols = ["recency_scaled", "frequency_scaled", "monetary_scaled"]
+#   pdf_rfm[scaled_cols] = scaler.fit_transform(pdf_rfm[feature_cols])
 # ▼▼▼ Seu código aqui ▼▼▼
 
 # ▲▲▲ Fim do TO-DO 2 ▲▲▲
 
-# Normalizar features (já pronto)
-scaler = StandardScaler(inputCol="features_raw", outputCol="features", withMean=True, withStd=True)
-scaler_model = scaler.fit(df_features)
-df_scaled = scaler_model.transform(df_features)
-
+scaled_cols = ["recency_scaled", "frequency_scaled", "monetary_scaled"]
 print("Features preparadas e normalizadas!")
 
 # COMMAND ----------
@@ -114,29 +115,32 @@ print("Features preparadas e normalizadas!")
 # COMMAND ----------
 
 import mlflow
-from pyspark.ml.clustering import KMeans
-from pyspark.ml.evaluation import ClusteringEvaluator
+import mlflow.sklearn
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
 
+# Configurar experimento MLflow
 experiment_name = f"/Users/{spark.sql('SELECT current_user()').collect()[0][0]}/workshop_panvel_{nome}_rfm"
 mlflow.set_experiment(experiment_name)
 
+# Features normalizadas para clustering
+X = pdf_rfm[scaled_cols].values
+
+# Testar diferentes valores de K
 resultados = []
 
 # TO-DO 3: Treine modelos K-Means para K = 3, 4, 5, 6
 # ────────────────────────────────────────────────────
 # Dica: Para cada valor de K:
 #   1. Abra um run MLflow: with mlflow.start_run(run_name=f"kmeans_k{k}"):
-#   2. Crie o modelo: kmeans = KMeans(k=k, seed=42, featuresCol="features", predictionCol="segmento")
-#   3. Treine: model = kmeans.fit(df_scaled)
-#   4. Predições: predictions = model.transform(df_scaled)
-#   5. Avalie com silhouette score:
-#      evaluator = ClusteringEvaluator(predictionCol="segmento", featuresCol="features", metricName="silhouette")
-#      silhouette = evaluator.evaluate(predictions)
-#   6. Log no MLflow:
+#   2. Crie o modelo: kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+#   3. Treine: kmeans.fit(X)
+#   4. Calcule silhouette: silhouette = silhouette_score(X, kmeans.labels_)
+#   5. Log no MLflow:
 #      mlflow.log_param("k", k)
 #      mlflow.log_metric("silhouette_score", silhouette)
-#      mlflow.spark.log_model(model, "model")
-#   7. Adicione ao resultados: resultados.append({"k": k, "silhouette": silhouette})
+#      mlflow.sklearn.log_model(kmeans, "model")
+#   6. Adicione ao resultados: resultados.append({"k": k, "silhouette": silhouette})
 
 for k in [3, 4, 5, 6]:
     # ▼▼▼ Seu código aqui ▼▼▼
@@ -157,20 +161,20 @@ print(f"Melhor K: {melhor_k} (Silhouette: {melhor['silhouette']:.4f})")
 
 # Retreinar modelo final
 with mlflow.start_run(run_name=f"kmeans_final_k{melhor_k}") as run:
-    kmeans_final = KMeans(k=melhor_k, seed=42, featuresCol="features", predictionCol="segmento")
-    model_final = kmeans_final.fit(df_scaled)
-    predictions_final = model_final.transform(df_scaled)
-
-    evaluator = ClusteringEvaluator(predictionCol="segmento", featuresCol="features", metricName="silhouette")
-    silhouette_final = evaluator.evaluate(predictions_final)
+    kmeans_final = KMeans(n_clusters=melhor_k, random_state=42, n_init=10)
+    kmeans_final.fit(X)
+    silhouette_final = silhouette_score(X, kmeans_final.labels_)
 
     mlflow.log_param("k", melhor_k)
     mlflow.log_param("features", feature_cols)
     mlflow.log_param("modelo", "KMeans_final")
     mlflow.log_metric("silhouette_score", silhouette_final)
-    mlflow.spark.log_model(model_final, "model")
+    mlflow.sklearn.log_model(kmeans_final, "model")
 
     run_id = run.info.run_id
+
+# Adicionar segmentos ao DataFrame
+pdf_rfm["segmento"] = kmeans_final.labels_
 
 print(f"Modelo final treinado! Run ID: {run_id}")
 
@@ -183,23 +187,24 @@ print(f"Modelo final treinado! Run ID: {run_id}")
 
 # TO-DO 4: Analise o perfil de cada segmento
 # ──────────────────────────────────────────
-# Dica: Agrupe predictions_final por "segmento" e calcule:
-#   - count("*").alias("num_clientes")
-#   - round(avg("recency"), 1).alias("recency_medio")
-#   - round(avg("frequency"), 1).alias("frequency_media")
-#   - round(avg("monetary"), 2).alias("monetary_medio")
-#   - round(avg("ticket_medio"), 2).alias("ticket_medio")
-#   Ordene por "segmento"
+# Dica: Use pdf_rfm.groupby("segmento").agg() com:
+#   - num_clientes: ("id_cliente", "count")
+#   - recency_medio: ("recency", "mean")
+#   - frequency_media: ("frequency", "mean")
+#   - monetary_medio: ("monetary", "mean")
+#   - ticket_medio: ("ticket_medio", "mean")
+#   Depois use .round(2).sort_index()
 
 # ▼▼▼ Seu código aqui ▼▼▼
 df_segmentos = (
-    predictions_final
+    pdf_rfm
+    .groupby("segmento")
     # Complete a agregação
 )
 # ▲▲▲ Fim do TO-DO 4 ▲▲▲
 
 print("Perfil dos Segmentos:")
-df_segmentos.show(truncate=False)
+print(df_segmentos.to_string())
 
 # COMMAND ----------
 
@@ -208,22 +213,21 @@ df_segmentos.show(truncate=False)
 
 # COMMAND ----------
 
-# Selecionar colunas relevantes para salvar
-df_resultado = (
-    predictions_final
-    .select("id_cliente", "nome_cliente", "cidade_cliente",
-            "recency", "frequency", "monetary", "ticket_medio", "segmento")
-)
+# Selecionar colunas relevantes e converter de volta para Spark
+colunas_salvar = ["id_cliente", "nome_cliente", "cidade_cliente",
+                  "recency", "frequency", "monetary", "ticket_medio", "segmento"]
 
 # TO-DO 5: Salve a tabela de segmentação no catálogo
 # ──────────────────────────────────────────────────
-# Dica: Use .write.mode("overwrite").saveAsTable(f"{catalog_name}.ml.segmentacao_clientes")
+# Dica:
+#   df_resultado = spark.createDataFrame(pdf_rfm[colunas_salvar])
+#   df_resultado.write.mode("overwrite").saveAsTable(f"{catalog_name}.ml.segmentacao_clientes")
 # ▼▼▼ Seu código aqui ▼▼▼
 
 # ▲▲▲ Fim do TO-DO 5 ▲▲▲
 
 print(f"Segmentação salva!")
-print(f"Total de clientes segmentados: {df_resultado.count()}")
+print(f"Total de clientes segmentados: {len(pdf_rfm)}")
 
 # COMMAND ----------
 
@@ -251,7 +255,7 @@ print(f"Versão: {registered_model.version}")
 # MAGIC
 # MAGIC **O que você aprendeu:**
 # MAGIC - Feature Engineering com RFM
-# MAGIC - Treinamento de K-Means com PySpark ML
+# MAGIC - Treinamento de K-Means com scikit-learn
 # MAGIC - Tracking de experimentos com MLflow
 # MAGIC - Registro de modelos no Unity Catalog
 # MAGIC
