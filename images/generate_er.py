@@ -222,11 +222,9 @@ def draw_layer(ax, layer):
 
 
 def draw_arrows(ax, layout):
-    flows = [
-        ("RAW", "BRONZE"), ("BRONZE", "SILVER"), ("SILVER", "GOLD"),
-        ("GOLD", "AI/BI"), ("GOLD", "ML"),
-    ]
-    for src_name, dst_name in flows:
+    # Straight flows: RAW→BRONZE→SILVER→GOLD
+    straight = [("RAW", "BRONZE"), ("BRONZE", "SILVER"), ("SILVER", "GOLD")]
+    for src_name, dst_name in straight:
         src, dst = layout[src_name], layout[dst_name]
         sx = src["x"] + src["w"]
         dx = dst["x"]
@@ -235,6 +233,22 @@ def draw_arrows(ax, layout):
             "", xy=(dx - 0.06, my), xytext=(sx + 0.06, my),
             arrowprops=dict(arrowstyle="-|>", color="#424242", lw=3.5,
                             mutation_scale=30),
+            zorder=2,
+        )
+
+    # GOLD fans out to AI/BI (upper) and ML (lower)
+    gold = layout["GOLD"]
+    gx = gold["x"] + gold["w"]
+    g_mid_y = gold["y"] + gold["h"] / 2
+
+    for dst_name in ["AI/BI", "ML"]:
+        dst = layout[dst_name]
+        dx = dst["x"]
+        dy = dst["y"] + dst["h"] / 2
+        ax.annotate(
+            "", xy=(dx - 0.06, dy), xytext=(gx + 0.06, g_mid_y),
+            arrowprops=dict(arrowstyle="-|>", color="#424242", lw=3.5,
+                            mutation_scale=30, connectionstyle="arc3,rad=0.0"),
             zorder=2,
         )
 
