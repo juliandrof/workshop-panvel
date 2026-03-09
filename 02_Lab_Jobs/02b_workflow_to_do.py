@@ -78,29 +78,46 @@ print("\nValidação concluída!")
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Tarefa 2: Referência para configuração do Pipeline SDP
+# MAGIC ## Tarefa 2: Trigger do Pipeline SDP via API
 # MAGIC
-# MAGIC No Workflow real, esta tarefa será do tipo **Pipeline**.
+# MAGIC Nesta tarefa, vamos buscar e executar o pipeline SDP criado no Lab 01 usando a API REST do Databricks.
 
 # COMMAND ----------
 
-print(f"""
-Para configurar no Workflow:
+import requests
+import time
 
-1. Vá em Jobs & Pipelines > Create Job
-2. Nome do Job: workflow_panvel_{nome}
-3. Adicione as seguintes tarefas:
+# Obter contexto de autenticação do Databricks
+db_host = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiUrl().getOrElse(None)
+db_token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().getOrElse(None)
 
-   Tarefa 1 - Validação:
-     Tipo: Notebook
-     Notebook: 02_Lab_Jobs/02b_workflow_todo
-     Parâmetros: nome_participante = {nome}
+headers = {"Authorization": f"Bearer {db_token}", "Content-Type": "application/json"}
 
-   Tarefa 2 - Pipeline:
-     Tipo: Pipeline
-     Pipeline: pipeline_panvel_{nome}
-     Depende de: Tarefa 1
-""")
+# TO-DO 2: Busque o pipeline pelo nome e dispare a execução via API
+# ─────────────────────────────────────────────────────────────────
+# Dica:
+#   1. Buscar pipeline:
+#      response = requests.get(f"{db_host}/api/2.0/pipelines", headers=headers,
+#                              params={"filter": f"name LIKE 'pipeline_panvel_{nome}'"})
+#      pipelines = response.json().get("statuses", [])
+#      Encontre o pipeline_id no resultado
+#
+#   2. Triggar execução:
+#      response = requests.post(f"{db_host}/api/2.0/pipelines/{pipeline_id}/updates",
+#                               headers=headers, json={"full_refresh": False})
+#      update_id = response.json().get("update_id")
+#
+#   3. Monitorar (loop while):
+#      response = requests.get(f"{db_host}/api/2.0/pipelines/{pipeline_id}/updates/{update_id}", headers=headers)
+#      state = response.json().get("update", {}).get("state")
+#      Estados finais: "COMPLETED", "FAILED", "CANCELED"
+
+pipeline_name = f"pipeline_panvel_{nome}"
+print(f"Buscando pipeline: {pipeline_name}")
+
+# ▼▼▼ Seu código aqui ▼▼▼
+
+# ▲▲▲ Fim do TO-DO 2 ▲▲▲
 
 # COMMAND ----------
 

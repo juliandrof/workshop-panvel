@@ -89,24 +89,72 @@ print("\nTodos os dados cadastrais estão válidos!")
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Tarefa 2: Trigger do Pipeline SDP
+# MAGIC ## Tarefa 2: Trigger do Pipeline SDP via API
 # MAGIC
-# MAGIC Em um workflow real, esta tarefa seria configurada como uma tarefa do tipo **Pipeline**.
-# MAGIC Aqui mostramos como seria feito via API.
+# MAGIC Nesta tarefa, buscamos o pipeline SDP criado no Lab 01 e disparamos sua execução usando a API REST do Databricks.
 
 # COMMAND ----------
 
-# Em um workflow real, você configuraria uma tarefa do tipo "Pipeline"
-# apontando para o pipeline SDP criado no Lab 1.
-#
-# Via código, você pode triggar o pipeline usando a API REST:
+import requests
+import time
 
-print("""
-Para configurar no Workflow:
-1. Adicione uma nova tarefa do tipo "Pipeline"
-2. Selecione o pipeline: pipeline_panvel_{nome}
-3. Configure a dependência: depende da Tarefa 1 (Validação)
-""".format(nome=nome))
+# Obter contexto de autenticação do Databricks
+db_host = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiUrl().getOrElse(None)
+db_token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().getOrElse(None)
+
+headers = {"Authorization": f"Bearer {db_token}", "Content-Type": "application/json"}
+
+# 1. Buscar o pipeline pelo nome
+pipeline_name = f"pipeline_panvel_{nome}"
+print(f"Buscando pipeline: {pipeline_name}")
+
+response = requests.get(
+    f"{db_host}/api/2.0/pipelines",
+    headers=headers,
+    params={"filter": f"name LIKE '{pipeline_name}'", "max_results": 10},
+)
+response.raise_for_status()
+pipelines = response.json().get("statuses", [])
+
+pipeline_id = None
+for p in pipelines:
+    if p["name"] == pipeline_name:
+        pipeline_id = p["pipeline_id"]
+        break
+
+assert pipeline_id is not None, f"Pipeline '{pipeline_name}' não encontrado! Crie-o primeiro no Lab 01."
+print(f"Pipeline encontrado! ID: {pipeline_id}")
+
+# 2. Triggar a execução do pipeline
+print(f"Iniciando pipeline...")
+response = requests.post(
+    f"{db_host}/api/2.0/pipelines/{pipeline_id}/updates",
+    headers=headers,
+    json={"full_refresh": False},
+)
+response.raise_for_status()
+update_id = response.json().get("update_id")
+print(f"Update iniciado! ID: {update_id}")
+
+# 3. Monitorar a execução
+print("Aguardando conclusão do pipeline...")
+while True:
+    response = requests.get(
+        f"{db_host}/api/2.0/pipelines/{pipeline_id}/updates/{update_id}",
+        headers=headers,
+    )
+    response.raise_for_status()
+    update = response.json().get("update", {})
+    state = update.get("state", "UNKNOWN")
+
+    if state in ("COMPLETED",):
+        print(f"Pipeline concluído com sucesso!")
+        break
+    elif state in ("FAILED", "CANCELED"):
+        raise Exception(f"Pipeline falhou com estado: {state}")
+    else:
+        print(f"  Estado: {state} — aguardando 30s...")
+        time.sleep(30)
 
 # COMMAND ----------
 
