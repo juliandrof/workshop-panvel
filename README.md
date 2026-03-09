@@ -56,6 +56,14 @@ Workshop prático de Databricks personalizado para o time de **Grupo Panvel**, c
 
 </br>
 
+## Modelo de Dados
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/juliandrof/workshop-panvel/main/images/modelo_er.png" alt="Modelo de Dados — Workshop Panvel" width="100%">
+</p>
+
+</br>
+
 ## Pré-requisitos
 
 | Requisito | Detalhes |
