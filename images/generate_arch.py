@@ -31,16 +31,18 @@ def draw_stage(ax, x, y, w, h, name, subtitle, bg, border, features):
     ax.text(x + w/2, ny, name, ha="center", va="center",
             fontsize=FONT_STAGE, fontweight="bold", color=border, zorder=5)
     if subtitle:
+        sep_y = ny - 1.25
         ax.text(x + w/2, ny - 0.7, subtitle, ha="center", va="center",
                 fontsize=FONT_SUB, color="#555", fontstyle="italic", zorder=5)
+    else:
+        sep_y = ny - 0.6
     if features:
-        sy = ny - 1.25
-        ax.plot([x+0.3, x+w-0.3], [sy, sy], color=border, lw=2, alpha=0.4, zorder=4)
-        fy = sy - 0.55
+        ax.plot([x+0.3, x+w-0.3], [sep_y, sep_y], color=border, lw=2, alpha=0.4, zorder=4)
+        fy = sep_y - 0.6
         for f in features:
             ax.text(x + 0.5, fy, f"• {f}", ha="left", va="center",
                     fontsize=FONT_FEAT, color="#000", zorder=5)
-            fy -= 0.6
+            fy -= 0.65
 
 
 def arrow(ax, x1, y1, x2, y2, curve=0.0):
@@ -102,15 +104,15 @@ def main():
     fw = 7.5
 
     # AI/BI
-    fh1 = 4.5
+    fh1 = 4.2
     fy1 = by + bh - fh1
     draw_stage(ax, fx, fy1, fw, fh1, "AI/BI", None, "#E0F7FA", "#00838F",
                ["Genie (Linguagem Natural)", "AI/BI Dashboard",
                 "Visualizações Interativas"])
 
     # ML
-    fh2 = 5.2
-    fy2 = fy1 - 0.5 - fh2
+    fh2 = 5.0
+    fy2 = fy1 - 0.6 - fh2
     draw_stage(ax, fx, fy2, fw, fh2, "ML", None, "#F3E5F5", "#8E24AA",
                ["RFM + K-Means", "MLflow Tracking",
                 "Model Registry (UC)", "Segmentação de Clientes"])
