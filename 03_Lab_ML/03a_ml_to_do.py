@@ -155,7 +155,8 @@ for k in [3, 4, 5, 6]:
 # COMMAND ----------
 
 # Selecionar o K com melhor silhouette
-melhor = max(resultados, key=lambda x: x["silhouette"])
+import builtins
+melhor = builtins.max(resultados, key=lambda x: x["silhouette"])
 melhor_k = melhor["k"]
 print(f"Melhor K: {melhor_k} (Silhouette: {melhor['silhouette']:.4f})")
 
