@@ -72,7 +72,7 @@ def bronze_vendas():
         .option("cloudFiles.schemaLocation", f"{volume_path}/_schema")
         .schema(schema_vendas)
         .load(volume_path)
-        .withColumn("arquivo_origem", input_file_name())
+        .withColumn("arquivo_origem", col("_metadata.file_path"))
         .withColumn("data_ingestao", current_timestamp())
     )
 
