@@ -144,7 +144,7 @@ def main():
                 color=PIPELINE_COLOR, lw=2.5, ls=":", alpha=0.5, zorder=2)
 
     # Workflow bar
-    wf_y = pb_y - 1.5
+    wf_y = min(pb_y, fy2) - 1.8
     wf_w = fx + fw - pb_x
     draw_box(ax, pb_x, wf_y, wf_w, 1.2, "#E8EAF6", "#3949AB", lw=3)
     ax.text(pb_x + wf_w/2, wf_y + 0.6,
