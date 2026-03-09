@@ -6,17 +6,15 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 
-# ─── Configuration (25% larger) ─────────────────────────────────────────────
-
-FIG_W, FIG_H = 80, 42
-DPI = 150
+# Compact figure - let bbox_inches="tight" crop precisely
+FIG_W, FIG_H = 48, 36
+DPI = 200
 TITLE = "Modelo de Dados — Workshop Panvel"
-TEXT_COLOR = "#000000"
 
-FONT_LAYER = 44
-FONT_TABLE = 32
-FONT_COL = 24
-FONT_TAG = 20
+FONT_LAYER = 36
+FONT_TABLE = 26
+FONT_COL = 20
+FONT_TAG = 17
 
 # Layer definitions
 LAYERS = [
@@ -85,17 +83,17 @@ LAYERS = [
             ("quantidade_total", ""), ("faturamento_total", ""), ("num_vendas", ""), ("desconto_medio", ""),
         ]),
     ]),
+]
+
+STACKED_LAYERS = {"AI/BI", "ML"}
+STACKED_DEFS = [
     ("AI/BI", "#E0F7FA", "#00838F", [
         ("Genie", [
-            ("Linguagem natural", ""),
-            ("Tabelas Gold", ""),
-            ("Instruções customizadas", ""),
+            ("Linguagem natural", ""), ("Tabelas Gold", ""), ("Instruções customizadas", ""),
         ]),
         ("Dashboard", [
-            ("Vendas por loja", ""),
-            ("Vendas por categoria", ""),
-            ("Vendas por cidade", ""),
-            ("Top produtos", ""),
+            ("Vendas por loja", ""), ("Vendas por categoria", ""),
+            ("Vendas por cidade", ""), ("Top produtos", ""),
         ]),
     ]),
     ("ML", "#F3E5F5", "#8E24AA", [
@@ -105,204 +103,124 @@ LAYERS = [
     ]),
 ]
 
-# ─── Layout ──────────────────────────────────────────────────────────────────
-
-TABLE_WIDTH = 7.5
-ROW_HEIGHT = 0.78
-HEADER_HEIGHT = 1.1
-TABLE_GAP = 0.65
-LAYER_PAD_X = 0.9
-LAYER_PAD_Y = 1.1
-LAYER_HEADER_H = 1.55
-LAYER_GAP = 1.8
-
-
-def table_height(cols):
-    return HEADER_HEIGHT + len(cols) * ROW_HEIGHT + 0.4
+# Layout
+TW = 6.0       # table width
+RH = 0.65      # row height
+HH = 0.9       # header height
+TG = 0.5       # table gap
+LPX = 0.7      # layer pad x
+LPY = 0.8      # layer pad y
+LHH = 1.3      # layer header height
+LG = 1.2       # layer gap
 
 
-STACKED_LAYERS = {"AI/BI", "ML"}  # these stack vertically after GOLD
+def th(cols):
+    return HH + len(cols) * RH + 0.3
 
 
-def layout_layers():
+def layout():
     result = {}
-    x = 1.8
+    x = 1.5
 
-    # First pass: layout the main flow layers (RAW→BRONZE→SILVER→GOLD)
-    main_layers = [(n, b, bd, t) for n, b, bd, t in LAYERS if n not in STACKED_LAYERS]
-    for layer_name, bg, border, tables in main_layers:
-        heights = [table_height(cols) for _, cols in tables]
-        total_h = sum(heights) + TABLE_GAP * (len(tables) - 1)
-        lw = TABLE_WIDTH + 2 * LAYER_PAD_X
-        lh = total_h + 2 * LAYER_PAD_Y + LAYER_HEADER_H
+    # Main layers
+    for lname, bg, border, tables in LAYERS:
+        heights = [th(c) for _, c in tables]
+        total = sum(heights) + TG * (len(tables) - 1)
+        lw = TW + 2 * LPX
+        lh = total + 2 * LPY + LHH
+        ly = (FIG_H - lh) / 2 - 0.5
 
-        ly = (FIG_H - lh) / 2 - 0.4
+        layer = {"x": x, "y": ly, "w": lw, "h": lh,
+                 "bg": bg, "border": border, "name": lname, "tables": []}
 
-        layer = {
-            "x": x, "y": ly, "w": lw, "h": lh,
-            "bg": bg, "border": border, "name": layer_name, "tables": [],
-        }
+        ty = ly + lh - LHH - LPY
+        tx = x + LPX
+        for (tn, cols), h in zip(tables, heights):
+            ty_top = ty - h
+            layer["tables"].append({"name": tn, "cols": cols,
+                                     "x": tx, "y": ty_top, "w": TW, "h": h})
+            ty = ty_top - TG
 
-        ty = ly + lh - LAYER_HEADER_H - LAYER_PAD_Y
-        tx = x + LAYER_PAD_X
+        result[lname] = layer
+        x += lw + LG
 
-        for (tname, cols), th in zip(tables, heights):
-            ty_top = ty - th
-            layer["tables"].append({
-                "name": tname, "cols": cols,
-                "x": tx, "y": ty_top, "w": TABLE_WIDTH, "h": th,
-            })
-            ty = ty_top - TABLE_GAP
+    # Stacked layers (AI/BI + ML)
+    sx = x
+    lw = TW + 2 * LPX
+    infos = []
+    for lname, bg, border, tables in STACKED_DEFS:
+        heights = [th(c) for _, c in tables]
+        total = sum(heights) + TG * (len(tables) - 1)
+        lh = total + 2 * LPY + LHH
+        infos.append((lname, bg, border, tables, heights, lh))
 
-        result[layer_name] = layer
-        x += lw + LAYER_GAP
+    total_sh = sum(i[5] for i in infos) + LG
+    cy = (FIG_H - total_sh) / 2 - 0.5 + total_sh
 
-    # Second pass: stack AI/BI and ML vertically in one column after GOLD
-    stacked = [(n, b, bd, t) for n, b, bd, t in LAYERS if n in STACKED_LAYERS]
-    stacked_x = x
-    lw = TABLE_WIDTH + 2 * LAYER_PAD_X
-
-    # Compute heights for each stacked layer
-    stacked_info = []
-    for layer_name, bg, border, tables in stacked:
-        heights = [table_height(cols) for _, cols in tables]
-        total_h = sum(heights) + TABLE_GAP * (len(tables) - 1)
-        lh = total_h + 2 * LAYER_PAD_Y + LAYER_HEADER_H
-        stacked_info.append((layer_name, bg, border, tables, heights, lh))
-
-    total_stacked_h = sum(s[5] for s in stacked_info) + LAYER_GAP
-    start_y = (FIG_H - total_stacked_h) / 2 - 0.4
-
-    # Place top to bottom: AI/BI on top, ML on bottom
-    cy = start_y + total_stacked_h
-    for layer_name, bg, border, tables, heights, lh in stacked_info:
+    for lname, bg, border, tables, heights, lh in infos:
         ly = cy - lh
-        layer = {
-            "x": stacked_x, "y": ly, "w": lw, "h": lh,
-            "bg": bg, "border": border, "name": layer_name, "tables": [],
-        }
-
-        ty = ly + lh - LAYER_HEADER_H - LAYER_PAD_Y
-        tx = stacked_x + LAYER_PAD_X
-
-        for (tname, cols), th in zip(tables, heights):
-            ty_top = ty - th
-            layer["tables"].append({
-                "name": tname, "cols": cols,
-                "x": tx, "y": ty_top, "w": TABLE_WIDTH, "h": th,
-            })
-            ty = ty_top - TABLE_GAP
-
-        result[layer_name] = layer
-        cy = ly - LAYER_GAP
+        layer = {"x": sx, "y": ly, "w": lw, "h": lh,
+                 "bg": bg, "border": border, "name": lname, "tables": []}
+        ty = ly + lh - LHH - LPY
+        tx = sx + LPX
+        for (tn, cols), h in zip(tables, heights):
+            ty_top = ty - h
+            layer["tables"].append({"name": tn, "cols": cols,
+                                     "x": tx, "y": ty_top, "w": TW, "h": h})
+            ty = ty_top - TG
+        result[lname] = layer
+        cy = ly - LG
 
     return result
 
 
-def draw_table(ax, tbl, border_color):
-    x, y, w, h = tbl["x"], tbl["y"], tbl["w"], tbl["h"]
-
-    box = FancyBboxPatch(
-        (x, y), w, h, boxstyle="round,pad=0.15",
-        facecolor="white", edgecolor=border_color, linewidth=3.5, zorder=3,
-    )
-    ax.add_patch(box)
-
-    hdr = FancyBboxPatch(
-        (x + 0.08, y + h - HEADER_HEIGHT - 0.06), w - 0.16, HEADER_HEIGHT,
-        boxstyle="round,pad=0.07",
-        facecolor=border_color, edgecolor="none", alpha=0.10, zorder=4,
-    )
-    ax.add_patch(hdr)
-
-    ax.text(
-        x + w / 2, y + h - HEADER_HEIGHT / 2 - 0.03,
-        tbl["name"], ha="center", va="center",
-        fontsize=FONT_TABLE, fontweight="bold", color="#000000",
-        fontfamily="monospace", zorder=5,
-    )
-
-    sep_y = y + h - HEADER_HEIGHT - 0.10
-    ax.plot([x + 0.22, x + w - 0.22], [sep_y, sep_y],
-            color="#BDBDBD", linewidth=1.8, zorder=4)
-
-    cy = sep_y - ROW_HEIGHT * 0.65
-    for col_name, tag in tbl["cols"]:
+def draw_table(ax, t, bc):
+    x, y, w, h = t["x"], t["y"], t["w"], t["h"]
+    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.12",
+                                 facecolor="white", edgecolor=bc, linewidth=3, zorder=3))
+    ax.add_patch(FancyBboxPatch((x+0.06, y+h-HH-0.05), w-0.12, HH,
+                                 boxstyle="round,pad=0.06", facecolor=bc,
+                                 edgecolor="none", alpha=0.10, zorder=4))
+    ax.text(x+w/2, y+h-HH/2-0.03, t["name"], ha="center", va="center",
+            fontsize=FONT_TABLE, fontweight="bold", color="#000",
+            fontfamily="monospace", zorder=5)
+    sy = y + h - HH - 0.08
+    ax.plot([x+0.2, x+w-0.2], [sy, sy], color="#BBB", lw=1.5, zorder=4)
+    cy = sy - RH * 0.65
+    for cn, tag in t["cols"]:
         if tag == "PK":
-            ax.text(x + 0.35, cy, "●", ha="left", va="center",
-                    fontsize=FONT_TAG, color="#E65100", fontweight="bold", zorder=5)
-            ax.text(x + 1.0, cy, col_name, ha="left", va="center",
-                    fontsize=FONT_COL, color="#000000", fontweight="bold",
-                    fontfamily="monospace", zorder=5)
-            ax.text(x + w - 0.35, cy, "PK", ha="right", va="center",
-                    fontsize=FONT_TAG, color="#E65100", fontweight="bold", zorder=5)
+            ax.text(x+0.3, cy, "●", fontsize=FONT_TAG, color="#E65100",
+                    fontweight="bold", ha="left", va="center", zorder=5)
+            ax.text(x+0.8, cy, cn, fontsize=FONT_COL, color="#000",
+                    fontweight="bold", fontfamily="monospace",
+                    ha="left", va="center", zorder=5)
+            ax.text(x+w-0.3, cy, "PK", fontsize=FONT_TAG, color="#E65100",
+                    fontweight="bold", ha="right", va="center", zorder=5)
         elif tag == "FK":
-            ax.text(x + 1.0, cy, col_name, ha="left", va="center",
-                    fontsize=FONT_COL, color="#000000",
-                    fontfamily="monospace", fontstyle="italic", zorder=5)
-            ax.text(x + w - 0.35, cy, "FK", ha="right", va="center",
-                    fontsize=FONT_TAG, color="#757575", zorder=5)
+            ax.text(x+0.8, cy, cn, fontsize=FONT_COL, color="#000",
+                    fontfamily="monospace", fontstyle="italic",
+                    ha="left", va="center", zorder=5)
+            ax.text(x+w-0.3, cy, "FK", fontsize=FONT_TAG, color="#757575",
+                    ha="right", va="center", zorder=5)
         else:
-            ax.text(x + 1.0, cy, col_name, ha="left", va="center",
-                    fontsize=FONT_COL, color="#000000",
-                    fontfamily="monospace", zorder=5)
-        cy -= ROW_HEIGHT
+            ax.text(x+0.8, cy, cn, fontsize=FONT_COL, color="#000",
+                    fontfamily="monospace", ha="left", va="center", zorder=5)
+        cy -= RH
 
 
-def draw_layer(ax, layer):
-    x, y, w, h = layer["x"], layer["y"], layer["w"], layer["h"]
-    bg, border = layer["bg"], layer["border"]
-
-    bg_patch = FancyBboxPatch(
-        (x, y), w, h, boxstyle="round,pad=0.25",
-        facecolor=bg, edgecolor=border, linewidth=4.0, linestyle="--",
-        alpha=0.7, zorder=1,
-    )
-    ax.add_patch(bg_patch)
-
-    ax.text(
-        x + w / 2, y + h - LAYER_HEADER_H / 2 + 0.15,
-        layer["name"], ha="center", va="center",
-        fontsize=FONT_LAYER, fontweight="bold", color=border, zorder=5,
-        bbox=dict(boxstyle="round,pad=0.5", facecolor="white",
-                  edgecolor=border, linewidth=3.5, alpha=0.95),
-    )
-
-
-def draw_arrows(ax, layout):
-    # Straight flows: RAW→BRONZE→SILVER→GOLD
-    straight = [("RAW", "BRONZE"), ("BRONZE", "SILVER"), ("SILVER", "GOLD")]
-    for src_name, dst_name in straight:
-        src, dst = layout[src_name], layout[dst_name]
-        sx = src["x"] + src["w"]
-        dx = dst["x"]
-        my = (src["y"] + src["h"] / 2 + dst["y"] + dst["h"] / 2) / 2
-        ax.annotate(
-            "", xy=(dx - 0.08, my), xytext=(sx + 0.08, my),
-            arrowprops=dict(arrowstyle="-|>", color="#424242", lw=5.0,
-                            mutation_scale=45),
-            zorder=2,
-        )
-
-    # GOLD fans out to AI/BI (upper) and ML (lower)
-    gold = layout["GOLD"]
-    gx = gold["x"] + gold["w"]
-    g_mid_y = gold["y"] + gold["h"] / 2
-
-    for dst_name in ["AI/BI", "ML"]:
-        dst = layout[dst_name]
-        dx = dst["x"]
-        dy = dst["y"] + dst["h"] / 2
-        ax.annotate(
-            "", xy=(dx - 0.08, dy), xytext=(gx + 0.08, g_mid_y),
-            arrowprops=dict(arrowstyle="-|>", color="#424242", lw=5.0,
-                            mutation_scale=45, connectionstyle="arc3,rad=0.0"),
-            zorder=2,
-        )
+def draw_layer(ax, L):
+    x, y, w, h = L["x"], L["y"], L["w"], L["h"]
+    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.2",
+                                 facecolor=L["bg"], edgecolor=L["border"],
+                                 linewidth=3.5, linestyle="--", alpha=0.7, zorder=1))
+    ax.text(x+w/2, y+h-LHH/2+0.12, L["name"], ha="center", va="center",
+            fontsize=FONT_LAYER, fontweight="bold", color=L["border"], zorder=5,
+            bbox=dict(boxstyle="round,pad=0.4", facecolor="white",
+                      edgecolor=L["border"], linewidth=3, alpha=0.95))
 
 
 def main():
-    fig, ax = plt.subplots(1, 1, figsize=(FIG_W, FIG_H), dpi=DPI)
+    fig, ax = plt.subplots(figsize=(FIG_W, FIG_H), dpi=DPI)
     fig.patch.set_facecolor("white")
     ax.set_facecolor("white")
     ax.set_xlim(0, FIG_W)
@@ -310,24 +228,39 @@ def main():
     ax.set_aspect("equal")
     ax.axis("off")
 
-    ax.text(
-        FIG_W / 2, FIG_H - 1.8, TITLE,
-        ha="center", va="center",
-        fontsize=56, fontweight="bold", color=TEXT_COLOR, zorder=10,
-    )
+    ax.text(FIG_W/2, FIG_H - 1.5, TITLE, ha="center", va="center",
+            fontsize=48, fontweight="bold", color="#000", zorder=10)
 
-    layout = layout_layers()
+    L = layout()
 
-    for layer_name, _, _, _ in LAYERS:
-        li = layout[layer_name]
+    all_names = [n for n, *_ in LAYERS] + [n for n, *_ in STACKED_DEFS]
+    for n in all_names:
+        li = L[n]
         draw_layer(ax, li)
-        for tbl in li["tables"]:
-            draw_table(ax, tbl, li["border"])
+        for t in li["tables"]:
+            draw_table(ax, t, li["border"])
 
-    draw_arrows(ax, layout)
+    # Straight arrows
+    order = [n for n, *_ in LAYERS]
+    for i in range(len(order)-1):
+        s, d = L[order[i]], L[order[i+1]]
+        ax.annotate("", xy=(d["x"]-0.08, d["y"]+d["h"]/2),
+                    xytext=(s["x"]+s["w"]+0.08, s["y"]+s["h"]/2),
+                    arrowprops=dict(arrowstyle="-|>", color="#333", lw=4,
+                                    mutation_scale=40), zorder=2)
+
+    # Gold → AI/BI and Gold → ML
+    g = L["GOLD"]
+    gx, gy = g["x"]+g["w"], g["y"]+g["h"]/2
+    for dn in ["AI/BI", "ML"]:
+        d = L[dn]
+        ax.annotate("", xy=(d["x"]-0.08, d["y"]+d["h"]/2),
+                    xytext=(gx+0.08, gy),
+                    arrowprops=dict(arrowstyle="-|>", color="#333", lw=4,
+                                    mutation_scale=40), zorder=2)
 
     out = "/Users/juliandro.figueiro/workshop-panvel/images/modelo_er.png"
-    fig.savefig(out, dpi=DPI, bbox_inches="tight", facecolor="white", pad_inches=0.4)
+    fig.savefig(out, dpi=DPI, bbox_inches="tight", facecolor="white", pad_inches=0.2)
     plt.close(fig)
     print(f"Saved: {out}")
 
