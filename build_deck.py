@@ -547,7 +547,7 @@ def main():
         "Passo 1 — Complete os TO-DOs\n"
         "Abra 03a_ml_to_do.py e complete:\n"
         "  TODO 1: Calcular métricas RFM por cliente\n"
-        "  TODO 2: Montar VectorAssembler\n"
+        "  TODO 2: Converter para Pandas e normalizar com StandardScaler\n"
         "  TODO 3: Treinar K-Means (K=3,4,5,6) com MLflow\n"
         "  TODO 4: Analisar perfil dos segmentos\n"
         "  TODO 5: Salvar tabela de segmentação\n\n"

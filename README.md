@@ -264,7 +264,7 @@ workshop-panvel/
 | TO-DO | Descrição |
 | -- | -- |
 | 1 | Calcular métricas RFM por cliente |
-| 2 | Montar VectorAssembler |
+| 2 | Converter para Pandas e normalizar com StandardScaler |
 | 3 | Treinar K-Means (K=3,4,5,6) com MLflow |
 | 4 | Analisar perfil dos segmentos |
 | 5 | Salvar tabela de segmentação |
@@ -273,8 +273,8 @@ workshop-panvel/
 3. **Verifique o modelo** registrado no Unity Catalog
 
 ### Conceitos abordados
-- Feature Engineering com PySpark
-- K-Means Clustering + Silhouette Score
+- Feature Engineering com PySpark + Pandas
+- K-Means Clustering (scikit-learn) + Silhouette Score
 - MLflow Tracking e Model Registry
 - Unity Catalog para modelos
 
