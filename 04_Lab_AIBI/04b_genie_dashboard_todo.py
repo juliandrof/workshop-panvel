@@ -234,7 +234,7 @@ LIMIT 15
 # MAGIC
 # MAGIC | Lab | Tema | Status |
 # MAGIC |-----|------|--------|
-# MAGIC | 1 | SDP - Pipeline DLT | ✓ |
+# MAGIC | 1 | SDP - Spark Declarative Pipelines | ✓ |
 # MAGIC | 2 | Jobs - Workflow | ✓ |
 # MAGIC | 3 | ML - Segmentação | ✓ |
 # MAGIC | 4 | AI/BI - Genie + Dashboard | ✓ |

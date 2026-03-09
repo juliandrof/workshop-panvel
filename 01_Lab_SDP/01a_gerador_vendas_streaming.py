@@ -7,7 +7,7 @@
 # MAGIC - **50 vendas** por arquivo
 # MAGIC - **4 a 10 itens** aleatórios por venda
 # MAGIC
-# MAGIC **Deixe este notebook rodando** enquanto trabalha no pipeline DLT.
+# MAGIC **Deixe este notebook rodando** enquanto trabalha no pipeline SDP.
 
 # COMMAND ----------
 

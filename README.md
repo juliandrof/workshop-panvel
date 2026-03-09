@@ -32,7 +32,7 @@ Workshop prático de Databricks personalizado para o time de **Grupo Panvel**, c
 | # | Lab | Tópicos | Duração |
 | -- | -- | -- | -- |
 | 00 | **Setup** | Configuração do catálogo personalizado e geração de dados sintéticos | 15 min |
-| 01 | **SDP - Pipeline DLT** | Auto Loader, Delta Live Tables, Medallion Architecture (Bronze/Silver/Gold) | 40 min |
+| 01 | **SDP - Spark Declarative Pipelines** | Auto Loader, SDP, Medallion Architecture (Bronze/Silver/Gold) | 40 min |
 | 02 | **Workflows / Jobs** | Orquestração multi-tarefa, dependências, agendamento | 25 min |
 | 03 | **Machine Learning** | Segmentação de clientes (RFM + K-Means), MLflow, Unity Catalog | 35 min |
 | 04 | **AI/BI** | Genie (linguagem natural) + AI/BI Dashboard | 30 min |
@@ -73,7 +73,7 @@ Workshop prático de Databricks personalizado para o time de **Grupo Panvel**, c
 | `USE CATALOG` / `USE SCHEMA` | Catálogo e schemas do participante | Todos |
 | `CREATE TABLE` / `SELECT` / `MODIFY` | Tabelas em todos os schemas | Todos |
 | `CREATE VOLUME` / `READ` / `WRITE` | Volume `raw.vendas_json` | 01 |
-| `CREATE PIPELINE` / `MANAGE` / `RUN` | Pipeline DLT `pipeline_panvel_<nome>` | 01, 02 |
+| `CREATE PIPELINE` / `MANAGE` / `RUN` | Pipeline SDP `pipeline_panvel_<nome>` | 01, 02 |
 | `CREATE JOB` / `RUN` / `MODIFY` | Workflow `workflow_panvel_<nome>` | 02 |
 | `CREATE EXPERIMENT` / `LOG` | Experimento MLflow `workshop_panvel_<nome>_rfm` | 03 |
 | `REGISTER MODEL` | Modelo em Unity Catalog (`ml.modelo_segmentacao_clientes`) | 03 |
@@ -96,8 +96,8 @@ workshop-panvel/
 │
 ├── 01_Lab_SDP/
 │   ├── 01a_gerador_vendas_streaming.py   # Gerador de JSONs (1 por loja a cada 20s)
-│   ├── 01b_sdp_pipeline_completo.py      # Pipeline DLT completo (referência)
-│   └── 01c_sdp_pipeline_todo.py          # Pipeline DLT com TO-DOs (exercício)
+│   ├── 01b_sdp_pipeline_completo.py      # Pipeline SDP completo (referência)
+│   └── 01c_sdp_pipeline_todo.py          # Pipeline SDP com TO-DOs (exercício)
 │
 ├── 02_Lab_Jobs/
 │   ├── 02a_workflow_completo.py          # Workflow completo (referência)
@@ -147,11 +147,11 @@ workshop-panvel/
 
 ---
 
-## Lab 01 — Serverless Delta Pipeline (SDP)
+## Lab 01 — Spark Declarative Pipelines (SDP)
 
 | Item | Detalhes |
 | -- | -- |
-| **Objetivo** | Criar pipeline DLT com ingestão streaming e arquitetura Medallion |
+| **Objetivo** | Criar pipeline SDP com ingestão streaming e arquitetura Medallion |
 | **Notebook (exercício)** | `01_Lab_SDP/01c_sdp_pipeline_todo.py` |
 | **Notebook (referência)** | `01_Lab_SDP/01b_sdp_pipeline_completo.py` |
 | **Gerador de dados** | `01_Lab_SDP/01a_gerador_vendas_streaming.py` |
@@ -170,11 +170,11 @@ workshop-panvel/
 | 5 | Agregações por categoria | `groupBy` + `agg` com `sum`, `count`, `avg` |
 | 6 | Criar `gold_vendas_por_cidade` | Siga o padrão de `gold_vendas_por_loja` |
 
-3. **Configure o pipeline**: Workflows > Delta Live Tables > Create Pipeline
+3. **Configure o pipeline**: Workflows > Spark Declarative Pipelines > Create Pipeline
 
 ### Conceitos abordados
 - Auto Loader / CloudFiles
-- Delta Live Tables (DLT)
+- Spark Declarative Pipelines (SDP)
 - Streaming Tables vs Materialized Views
 - Data Quality Expectations
 - Medallion Architecture
@@ -199,8 +199,8 @@ workshop-panvel/
 | Tarefa | Tipo | Dependência |
 | -- | -- | -- |
 | Validação | Notebook | Nenhuma |
-| Pipeline DLT | DLT Pipeline | Validação |
-| Qualidade | Notebook | Pipeline DLT |
+| Pipeline SDP | Pipeline | Validação |
+| Qualidade | Notebook | Pipeline SDP |
 | Resumo | Notebook | Qualidade |
 
 3. **Configure o agendamento** (a cada 30 minutos)
@@ -305,7 +305,7 @@ DROP CATALOG IF EXISTS workshop_panvel_<seu_nome> CASCADE;
 
 ## Referências
 
-* [Documentação Delta Live Tables](https://docs.databricks.com/delta-live-tables/index.html)
+* [Documentação Spark Declarative Pipelines](https://docs.databricks.com/delta-live-tables/index.html)
 * [Documentação Databricks Workflows](https://docs.databricks.com/workflows/index.html)
 * [MLflow no Databricks](https://docs.databricks.com/mlflow/index.html)
 * [AI/BI Genie](https://docs.databricks.com/genie/index.html)

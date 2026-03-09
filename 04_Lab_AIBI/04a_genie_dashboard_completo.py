@@ -322,7 +322,7 @@ for nome_query, sql in queries.items():
 # MAGIC
 # MAGIC Você completou todos os 4 labs do Workshop Panvel:
 # MAGIC
-# MAGIC - **Lab 1** - SDP: Pipeline DLT com Auto Loader (Bronze/Silver/Gold)
+# MAGIC - **Lab 1** - SDP: Spark Declarative Pipelines com Auto Loader (Bronze/Silver/Gold)
 # MAGIC - **Lab 2** - Jobs: Workflow orquestrando múltiplas tarefas
 # MAGIC - **Lab 3** - ML: Segmentação de clientes com RFM + K-Means
 # MAGIC - **Lab 4** - AI/BI: Genie + AI/BI Dashboard

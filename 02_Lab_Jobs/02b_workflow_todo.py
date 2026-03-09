@@ -8,8 +8,8 @@
 # MAGIC ```
 # MAGIC ┌────────────────┐     ┌──────────────────┐     ┌───────────────────┐
 # MAGIC │  Tarefa 1      │────▶│  Tarefa 2        │────▶│  Tarefa 3         │
-# MAGIC │  Validar Dados │     │  Pipeline DLT    │     │  Qualidade Dados  │
-# MAGIC │  Cadastrais    │     │  (SDP)           │     │  (Verificação)    │
+# MAGIC │  Validar Dados │     │  Pipeline SDP    │     │  Qualidade Dados  │
+# MAGIC │  Cadastrais    │     │                  │     │  (Verificação)    │
 # MAGIC └────────────────┘     └──────────────────┘     └───────────────────┘
 # MAGIC                                                          │
 # MAGIC                                                          ▼
@@ -78,9 +78,9 @@ print("\nValidação concluída!")
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Tarefa 2: Referência para configuração do Pipeline DLT
+# MAGIC ## Tarefa 2: Referência para configuração do Pipeline SDP
 # MAGIC
-# MAGIC No Workflow real, esta tarefa será do tipo **Delta Live Tables pipeline**.
+# MAGIC No Workflow real, esta tarefa será do tipo **Pipeline**.
 
 # COMMAND ----------
 
@@ -97,7 +97,7 @@ Para configurar no Workflow:
      Parâmetros: nome_participante = {nome}
 
    Tarefa 2 - Pipeline:
-     Tipo: Delta Live Tables pipeline
+     Tipo: Pipeline
      Pipeline: pipeline_panvel_{nome}
      Depende de: Tarefa 1
 """)
@@ -191,7 +191,7 @@ def gerar_resumo():
 
     except Exception as e:
         print(f"Erro: {e}")
-        print("Execute o pipeline DLT primeiro!")
+        print("Execute o pipeline SDP primeiro!")
 
     print(f"{'='*60}")
 
@@ -212,8 +212,8 @@ gerar_resumo()
 # MAGIC | Tarefa | Tipo | Dependência | Descrição |
 # MAGIC |--------|------|-------------|-----------|
 # MAGIC | validacao | Notebook | Nenhuma | Valida dados cadastrais |
-# MAGIC | pipeline_dlt | DLT Pipeline | validacao | Executa o pipeline SDP |
-# MAGIC | qualidade | Notebook | pipeline_dlt | Verifica qualidade |
+# MAGIC | pipeline_sdp | Pipeline | validacao | Executa o pipeline SDP |
+# MAGIC | qualidade | Notebook | pipeline_sdp | Verifica qualidade |
 # MAGIC | resumo | Notebook | qualidade | Gera relatório |
 # MAGIC
 # MAGIC ### TODO 5: Configure o agendamento

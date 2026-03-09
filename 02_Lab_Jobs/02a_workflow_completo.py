@@ -9,8 +9,8 @@
 # MAGIC ```
 # MAGIC ┌────────────────┐     ┌──────────────────┐     ┌───────────────────┐
 # MAGIC │  Tarefa 1      │────▶│  Tarefa 2        │────▶│  Tarefa 3         │
-# MAGIC │  Validar Dados │     │  Pipeline DLT    │     │  Qualidade Dados  │
-# MAGIC │  Cadastrais    │     │  (SDP)           │     │  (Verificação)    │
+# MAGIC │  Validar Dados │     │  Pipeline SDP    │     │  Qualidade Dados  │
+# MAGIC │  Cadastrais    │     │                  │     │  (Verificação)    │
 # MAGIC └────────────────┘     └──────────────────┘     └───────────────────┘
 # MAGIC                                                          │
 # MAGIC                                                          ▼
@@ -84,21 +84,21 @@ print("\nTodos os dados cadastrais estão válidos!")
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Tarefa 2: Trigger do Pipeline DLT
+# MAGIC ## Tarefa 2: Trigger do Pipeline SDP
 # MAGIC
-# MAGIC Em um workflow real, esta tarefa seria configurada como uma tarefa do tipo **DLT Pipeline**.
+# MAGIC Em um workflow real, esta tarefa seria configurada como uma tarefa do tipo **Pipeline**.
 # MAGIC Aqui mostramos como seria feito via API.
 
 # COMMAND ----------
 
-# Em um workflow real, você configuraria uma tarefa do tipo "Delta Live Tables pipeline"
-# apontando para o pipeline criado no Lab 1.
+# Em um workflow real, você configuraria uma tarefa do tipo "Pipeline"
+# apontando para o pipeline SDP criado no Lab 1.
 #
 # Via código, você pode triggar o pipeline usando a API REST:
 
 print("""
 Para configurar no Workflow:
-1. Adicione uma nova tarefa do tipo "Delta Live Tables pipeline"
+1. Adicione uma nova tarefa do tipo "Pipeline"
 2. Selecione o pipeline: pipeline_panvel_{nome}
 3. Configure a dependência: depende da Tarefa 1 (Validação)
 """.format(nome=nome))
@@ -207,7 +207,7 @@ def gerar_resumo():
 
     except Exception as e:
         print(f"\nErro ao gerar resumo: {e}")
-        print("Execute o pipeline DLT primeiro!")
+        print("Execute o pipeline SDP primeiro!")
 
     print(f"\n{'='*60}")
 
@@ -229,8 +229,8 @@ gerar_resumo()
 # MAGIC - Parâmetros: `nome_participante` = `<seu_nome>`
 # MAGIC - Cluster: Serverless ou seu cluster
 # MAGIC
-# MAGIC ### Tarefa 2 - Pipeline DLT:
-# MAGIC - Tipo: **Delta Live Tables pipeline**
+# MAGIC ### Tarefa 2 - Pipeline SDP:
+# MAGIC - Tipo: **Pipeline**
 # MAGIC - Pipeline: `pipeline_panvel_<seu_nome>`
 # MAGIC - Depende de: Tarefa 1
 # MAGIC

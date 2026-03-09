@@ -373,7 +373,7 @@ def main():
         0.5, 1.1, 4.2, 0.35, font_size=14, bold=True, color=NAVY)
     reqs += create_textbox("sl_lab1", "l1_left",
         "• Ingerir arquivos JSON de vendas via Auto Loader\n"
-        "• Criar pipeline DLT com 3 camadas\n"
+        "• Criar pipeline SDP com 3 camadas\n"
         "• Aplicar quality checks com expectations\n"
         "• Extrair bairro do nome da loja (regexp)\n"
         "• Explodir itens aninhados com explode()\n"
@@ -385,7 +385,7 @@ def main():
         5.3, 1.1, 4.2, 0.35, font_size=14, bold=True, color=NAVY)
     reqs += create_textbox("sl_lab1", "l1_right",
         "• Auto Loader / CloudFiles\n"
-        "• Delta Live Tables (DLT)\n"
+        "• Spark Declarative Pipelines (SDP)\n"
         "• Streaming Tables\n"
         "• Materialized Views\n"
         "• Data Quality Expectations\n"
@@ -421,8 +421,8 @@ def main():
         "  TODO 4: Usar explode() para explodir itens\n"
         "  TODO 5: Completar agregações por categoria\n"
         "  TODO 6: Criar tabela gold_vendas_por_cidade\n\n"
-        "Passo 3 — Configure o pipeline DLT\n"
-        "Workflows > Delta Live Tables > Create Pipeline\n"
+        "Passo 3 — Configure o pipeline SDP\n"
+        "Workflows > Spark Declarative Pipelines > Create Pipeline\n"
         "Target catalog: workshop_panvel_<seu_nome>"
     )
     reqs += create_textbox("sl_lab1h", "l1h_body", handson1,
@@ -454,7 +454,7 @@ def main():
         "Arquitetura do Workflow",
         5.3, 1.1, 4.2, 0.35, font_size=14, bold=True, color=NAVY)
     reqs += create_textbox("sl_lab2", "l2_right",
-        "Validação Dados\n       ↓\nPipeline DLT (SDP)\n       ↓\nVerificação Qualidade\n       ↓\nNotificação / Resumo",
+        "Validação Dados\n       ↓\nPipeline SDP\n       ↓\nVerificação Qualidade\n       ↓\nNotificação / Resumo",
         5.3, 1.5, 4.2, 2.5, font_size=13, color=DARK_TEXT, alignment="CENTER")
 
     reqs += create_rect("sl_lab2", "l2_nbg", 0.5, 4.1, 9, 1.0, rgb(0.93, 0.93, 0.93))
@@ -484,7 +484,7 @@ def main():
         "Nome: workflow_panvel_<seu_nome>\n\n"
         "Configure 4 tarefas com dependências:\n"
         "  Tarefa 1: Validação (Notebook) → sem dependência\n"
-        "  Tarefa 2: Pipeline DLT → depende da Tarefa 1\n"
+        "  Tarefa 2: Pipeline SDP → depende da Tarefa 1\n"
         "  Tarefa 3: Qualidade → depende da Tarefa 2\n"
         "  Tarefa 4: Resumo → depende da Tarefa 3\n\n"
         "Passo 3 — Configure agendamento (a cada 30 min)"
