@@ -220,7 +220,7 @@ gerar_resumo()
 # MAGIC
 # MAGIC ### Passo a passo:
 # MAGIC
-# MAGIC 1. Vá em **Workflows** > **Create Job**
+# MAGIC 1. Vá em **Jobs & Pipelines** > **Create Job**
 # MAGIC 2. Nome do Job: `workflow_panvel_<seu_nome>`
 # MAGIC
 # MAGIC ### Tarefa 1 - Validação:

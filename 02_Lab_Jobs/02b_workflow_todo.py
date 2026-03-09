@@ -87,7 +87,7 @@ print("\nValidação concluída!")
 print(f"""
 Para configurar no Workflow:
 
-1. Vá em Workflows > Create Job
+1. Vá em Jobs & Pipelines > Create Job
 2. Nome do Job: workflow_panvel_{nome}
 3. Adicione as seguintes tarefas:
 
@@ -204,7 +204,7 @@ gerar_resumo()
 # MAGIC
 # MAGIC ### TODO 4: Crie o Workflow no Databricks UI
 # MAGIC
-# MAGIC 1. Vá em **Workflows** > **Create Job**
+# MAGIC 1. Vá em **Jobs & Pipelines** > **Create Job**
 # MAGIC 2. Nome: `workflow_panvel_<seu_nome>`
 # MAGIC
 # MAGIC **Configure 4 tarefas:**

@@ -422,7 +422,7 @@ def main():
         "  TODO 5: Completar agregações por categoria\n"
         "  TODO 6: Criar tabela gold_vendas_por_cidade\n\n"
         "Passo 3 — Configure o pipeline SDP\n"
-        "Workflows > Spark Declarative Pipelines > Create Pipeline\n"
+        "Jobs & Pipelines > Create Pipeline > ETL pipeline\n"
         "Target catalog: workshop_panvel_<seu_nome>"
     )
     reqs += create_textbox("sl_lab1h", "l1h_body", handson1,
@@ -480,7 +480,7 @@ def main():
         "  TODO 2: Verificar coluna bairro em silver_lojas\n"
         "  TODO 3: Calcular total de vendas e faturamento\n\n"
         "Passo 2 — Crie o Workflow no Databricks\n"
-        "Workflows > Create Job\n"
+        "Jobs & Pipelines > Create Job\n"
         "Nome: workflow_panvel_<seu_nome>\n\n"
         "Configure 4 tarefas com dependências:\n"
         "  Tarefa 1: Validação (Notebook) → sem dependência\n"

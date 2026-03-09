@@ -21,11 +21,11 @@ from pyspark.sql.types import *
 # MAGIC ## Configuração
 # MAGIC
 # MAGIC > **Como criar o pipeline SDP:**
-# MAGIC > 1. Vá em **Workflows** > **Spark Declarative Pipelines** > **Create Pipeline**
+# MAGIC > 1. Vá em **Jobs & Pipelines** > **Create Pipeline** > **ETL pipeline**
 # MAGIC > 2. **Pipeline name**: `pipeline_panvel_<seu_nome>`
 # MAGIC > 3. **Source code**: selecione este notebook
 # MAGIC > 4. **Target catalog**: `workshop_panvel_<seu_nome>`
-# MAGIC > 5. **Target schema**: deixe em branco
+# MAGIC > 5. **Target schema**: `default`
 # MAGIC > 6. **Configuration** → adicione: `pipeline.nome_participante` = `<seu_nome>`
 # MAGIC > 7. **Compute**: Serverless (recomendado)
 # MAGIC > 8. Clique em **Create** e depois **Start**
