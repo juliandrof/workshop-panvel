@@ -8,7 +8,7 @@ from matplotlib.patches import FancyBboxPatch
 
 # ─── Configuration (25% larger) ─────────────────────────────────────────────
 
-FIG_W, FIG_H = 72, 28
+FIG_W, FIG_H = 52, 28
 DPI = 150
 TITLE = "Modelo de Dados — Workshop Panvel"
 TEXT_COLOR = "#000000"
