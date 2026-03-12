@@ -148,11 +148,15 @@ for k in [3, 4, 5, 6]:
         # Avaliar - Silhouette Score
         silhouette = silhouette_score(X, kmeans.labels_)
 
-        # Log no MLflow
+        # Log no MLflow com input_example para inferir assinatura
         mlflow.log_param("k", k)
         mlflow.log_param("features", feature_cols)
         mlflow.log_metric("silhouette_score", silhouette)
-        mlflow.sklearn.log_model(kmeans, "model")
+        mlflow.sklearn.log_model(
+            kmeans,
+            "model",
+            input_example=X[:2]
+        )
 
         resultados.append({"k": k, "silhouette": silhouette})
         print(f"K={k}: Silhouette Score = {silhouette:.4f}")
@@ -180,7 +184,11 @@ with mlflow.start_run(run_name=f"kmeans_final_k{melhor_k}") as run:
     mlflow.log_param("features", feature_cols)
     mlflow.log_param("modelo", "KMeans_final")
     mlflow.log_metric("silhouette_score", silhouette_final)
-    mlflow.sklearn.log_model(kmeans_final, "model")
+    mlflow.sklearn.log_model(
+        kmeans_final,
+        "model",
+        input_example=X[:2]
+    )
 
     run_id = run.info.run_id
     print(f"Run ID: {run_id}")
