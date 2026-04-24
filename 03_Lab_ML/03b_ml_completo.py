@@ -124,9 +124,6 @@ mlflow.set_experiment(experiment_name)
 # Features normalizadas para clustering
 X = pdf_rfm[scaled_cols].values
 
-# Testar diferentes valores de K
-resultados = []
-
 # TO-DO 3: Treine modelos K-Means para K = 3, 4, 5, 6
 # ────────────────────────────────────────────────────
 # Dica: Para cada valor de K:
@@ -137,8 +134,7 @@ resultados = []
 #   5. Log no MLflow:
 #      mlflow.log_param("k", k)
 #      mlflow.log_metric("silhouette_score", silhouette)
-#      mlflow.sklearn.log_model(kmeans, "model")
-#   6. Adicione ao resultados: resultados.append({"k": k, "silhouette": silhouette})
+#      mlflow.sklearn.log_model(kmeans, name="model")
 for k in [3, 4, 5, 6]:
     with mlflow.start_run(run_name=f"kmeans_k{k}"):
         # Treinar modelo
@@ -154,11 +150,10 @@ for k in [3, 4, 5, 6]:
         mlflow.log_metric("silhouette_score", silhouette)
         mlflow.sklearn.log_model(
             kmeans,
-            "model",
+            name="model",
             input_example=X[:2]
         )
 
-        resultados.append({"k": k, "silhouette": silhouette})
         print(f"K={k}: Silhouette Score = {silhouette:.4f}")
 
 # COMMAND ----------
@@ -168,11 +163,17 @@ for k in [3, 4, 5, 6]:
 
 # COMMAND ----------
 
-# Selecionar o K com melhor silhouette
-import builtins
-melhor = builtins.max(resultados, key=lambda x: x["silhouette"])
-melhor_k = melhor["k"]
-print(f"Melhor K: {melhor_k} (Silhouette: {melhor['silhouette']:.4f})")
+# Selecionar o K com melhor silhouette via mlflow.search_runs
+# (mais robusto que lista em memória: consulta o backend do MLflow)
+runs_df = mlflow.search_runs(
+    experiment_names=[experiment_name],
+    filter_string="attributes.run_name LIKE 'kmeans_k%'",
+    order_by=["metrics.silhouette_score DESC"],
+    max_results=1,
+)
+melhor_k = int(runs_df.iloc[0]["params.k"])
+melhor_silhouette = float(runs_df.iloc[0]["metrics.silhouette_score"])
+print(f"Melhor K: {melhor_k} (Silhouette: {melhor_silhouette:.4f})")
 
 # Retreinar com o melhor K
 with mlflow.start_run(run_name=f"kmeans_final_k{melhor_k}") as run:
@@ -186,7 +187,7 @@ with mlflow.start_run(run_name=f"kmeans_final_k{melhor_k}") as run:
     mlflow.log_metric("silhouette_score", silhouette_final)
     mlflow.sklearn.log_model(
         kmeans_final,
-        "model",
+        name="model",
         input_example=X[:2]
     )
 
@@ -291,7 +292,7 @@ with mlflow.start_run(run_name=f"kmeans_final_k{kmeans_final.n_clusters}_signed"
     signature = infer_signature(X_df, predictions)
     mlflow.sklearn.log_model(
         kmeans_final,
-        "model",
+        name="model",
         signature=signature,
         input_example=input_example
     )
@@ -303,3 +304,23 @@ registered_model = mlflow.register_model(model_uri, model_name)
 
 print(f"Modelo registrado: {model_name}")
 print(f"Versão: {registered_model.version}")
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ## 9. Batch inference com PyFunc
+
+# COMMAND ----------
+
+import mlflow.pyfunc
+
+# Carregar modelo registrado como PyFunc
+pyfunc_model = mlflow.pyfunc.load_model(model_uri)
+
+# Batch inference (X_df já contém as features normalizadas e nomeadas)
+preds_pyfunc = pyfunc_model.predict(X_df)
+
+df_clientes_segmentados = pdf_rfm[["id_cliente", "nome_cliente", "cidade_cliente"]].copy()
+df_clientes_segmentados["segmento"] = preds_pyfunc
+
+display(df_clientes_segmentados)
