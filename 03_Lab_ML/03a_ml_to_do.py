@@ -237,11 +237,31 @@ print(f"Total de clientes segmentados: {len(pdf_rfm)}")
 
 # COMMAND ----------
 
+from mlflow.models import infer_signature
+import pandas as pd
+
 model_name = f"{catalog_name}.ml.modelo_segmentacao_clientes"
 
-# Registrar modelo
-model_uri = f"runs:/{run_id}/model"
+# Usar DataFrame com colunas nomeadas (column-based signature) para habilitar batch inference
+X_df = pdf_rfm[scaled_cols]
+input_example = X_df.head(3)
+
+# Output tambem como DataFrame com coluna nomeada
+predictions = pd.DataFrame(kmeans_final.predict(X_df), columns=["segmento"])
+
 mlflow.set_registry_uri("databricks-uc")
+with mlflow.start_run(run_name=f"kmeans_final_k{kmeans_final.n_clusters}_signed") as run:
+    signature = infer_signature(X_df, predictions)
+    mlflow.sklearn.log_model(
+        kmeans_final,
+        "model",
+        signature=signature,
+        input_example=input_example
+    )
+    run_id_signed = run.info.run_id
+
+# Registrar modelo
+model_uri = f"runs:/{run_id_signed}/model"
 registered_model = mlflow.register_model(model_uri, model_name)
 
 print(f"Modelo registrado: {model_name}")
